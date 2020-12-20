@@ -12,12 +12,12 @@ This process involves collecting data, preparing it, exploratory data analysis, 
 
 Let's look at what that process can look like: 
 
-[Data Analysis Iteration with Roger Peng] (https://www.youtube.com/watch?v=xOomNicqbkk)
+[Data Analysis Iteration with Roger Peng](https://www.youtube.com/watch?v=xOomNicqbkk)
 
 Keep in mind, the process is heavily-based in data preparation and determining if the outcome of the step you took to wrangle the data meets expectations. 
 
 1. Set expectations
-2. Collect data/info - compare expectations to reality
+2. Collect data/info
 3. React to data and revise expectations if needed - What have we learned? What would we do differently next time? 
 
 Repeat if necessary!
@@ -27,17 +27,18 @@ Repeat if necessary!
 There is no shortage of data in today's world. Shopping habits. Consumer info. Data from restaurant POS. Sports stats. Traffic studies. Population. Wall Street stocks. 
 
 Data collection is a must-have first step as we cannot analyze data we do not have. But first we need to consider a few things:
-1. What kind of data do we need? 
-	Data that is useful for our analysis. 
-2. Where will we get it?
-	- Web scraping
-	- APIs
-	- Databases
-	- Government websites
-	- Financial resources
-	- Log files
 
-Remember we are looking for data relevant to our study. If we are looking for speeds of cars, do we need to know the cars' colors? No, but relevant data might be the terrain type or weather conditions or type of fuel used. The data you use will depend on the story you are trying to tell. 
+1. What kind of data do we need? Data that is useful for our analysis. 
+ 
+2. Where will we get it?
+    - Web scraping
+    - APIs
+    - Databases
+    - Government websites
+    - Financial resources
+    - Log files
+
+Remember we are looking for data relevant to our study. If we are looking for speeds of cars, do we need to know the cars' colors? No, but relevant data might be the terrain type or weather conditions or type of fuel used or weight of the car. The data you use will depend on the story you are trying to tell. 
 
 ## Data Wrangling
 

@@ -30,7 +30,7 @@ Data collection is a must-have first step as we cannot analyze data we do not ha
 
 1. What kind of data do we need? Data that is useful for our analysis. 
  
-2. Where will we get it?
+2. Where and how will we get the data?
     - Web scraping
     - APIs
     - Databases
@@ -42,7 +42,21 @@ Remember we are looking for data relevant to our study. If we are looking for sp
 
 ## Data Wrangling
 
-But what if the data we gather isn't perfect? No worries. 
+But what if the data we gather isn't perfect? No worries. There are processes used to get it into a workable format suitable for data analysis. Using these processes to clean data is called Data Wrangling. 
+
+How can data be "dirty"???
+
+	- Inconsistencies: STL instead of St. Louis or Saint Louis, or stl
+	- Typos: What can a misplaced decimal point do?
+	- Missing entries
+	- Time/Date formats: military time, time zones, dd/mm/yy versus mm/dd/yyyy, etc.
+	- Incomplete information: Think about optional questions in a survey. How would those have been recorded to your data set?
+	- Proper scale or resolution: We need cups, not gallons so we will have to calculate corrections. 
+	- Irrelevant fields: quantatative versus qualitativd, is it needed?
+	- Format: We're looking for beeps, not boops, or maybe long to wide form
+	- Data recording process was "messed up": maybe it was recorded in the wrong order and we're looking at a descending timeline instead of an ascending one
+
+Brain exercise: What are some data quality issues that cannot be fixed?
 
 
 

@@ -58,7 +58,16 @@ How can data be "dirty"???
 
 Brain exercise: What are some data quality issues that cannot be fixed?
 
+## Exploratory Data Analysis
 
+We'll do some summary statistics and visualizations to help us get an idea of what the data is trying to tell us. 
 
+The statistics will help us understand the data.
+The visualizations may tell us the data needs more cleaning.
 
+## Drawing Conclusions
 
+Examine our findings. At this point in our analysis, we may decide we need more data, or a different kind of data.
+
+This data is trying to tell us a story. Did we see any patterns or relationships?
+Does it answer our questions or give insight to our problem? 

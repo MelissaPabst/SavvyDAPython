@@ -38,6 +38,8 @@ Data collection is a must-have first step as we cannot analyze data we do not ha
     - Financial resources
     - Log files
 
+When it comes time to do our capstone project, [this Dataquest link](https://www.dataquest.io/blog/free-datasets-for-projects/) is a great resource for data sets or to get some inspiration. There are many more resources like this out there on The Internets. 
+
 Remember we are looking for data relevant to our study. If we are looking for speeds of cars, do we need to know the cars' colors? No, but relevant data might be the terrain type or weather conditions or type of fuel used or weight of the car. The data you use will depend on the story you are trying to tell. 
 
 ## Data Wrangling
@@ -71,3 +73,28 @@ Examine our findings. At this point in our analysis, we may decide we need more 
 
 This data is trying to tell us a story. Did we see any patterns or relationships?
 Does it answer our questions or give insight to our problem? 
+
+# Statistics and Analytics
+
+There are two main types of statistics: Descriptive and Inferential. 
+
+**Descriptive statistics** summarizes features about a data set, called a sample. With descriptive statistics, there is no uncertainty because you are describing only the people or items that you actually measure. There is no guessing or reading between the lines to apply conclusions to a larger population. 
+
+**Inferential statistics** takes smaller, random chunks of data from a sample and draws conclusions about the larger population from which the sample was drawn. 
+
+This course uses descriptive statistics (Breathe a sigh of relief!) and terms and mathematical techniques you are probably already familiar with.
+
+There are three main types of analytics: Descriptive, Predictive, and Prescriptive. 
+
+**Descriptive analytics** looks at data statistically to tell what happened in the past. (If we want to know WHY it happened, we call that **Diagnostic analytics**.)
+
+**Predictive analytics** takes historical data and feeds it into a machine learning model. Whatever the machine learning model learns can be applied to new data to make predictions
+
+**Prescriptive analytics** takes predictions from predictive analytics, and suggests potential actions and their implications.
+
+
+You can get a good overview here: 
+[YouTube user RichardOnData gives an overview of analytics](https://youtu.be/-U_xkc5HeoU)
+
+
+ 

@@ -44,7 +44,9 @@ Remember we are looking for data relevant to our study. If we are looking for sp
 
 ## Data Wrangling
 
-But what if the data we gather isn't perfect? No worries. There are processes used to get it into a workable format suitable for data analysis. Using these processes to clean data is called Data Wrangling. 
+But what if the data we gather isn't perfect? No worries. There are processes used to get it into a workable format suitable for data analysis. Using these processes and cleaning data is called Data Wrangling, and will deliver the data in a new format better suited for analytic operations.
+
+[More info on Data Wrangling](https://www.trifacta.com/data-wrangling/)
 
 How can data be "dirty"???
 
@@ -69,7 +71,7 @@ The visualizations may tell us the data needs more cleaning.
 
 ## Drawing Conclusions
 
-Examine our findings. At this point in our analysis, we may decide we need more data, or a different kind of data.
+Examine our findings and determine next steps. At this point in our analysis, we may decide we need more data, or a different kind of data.
 
 This data is trying to tell us a story. Did we see any patterns or relationships?
 Does it answer our questions or give insight to our problem? 
@@ -80,9 +82,10 @@ There are two main types of statistics: Descriptive and Inferential.
 
 **Descriptive statistics** summarizes features about a data set, called a sample. With descriptive statistics, there is no uncertainty because you are describing only the people or items that you actually measure. There is no guessing or reading between the lines to apply conclusions to a larger population. 
 
-**Inferential statistics** takes smaller, random chunks of data from a sample and draws conclusions about the larger population from which the sample was drawn. 
+**Inferential statistics** takes smaller, pieces of data from a sample and draws conclusions about the larger population from which the sample was drawn. 
 
-This course uses descriptive statistics (Breathe a sigh of relief!) and terms and mathematical techniques you are probably already familiar with.
+This course uses descriptive statistics (Breathe a sigh of relief!) and terms and mathematical techniques you are probably already familiar with. Here is a good review: [Descriptive Stats Summary](https://baselinesupport.campuslabs.com/hc/en-us/articles/204305665-Types-of-Descriptive-Statistics)
+
 
 There are three main types of analytics: Descriptive, Predictive, and Prescriptive. 
 
@@ -95,6 +98,31 @@ There are three main types of analytics: Descriptive, Predictive, and Prescripti
 
 You can get a good overview here: 
 [YouTube user RichardOnData gives an overview of analytics](https://youtu.be/-U_xkc5HeoU)
+
+# Let's Get Started
+
+## Virtual Environments
+
+[A Virtual Environments Primer](https://realpython.com/python-virtual-environments-a-primer/) .
+
+We'll be using [Conda](https://docs.conda.io/en/latest/).
+
+[Quick Install](https://dev.to/bowmanjd/python-tools-for-managing-virtual-environments-3bko#conda).
+
+A **virtual environment** according to documentation: "A virtual environment is a Python environment such that the Python interpreter, libraries and scripts installed into it are isolated from those installed in other virtual environments, and (by default) any libraries installed in a “system” Python, i.e., one which is installed as part of your operating system.
+A virtual environment is a directory tree which contains Python executable files and other files which indicate that it is a virtual environment."
+
+## NumPy
+
+[Install Numpy](https://numpy.org/install/)
+
+Most programming languages have external libraries of pre-written code that can be imported. What libraries have you already worked with in your Python learning journey? 
+
+**Numpy** is a Python library that allows us to work with numerical data through arrays. 
+
+Benefits of numpy over python
+python lists vs. numpy arrays
+Pseudorandom Number Generators
 
 
  

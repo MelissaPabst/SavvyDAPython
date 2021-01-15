@@ -120,7 +120,40 @@ Most programming languages have external libraries of pre-written code that can 
 
 **Numpy** is a Python library that allows us to work with numerical data through arrays. 
 
-Benefits of numpy over python
+### Why are we using Numpy? Can't I just use normal python lists?
+
+Well, you could, but Numpy is more efficient in how it stores data, and it performs mathematical functions through API functions you wouldn't want to take the time to write yourself. 
+
+Let's take a look at the memory aspect: 
+
+```
+>>> import numpy as np
+>>> import sys
+>>> py_array = [1, 2, 3, 4, 5, 6, 7]
+>>> py_array_size = sys.getsizeof(1) * len(py_array)
+>>> numpy_array = np.array([1, 2, 3, 4, 5, 6, 7])
+>>> numpy_array_size = numpy_array.itemsize * numpy_array.size
+>>> sys.stdout.write(str(numpy_array_size))
+>>> sys.stdout.write(str(py_array_size))
+```
+How do the sizes compare? What do you think will happen when we examine performance speed?
+
+```
+>>> import numpy as np
+>>> import time
+>>> size = 1000000
+>>> my_array = np.arange(size)
+>>> my_list = list(range(size))
+>>> initialTime = time.time()
+>>> my_array2 = my_array * 2
+>>> print("Time taken by array :", (time.time() - initialTime), "seconds")
+Time taken by array : 144.52835702896118 seconds
+>>> print("Time taken by list :", (time.time() - initialTime), "seconds")
+Time taken by list : 253.70910787582397 seconds
+```
+
+
+
 python lists vs. numpy arrays
 Pseudorandom Number Generators
 

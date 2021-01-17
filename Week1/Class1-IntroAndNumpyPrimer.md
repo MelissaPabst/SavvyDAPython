@@ -122,7 +122,7 @@ Most programming languages have external libraries of pre-written code that can 
 
 ### Why are we using Numpy? Can't I just use normal python lists?
 
-Well, you could, but Numpy is more efficient in how it stores data, and it performs mathematical functions through API functions you wouldn't want to take the time to write yourself. 
+Well, you could, but Numpy is more efficient in how it stores data, and it performs mathematical functions through API functions you wouldn't want to take the time to write yourself. The most important feature of Numpy is the ability to use Numpy arrays, which allow us to store large amounts of data in objects. 
 
 Let's take a look at the memory aspect: 
 
@@ -175,7 +175,7 @@ print("Time taken by NumPy Arrays :",
 NumPy algorithms are typically 10-100 times faster than corresponding python functions and use less memory. 
 
 Why does NumPy perform better? Well, 
-1. Scale: NumPy performs computations on entire arrays without the need for python 'for' loops. It has the ability to break down a task into multiple fragments and process those fragments in parallel. 
+1. Scale: NumPy performs computations on entire arrays without the need for python 'for' loops. It has the ability to break down a task into multiple fragments and process those fragments in parallel (at the same time).  
 2. Memory: An array is a collection of same datatypes that are stored in contiguous memory locations, while a Python list is a collection of heterogeneous data types stored in distant memory locations.
 3. Numpy function are implemented in C language, which is faster.
 

@@ -212,4 +212,4 @@ print(speeds_array)
 ```
 
  
- ADD NUMPY CLASS EXERCISES BASIC NP ARRAYS
+ ADD NUMPY CLASS EXERCISES BASIC NP ARRAYS; create, identify properties, how to visualize the data in the arrays

@@ -114,6 +114,8 @@ A virtual environment is a directory tree which contains Python executable files
 
 ## NumPy - Numerical Python
 
+NumPy is not part of a basic Python installation, and must be installed after Python. 
+
 [Install Numpy](https://numpy.org/install/)
 
 Most programming languages have external libraries of pre-written code that can be imported. What libraries have you already worked with in your Python learning journey? 
@@ -122,7 +124,7 @@ Most programming languages have external libraries of pre-written code that can 
 
 ### Why are we using Numpy? Can't I just use normal python lists?
 
-Well, you could, but Numpy is more efficient in how it stores data, and it performs mathematical functions through API functions you wouldn't want to take the time to write yourself. The most important feature of Numpy is the ability to use Numpy arrays, which allow us to store large amounts of data in objects. 
+Well, you could, but Numpy is more efficient in how it stores data, and it performs mathematical functions through API functions you wouldn't want to take the time to write yourself from scratch. The most important feature of Numpy is the ability to use Numpy arrays, which allow us to store large amounts of data in objects. 
 
 Let's take a look at the memory aspect: 
 
@@ -181,4 +183,33 @@ Why does NumPy perform better? Well,
 
 [Further reading on NumPy speed](https://towardsdatascience.com/how-fast-numpy-really-is-e9111df44347#:~:text=Because%20the%20Numpy%20array%20is,leap%20in%20terms%20of%20speed.)
 
+# NumPy ndarray
+
+The first item on our agenda is to make Numpy accessible in our code. We do this by using an import statement:
+
+```
+import numpy as np
+```
+
+Numpy is typically shortened to np as a reference to keep it standardized (and short!).
+
+Let's talk more about arrays. You can think of an array as a grid of values, and you might hear an array referred to as an **'ndarray'** which means "N-dimensional array" where n is the number of dimensions. You might see a 1-D (one-dimensional) array referred to as a vector, and a 2-D (two-dimensional) array referred to as a matrix. A tensor refers to any array 3-D or higher. 
+
+Let's create a 1-D array from a python list: 
+
+```
+#import the numpy module
+import numpy as np
+
+#this is our python list
+speeds_list = [45.1, 56.2, 64.1, 12.3]
+
+#transform our list into a NumPy array by using np.array() and save it to a new variable
+speeds_array = np.array(speeds_list)
+
+#check our work
+print(speeds_array)
+```
+
  
+ ADD NUMPY CLASS EXERCISES BASIC NP ARRAYS

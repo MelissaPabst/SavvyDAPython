@@ -139,23 +139,46 @@ Let's take a look at the memory aspect:
 How do the sizes compare? What do you think will happen when we examine performance speed?
 
 ```
->>> import numpy as np
->>> import time
->>> size = 1000000
->>> my_array = np.arange(size)
->>> my_list = list(range(size))
->>> initialTime = time.time()
->>> my_array2 = my_array * 2
->>> print("Time taken by array :", (time.time() - initialTime), "seconds")
-Time taken by array : 144.52835702896118 seconds
->>> print("Time taken by list :", (time.time() - initialTime), "seconds")
-Time taken by list : 253.70910787582397 seconds
+# importing required packages
+import numpy
+import time
+ 
+# size of arrays and lists
+size = 1000000  
+ 
+# declaring lists
+list1 = range(size)
+list2 = range(size)
+ 
+# declaring arrays
+array1 = numpy.arange(size)  
+array2 = numpy.arange(size)
+ 
+# list
+initialTime = time.time()
+resultantList = [(a * b) for a, b in zip(list1, list2)]
+ 
+# calculating execution time
+print("Time taken by Lists :", 
+      (time.time() - initialTime),
+      "seconds")
+ 
+# NumPy array
+initialTime = time.time()
+resultantArray = array1 * array2
+ 
+# calculating execution time 
+print("Time taken by NumPy Arrays :",
+      (time.time() - initialTime),
+      "seconds")
 ```
+NumPy algorithms are typically 10-100 times faster than corresponding python functions and use less memory. 
 
+Why does NumPy perform better? Well, 
+1. Scale: NumPy performs computations on entire arrays without the need for python 'for' loops. It has the ability to break down a task into multiple fragments and process those fragments in parallel. 
+2. Memory: An array is a collection of same datatypes that are stored in contiguous memory locations, while a Python list is a collection of heterogeneous data types stored in distant memory locations.
+3. Numpy function are implemented in C language, which is faster.
 
-
-python lists vs. numpy arrays
-Pseudorandom Number Generators
-
+[Further reading on NumPy speed](https://towardsdatascience.com/how-fast-numpy-really-is-e9111df44347#:~:text=Because%20the%20Numpy%20array%20is,leap%20in%20terms%20of%20speed.)
 
  

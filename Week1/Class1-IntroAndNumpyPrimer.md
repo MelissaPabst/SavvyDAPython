@@ -103,7 +103,7 @@ You can get a good overview here:
 
 ## Virtual Environments
 
-[A Virtual Environments Primer](https://realpython.com/python-virtual-environments-a-primer/) .
+[A Virtual Environments Primer](https://realpython.com/python-virtual-environments-a-primer/).
 
 We'll be using [Conda](https://docs.conda.io/en/latest/).
 
@@ -317,11 +317,11 @@ What did the output of the above look like?
 
 Let's break down what we did with the randint() function:
 
-Array x1 gave us a list of 6 integers, all with values under 10.
+Array x1 gave us one dimension: a list of 6 integers, all with values under 10.
 
-Array x2 returned a 2d array with 3 rows and 4 columns, all with values under 10.
+Array x2 returned a 2d array: The first dimension had 3 entries, and the nested 2nd dimension had 4. Think of it as 3 rows and 4 columns, all with values under 10.
 
-Array x3 returned a 3d array; 3 entries with 4 rows and 5 columns, all with values under 10
+Array x3 returned a 3d array; The first dimension had 3 entries, the 2nd had 4 entries, and the 3rd had 5 entries, all with values under 10
 
 Another fun way to learn more about the shape of a numpy array is to use numpy zeros. It will create an array of zeros with the given shape, dtype, and order.
 

@@ -262,6 +262,12 @@ Let's examine our 3D np array we just made:
 >>> print(npArray.size)
 8
 ```
+Also common is data type, or **dtype**:
+
+```
+>>> print(myarray.dtype)
+int64
+```
 
 We can also use a "random" number generator to create a list. Numpy has a "pseudorandom" number generator. Pseudorandom means it is not truly random and the data set is generated off of a written algorithm. To generate truly random numbers, you would need a data set of truly random numbers and run an algorithm based on that set of numbers. 
 
@@ -325,20 +331,49 @@ Array x3 returned a 3d array; The first dimension had 3 entries, the 2nd had 4 e
 
 Another fun way to learn more about the shape of a numpy array is to use numpy zeros. It will create an array of zeros with the given shape, dtype, and order.
 
-```
-import numpy as np
-candy = np.zeros((5, 5, 2))
-print(candy)
-```
-
-Or maybe like this:  
+Give it a length or a tuple:
 
 ```
-import numpy as np
-shape = (5, 5, 2)
-candy = np.zeros(candy, dtype=int, order='F')
-print(candy)
+>>> cab = np.zeros(10)
+>>> print(cab)
+[0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+>>> 
 ```
+
+```
+>>> candy = np.zeros((5, 5, 2))
+>>> print(candy)
+[[[0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]]
+
+ [[0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]]
+
+ [[0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]]
+
+ [[0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]]
+
+ [[0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]
+  [0. 0.]]]
+```
+
 
 Try it for yourself! The documentation can be found [here](https://numpy.org/devdocs/reference/generated/numpy.zeros.html)
 

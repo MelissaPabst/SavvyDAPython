@@ -269,6 +269,18 @@ Also common is data type, or **dtype**:
 int64
 ```
 
+Since Numpy is focused on numeric computations, the dtype will most often be 'float64' unless otherwise specified.
+
+We can specify the dtype when creating the array:
+
+```
+>>> banana = np.array([1, 2, 3], dtype=np.float64)
+>>> print(banana)
+[1. 2. 3.]
+>>> 
+```
+Notice banana was created using integers, but came out as floats.
+
 We can also use a "random" number generator to create a list. Numpy has a "pseudorandom" number generator. Pseudorandom means it is not truly random and the data set is generated off of a written algorithm. To generate truly random numbers, you would need a data set of truly random numbers and run an algorithm based on that set of numbers. 
 
 Generate a random integer from 0 to 100 using randint():
@@ -376,4 +388,11 @@ Give it a length or a tuple:
 
 
 Try it for yourself! The documentation can be found [here](https://numpy.org/devdocs/reference/generated/numpy.zeros.html)
+
+Another way to spin up an array is to use **arange** which uses python's range function to generate the data:
+
+```
+>>> np.arange(15)
+array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14])
+```
 

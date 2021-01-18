@@ -279,7 +279,18 @@ We can specify the dtype when creating the array. This is particularly helpful w
 [1. 2. 3.]
 >>> 
 ```
-Notice banana was created using integers, but came out as floats.
+Notice banana was created using integers, but came out as floats. We can also use **astype** to convert dtypes of arrays. 
+
+```
+>>> banana.dtype
+dtype('float64')
+>>> banana2 = banana.astype(np.int64)
+>>> banana2
+array([1, 2, 3])
+>>> banana
+array([1., 2., 3.])
+```
+
 
 We can also use a "random" number generator to create a list. Numpy has a "pseudorandom" number generator. Pseudorandom means it is not truly random and the data set is generated off of a written algorithm. To generate truly random numbers, you would need a data set of truly random numbers and run an algorithm based on that set of numbers. 
 

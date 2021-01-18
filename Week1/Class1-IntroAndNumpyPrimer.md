@@ -271,7 +271,7 @@ int64
 
 Since Numpy is focused on numeric computations, the dtype will most often be 'float64' unless otherwise specified.
 
-We can specify the dtype when creating the array:
+We can specify the dtype when creating the array. This is particularly helpful when we want to store large amounts of data and storage space is an issue; it's nice to know we have control over the data type:
 
 ```
 >>> banana = np.array([1, 2, 3], dtype=np.float64)

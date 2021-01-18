@@ -13,4 +13,4 @@ temps = [34.5, 65.3, 23.4, 65.0, 99.3, 96.3, 23.4, 54.2]
 Create a one-dimensional numpy array.
 How many axes does this array have? What is the length?
 
-
+# Accessing values in ndarrays

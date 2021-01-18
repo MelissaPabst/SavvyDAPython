@@ -193,9 +193,10 @@ import numpy as np
 
 Numpy is typically shortened to np as a reference to keep it standardized (and short!).
 
-Let's talk more about arrays. You can think of an array as a grid of values, and you might hear an array referred to as an **'ndarray'** which means "N-dimensional array" where n is the number of dimensions. You might see a 1-D (one-dimensional) array referred to as a vector, and a 2-D (two-dimensional) array referred to as a matrix. A tensor refers to any array 3-D or higher. 
+Let's talk more about arrays. You can think of an array as a grid of values, and you might hear an array referred to as an **'ndarray'** which means "N-dimensional array" where n is the number of dimensions. You might see a 1D (one-dimensional) array referred to as a vector, and a 2D (two-dimensional) array referred to as a matrix. A matrix is a special case of 2D array where each data element is of the exact same size. So every matrix is also a two dimensional array but not vice versa. A tensor refers to any array 3D or higher. In Python, any table can be represented as a list of lists, and that is important to how we will be storing and manipulating data in this class. 
 
-Let's create a 1-D array from a python list: 
+Think of a 1-D array as a representation of a row of data with x columns. It's essentially a list. 
+Let's create a 1D numpy array from a python list: 
 
 ```
 #import the numpy module
@@ -211,5 +212,130 @@ speeds_array = np.array(speeds_list)
 print(speeds_array)
 ```
 
- 
- ADD NUMPY CLASS EXERCISES BASIC NP ARRAYS; create, identify properties, how to visualize the data in the arrays
+A 2D array is a list of lists. It could represent multiple rows of x columns.
+Let's create a 2D numpy array from a list of lists:
+
+```
+import numpy as np
+
+# here is our list of lists
+lists = [[77, 88, 99] , [31,42,63] , [11,22,33]]
+
+#transform the list to an array
+npArray = np.array(lists)
+
+#check our work
+print(npArray)
+```
+
+A 3D arrays are arrays of arrays and there is no limit to how far they are nested.
+Let's repeat the exercise for a 3D numpy array. 
+
+```
+import numpy as np
+# here is our 3D list
+list = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+
+#transformation
+npArray = np.array(list)
+
+#check our work
+print(npArray)
+
+```
+
+Each array has attributes **ndim** (the number of dimensions), **shape** (the size of each dimension), and **size** (the total size of the array):
+
+Let's examine our 3D np array we just made:
+
+```
+>>> print(npArray)
+[[[1 2]
+  [3 4]]
+  
+ [[5 6]
+  [7 8]]]
+>>> print(npArray.ndim)
+3
+>>> print(npArray.shape)
+(2, 2, 2)
+>>> print(npArray.size)
+8
+```
+
+We can also use a "random" number generator to create a list. Numpy has a "pseudorandom" number generator. Pseudorandom means it is not truly random and the data set is generated off of a written algorithm. To generate truly random numbers, you would need a data set of truly random numbers and run an algorithm based on that set of numbers. 
+
+Generate a random integer from 0 to 100 using randint():
+
+```
+from numpy import random
+
+x = random.randint(100)
+
+print(x)
+```
+
+To generate a random float from 0 to 1, use rand():
+
+```
+from numpy import random
+
+x = random.rand()
+
+print(x)
+```
+To generate an array of 5 random floats from 0 to 1, use rand(5):
+
+```
+from numpy import random
+
+x = random.rand(5)
+
+print(x)
+```
+
+Generate a 2-D array with 6 rows, each row containing 5 random numbers:
+
+```
+from numpy import random
+
+x = random.rand(6, 5)
+
+print(x)
+```
+
+We can also make random arrays with Numpy's random.randint() feature. We seed with a set value in order to ensure that the same random arrays are generated each time this code is run:
+
+```
+np.random.seed(0)  # seed for reproducibility
+
+x1 = np.random.randint(10, size=6)  # One-dimensional array
+x2 = np.random.randint(10, size=(3, 4))  # Two-dimensional array
+x3 = np.random.randint(10, size=(3, 4, 5))  # Three-dimensional array
+```
+What did the output of the above look like? 
+
+Let's break down what we did with the randint() function:
+Array x1 gave us a list of 6 integers, all with values under 10.
+Array x2 returned a 2d array with 3 rows and 4 columns, all with values under 10.
+Array x3 returned a 3d array; 3 entries with 4 rows and 5 columns, all with values under 10
+
+Another fun way to learn more about the shape of a numpy array is to use numpy zeros. It will create an array of zeros with the given shape, dtype, and order.
+
+```
+import numpy as np
+candy = np.zeros((5, 5, 2))
+print(candy)
+```
+
+Or maybe like this:  
+
+```
+import numpy as np
+shape = (5, 5, 2)
+candy = np.zeros(candy, dtype=int, order='F')
+print(candy)
+```
+
+Try it for yourself! The documentation can be found [here](https://numpy.org/devdocs/reference/generated/numpy.zeros.html)
+

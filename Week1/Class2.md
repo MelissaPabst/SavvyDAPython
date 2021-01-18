@@ -27,7 +27,7 @@ One-dimensional arrays allow us to access innermost items with one set of '[]'. 
 2
 ```
 
-Two-dimensional arrays require two: '[][]'. This selects a [row] and a [column].
+Two-dimensional arrays require two '[][]' to select the innermost element. This selects a [row] and a [column].
 
 ```
 >>> a = np.array([[1, 2, 3],
@@ -36,6 +36,14 @@ Two-dimensional arrays require two: '[][]'. This selects a [row] and a [column].
 >>> a[0][1]
 2
 ```
+
+Using one [] with a two-dimensional array will return the first row.
+
+```
+>>> a[0]
+array([1, 2, 3])
+```
+
 
 Three-dimensional arrays require three: '[][][]'. This selects a [matrix] a [row] and a [column].
 
@@ -60,6 +68,7 @@ Looking at temps, using indeces, how would we access 23.4?
 
 What is the value at [0][2][1]?
 What is the value at [1][2][0]?
+What is the value at [1]2]?
 What about [0][0][0]?
 
 Keep practicing! 

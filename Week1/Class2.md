@@ -49,7 +49,35 @@ What about [0][0][0]?
 Keep practicing!
 
 
-# Mathematical Operations
 
+# Scalar Mathematical Operations
+
+A great thing about arrays is that they allow for batch operations to be carried out in a scalar capacity (meaning we can perform an operation on an array and it will be applied to each element of the array without using for loops). Let's try it out:
+
+```
+>>> banana = np.array([1, 2, 3], dtype=np.float64)
+>>> print(banana)
+[1. 2. 3.]
+>>> banana * 10
+array([10., 20., 30.])
+>>> 
+```
+Notice that multiplying by 10 was carried out on each item in the array. 
+
+More examples of array arithmetic: 
+
+```
+>>> banana * banana
+array([1., 4., 9.])
+>>> banana + banana
+array([2., 4., 6.])
+>>> banana2 = banana * 2
+>>> print(banana2)
+[2. 4. 6.]
+>>> banana2 > banana
+array([ True,  True,  True])
+```
+
+Evaluating arrays of different sizes is called *broadcasting* and will be discussed later. 
 
 

@@ -316,8 +316,11 @@ x3 = np.random.randint(10, size=(3, 4, 5))  # Three-dimensional array
 What did the output of the above look like? 
 
 Let's break down what we did with the randint() function:
+
 Array x1 gave us a list of 6 integers, all with values under 10.
+
 Array x2 returned a 2d array with 3 rows and 4 columns, all with values under 10.
+
 Array x3 returned a 3d array; 3 entries with 4 rows and 5 columns, all with values under 10
 
 Another fun way to learn more about the shape of a numpy array is to use numpy zeros. It will create an array of zeros with the given shape, dtype, and order.

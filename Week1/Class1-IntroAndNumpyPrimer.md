@@ -400,7 +400,7 @@ Give it a length or a tuple:
 
 Try it for yourself! The documentation can be found [here](https://numpy.org/devdocs/reference/generated/numpy.zeros.html)
 
-Another way to spin up an array is to use **arange** which uses python's range function to generate the data:
+Another way to spin up an array is to use **arange** which is like using python's range function to generate the data:
 
 ```
 >>> np.arange(15)

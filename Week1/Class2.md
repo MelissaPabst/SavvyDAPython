@@ -113,7 +113,7 @@ A two-dimensional array adds complexity. First, examine the methods we used with
 array([[3, 4, 5],
        [4, 5, 6]])
        
-# select first two rows of a
+# select first two rows of an array
 >>> a[:2]
 array([[1, 2, 3],
        [3, 4, 5]])
@@ -135,6 +135,7 @@ array([3])
 >>> a[...,1]
 array([2, 4, 5])
 >>> 
+
 # return all items in second row
 >>> a[1,...]
 array([3, 4, 5])

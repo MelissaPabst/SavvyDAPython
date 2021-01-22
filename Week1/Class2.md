@@ -64,7 +64,7 @@ array([[[34.5, 65.3],
 >>> 
 ```
 
-Looking at temps, using indeces, how would we access 23.4?
+Looking at temps, using indices, how would we access 23.4?
 
 What is the value at [0][2][1]?
 
@@ -73,6 +73,8 @@ What is the value at [1][2][0]?
 What is the value at [1][2]?
 
 What about [0][0][0]?
+
+How do you select all the elements in temps?
 
 Keep practicing! 
 
@@ -149,32 +151,86 @@ array([[2, 3],
 
 You can find an explanation of indexing with top-notch visuals [here](https://www.pythoninformer.com/python-libraries/numpy/index-and-slice/#:~:text=Slicing%20an%20array,accessed%20in%20a%20different%20order.). Let's take a look at how they define axis, matrices, rows, and columns to solidify concepts. 
 
-(Remember, axis 0 is rows, and axis 1 is columns)
-
-
+(Remember, in a 2D array, it is easy to think of axis 0 as rows and axis 1 as columns)
 
 
 # Copying arrays
-We can use the np.copy function to store data
-Consider this 3D array and how we can manipulate it:
+
+The two main functions for duplicating an array are **copy** and **view**.
+
+View (a "shallow" copy) returns a view of the original array and does not have its own data or memory, but uses the original array. Any modifications reflect in both the original and the view. Use the np.view() function to practice. 
 
 ```
->>> a3 = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
->>> a3[0]
-array([[1, 2, 3],
-       [4, 5, 6]])
->>> oldvalues = a3[0].copy
->>> a3[0]=47
->>> a3
+>>> x3 = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+# create a view of x3
+>>> xview = x3.view
+# change a value in x3
+>>> x3[0] = 47
+# the change appears in x3
+>>> x3
+array([[[47, 47, 47],
+        [47, 47, 47]],
+
+       [[ 7,  8,  9],
+        [10, 11, 12]]])
+# the change also shows up in the view
+>>> xview
 array([[[47, 47, 47],
         [47, 47, 47]],
 
        [[ 7,  8,  9],
         [10, 11, 12]]])
 ```
->>> h = a.view() Create a view of the array with the same data
->>> np.copy(a) Create a copy of the array
->>> h = a.copy() Create a deep copy of the array
+
+With copy, a replica of the original array (a "deep" copy) is returned and stored at a new location. The copy doesn’t share data or memory with the original array. Any modifications made to the original are not reflected in the copy, and changes to the copy are not reflected in the original.
+
+We can use the np.copy() function, which returns an array copy of the given object.
+
+Consider this 3D array and how we can manipulate it:
+
+
+```
+>>> apples = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+>>> oranges = apples.copy()
+>>> oranges
+array([[[ 1,  2,  3],
+        [ 4,  5,  6]],
+
+       [[ 7,  8,  9],
+        [10, 11, 12]]])
+>>> apples[0][0] = [100, 200, 300]
+>>> apples
+array([[[100, 200, 300],
+        [ 4,  5,  6]],
+
+       [[  7,   8,   9],
+        [ 10,  11,  12]]])
+>>> oranges
+array([[[ 1,  2,  3],
+        [ 4,  5,  6]],
+
+       [[ 7,  8,  9],
+        [10, 11, 12]]])
+>>> 
+
+```
+If we make changes, it will not affect the copy.
+
+What happens when we compare apples to oranges? 
+
+```
+>>> apples == oranges
+array([[[False, False, False],
+        [ True,  True,  True]],
+
+       [[ True,  True,  True],
+        [ True,  True,  True]]])
+>>> 
+```
+ 
+Hint: You can copy/view slices. 
+
+
 
 
 # Scalar Operations

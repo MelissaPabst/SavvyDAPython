@@ -212,8 +212,7 @@ speeds_array = np.array(speeds_list)
 print(speeds_array)
 ```
 
-A 2D array is a list of lists. It could represent multiple rows of x columns.
-Let's create a 2D numpy array from a list of lists:
+A 2D array is a list of lists. The element at each index contains a 1D array. It could represent multiple rows of x columns. Let's create a 2D numpy array from a list of lists:
 
 ```
 import numpy as np
@@ -348,7 +347,7 @@ Let's break down what we did with the randint() function:
 
 Array x1 gave us one dimension: a list of 6 integers, all with values under 10.
 
-Array x2 returned a 2d array: The first dimension had 3 entries, and the nested 2nd dimension had 4. Think of it as 3 rows and 4 columns, all with values under 10.
+Array x2 returned a 2d array: The first dimension had 3 entries, and the nested 2nd dimension had 4. Think of it as 3 rows and 4 columns, all with values under 10.  
 
 Array x3 returned a 3d array; The first dimension had 3 entries, the 2nd had 4 entries, and the 3rd had 5 entries, all with values under 10
 
@@ -357,8 +356,8 @@ Another fun way to learn more about the shape of a numpy array is to use numpy z
 Give it a length or a tuple:
 
 ```
->>> cab = np.zeros(10)
->>> print(cab)
+>>> car = np.zeros(10)
+>>> print(car)
 [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
 >>> 
 ```

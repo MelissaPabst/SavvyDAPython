@@ -22,6 +22,8 @@ Keep in mind, the process is heavily-based in data preparation and determining i
 
 Repeat if necessary!
 
+![Data Analysis Workflow](dataanalysisflow.jpg)
+
 ## Data Collection
 
 There is no shortage of data in today's world. Shopping habits. Consumer info. Data from restaurant POS. Sports stats. Traffic studies. Population. Wall Street stocks. 
@@ -243,6 +245,9 @@ print(npArray)
 
 ```
 
+![Array Diagram](arrayaxes.jpg)
+
+
 Each array has attributes **ndim** (the number of dimensions), **shape** (the size of each dimension), and **size** (the total size of the array):
 
 Let's examine our 3D np array we just made:
@@ -398,6 +403,8 @@ Give it a length or a tuple:
 
 
 Try it for yourself! The documentation can be found [here](https://numpy.org/devdocs/reference/generated/numpy.zeros.html)
+
+We can also create empty arrays (np.empty()), or arrays with ones (np.ones()).
 
 Another way to spin up an array is to use **arange** which is like using python's range function to generate the data:
 

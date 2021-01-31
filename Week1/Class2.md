@@ -326,7 +326,7 @@ Now we have the boolean values captured in its own array. Let's use this array o
  [1 4 0]]
  ```
  
- We can select rows to match boolean patterns:
+ We can select rows to match boolean patterns.
  
  Return rows 1 & 2:
  

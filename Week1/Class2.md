@@ -328,11 +328,11 @@ Now we have the boolean values captured in its own array. Let's use this array o
  
  We can select rows to match boolean patterns:
  
- # return rows 1 & 2
+ Return rows 1 & 2:
  
  pattern1 = np.array([True, True, False])
  
- # return row 3
+ Return row 3:
  
  pattern2 = np.array([False, False, True])
  

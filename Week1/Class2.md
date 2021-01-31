@@ -428,6 +428,44 @@ Fruits that cost $2
 array([], dtype='<U7')
 ```
 
+# More methods: where(), any(), all()
+
+Numpy has methods that can vectorize if/else loops (where()) or capitalize on Boolean indexing (any() and all().
+
+Behind the scenes, where( ) uses an if/else loop:
+
+```
+>>> death
+array([2, 3, 3, 3, 1, 4, 5, 5, 4, 1])
+# if a number in death is even, put it in survival
+>>> survival = np.where(death % 2 == 0)
+>>> survival
+(array([0, 5, 8]),)
+```
+
+Any() and all() use boolean indexing to tell us if any element or all elements in an array match a certain condition. Let's use any() and all() to identify values in a 2D array contain NaN values. 
+
+With np.any(), we can determine rows that contain at least one value of Nan:
+
+```
+>>> filterme = np.array([[np.nan, 2], [3, 4], [np.nan, 6], [7, 8]])
+>>> filter = np.any(np.isnan(filterme), axis = 1)
+>>> filterme[filter]
+array([[nan,  2.],
+       [nan,  6.]])
+```
+
+With np.all(), we can return rows that contain all NaN values. We'll make a new array to filter so we can show how this works:
+
+```>>> filterme = np.array([[np.nan, 2], [3, 4], [np.nan, np.nan], [7, 8]])
+>>> filter = np.all(np.isnan(filterme), axis = 1)
+>>> filterme[filter]
+array([[nan, nan]])
+# returns the array at index 2
+>>> filterme[2]
+array([nan, nan])
+```
+
 # Fancy Indexing
 
 Fancy indexing is Numpy's way of indexing using integer arrays to create new arrays. 

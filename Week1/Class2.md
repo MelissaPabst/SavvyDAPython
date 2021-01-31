@@ -152,7 +152,9 @@ You can find an explanation of indexing with top-notch visuals [here](https://ww
 
 Generally, we can think of an array as a row of matrices where element (i,j,k) corresponds to the ith matrix, the jth row, and the kth column. So when we ask for whatever_array[:,:,0], we’re requesting “every matrix, every row, column 0”. The request whatever_array[:, 3] we're asking for all rows, column 3.
 
-(Remember, in a 2D array, it is easy to think of axis 0 as rows and axis 1 as columns)
+Remember, in a 2D array, it is easy to think of axis 0 as rows and axis 1 as columns.
+
+In a 3D array, axis 0 is the matrix, axis 1 is rows, and axis 2 is columns.
 
 ![Array Diagram](arrayaxes.jpg)
 

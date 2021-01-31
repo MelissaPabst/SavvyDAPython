@@ -40,7 +40,7 @@ Data collection is a must-have first step as we cannot analyze data we do not ha
     - Financial resources
     - Log files
 
-When it comes time to do our capstone project, [this Dataquest link](https://www.dataquest.io/blog/free-datasets-for-projects/) is a great resource for data sets or to get some inspiration. There are many more resources like this out there on The Internets. 
+When it comes time to do our capstone projects, [this Dataquest link](https://www.dataquest.io/blog/free-datasets-for-projects/) is a great resource for data sets or to get some inspiration. There are many more resources like this out there on The Internets. 
 
 Remember we are looking for data relevant to our study. If we are looking for speeds of cars, do we need to know the cars' colors? No, but relevant data might be the terrain type or weather conditions or type of fuel used or weight of the car. The data you use will depend on the story you are trying to tell. 
 
@@ -193,7 +193,7 @@ The first item on our agenda is to make Numpy accessible in our code. We do this
 import numpy as np
 ```
 
-Numpy is typically shortened to np as a reference to keep it standardized (and short!).
+Numpy is typically shortened to 'np' as a reference to keep it standardized (and short!).
 
 Let's talk more about arrays. You can think of an array as a grid of values, and you might hear an array referred to as an **'ndarray'** which means "N-dimensional array" where n is the number of dimensions. You might see a 1D (one-dimensional) array referred to as a vector, and a 2D (two-dimensional) array referred to as a matrix. A matrix is a special case of 2D array where each data element is of the exact same size. So every matrix is also a two dimensional array but not vice versa. A tensor refers to any array 3D or higher. In Python, any table can be represented as a list of lists, and that is important to how we will be storing and manipulating data in this class. 
 
@@ -354,7 +354,20 @@ Array x1 gave us one dimension: a list of 6 integers, all with values under 10.
 
 Array x2 returned a 2d array: The first dimension had 3 entries, and the nested 2nd dimension had 4. Think of it as 3 rows and 4 columns, all with values under 10.  
 
-Array x3 returned a 3d array; The first dimension had 3 entries, the 2nd had 4 entries, and the 3rd had 5 entries, all with values under 10
+Array x3 returned a 3d array; The first dimension had 3 entries, the 2nd had 4 entries, and the 3rd had 5 entries, all with values under 10.
+
+Another fun number generator is to use random range, where we pass in the range and array size:
+
+```
+>>> rand_generator = np.random.default_rng()
+>>> snowflakes = rand_generator.integers(15, size=10)
+>>> snowflakes
+array([ 4,  2,  0,  0, 14,  3,  1,  2,  4,  2])
+>>> snowflakes2 = rand_generator.integers(5, size=3)
+>>> snowflakes2
+array([0, 3, 0])
+>>> 
+```
 
 Another fun way to learn more about the shape of a numpy array is to use numpy zeros. It will create an array of zeros with the given shape, dtype, and order.
 

@@ -192,7 +192,7 @@ array([0.66666667, 1.33333333, 1.66666667])
 >>> 
 ```
 
-# Reshaping and Transposing
+# Reshaping, Transposing, and Swapping Axes
 
 NumPy ndarrays can be given a new shape without changing its data. Reshaping creates a new view object. 
 
@@ -300,4 +300,37 @@ array([[[ 0,  1,  2,  3],
 
 In higher dimensions, say a 4D 2x3x4x5 array, the command array.T transposes the array into a 5x4x3x2 array. Element (i,j,k,l) in the original array maps to element (l,k,j,i) in the newly transposed array.
 
+If we want to swap axes, there is a command for that as well: 
 
+```
+>>> blah = np.arange(16).reshape(2, 2, 4)
+>>> blah
+array([[[ 0,  1,  2,  3],
+        [ 4,  5,  6,  7]],
+
+       [[ 8,  9, 10, 11],
+        [12, 13, 14, 15]]])
+>>> blah.swapaxes(1, 2)
+array([[[ 0,  4],
+        [ 1,  5],
+        [ 2,  6],
+        [ 3,  7]],
+
+       [[ 8, 12],
+        [ 9, 13],
+        [10, 14],
+        [11, 15]]])
+>>> blah.swapaxes(2, 0)
+array([[[ 0,  8],
+        [ 4, 12]],
+
+       [[ 1,  9],
+        [ 5, 13]],
+
+       [[ 2, 10],
+        [ 6, 14]],
+
+       [[ 3, 11],
+        [ 7, 15]]])
+>>> 
+```

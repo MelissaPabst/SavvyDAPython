@@ -118,15 +118,15 @@ A virtual environment is a directory tree which contains Python executable files
 
 NumPy is not part of a basic Python installation, and must be installed after Python. 
 
-[Install Numpy](https://numpy.org/install/)
+[Install NumPy](https://numpy.org/install/)
 
 Most programming languages have external libraries of pre-written code that can be imported. What libraries have you already worked with in your Python learning journey? 
 
-**Numpy** is a Python library that allows us to work with numerical data through arrays. 
+**NumPy** is a Python library that allows us to work with numerical data through arrays. 
 
-### Why are we using Numpy? Can't I just use normal python lists?
+### Why are we using NumPy? Can't I just use normal python lists?
 
-Well, you could, but Numpy is more efficient in how it stores data, and it performs mathematical functions through API functions you wouldn't want to take the time to write yourself from scratch. The most important feature of Numpy is the ability to use Numpy arrays, which allow us to store large amounts of data in objects. 
+Well, you could, but NumPy is more efficient in how it stores data, and it performs mathematical functions through API functions you wouldn't want to take the time to write yourself from scratch. The most important feature of NumPy is the ability to use NumPy arrays, which allow us to store large amounts of data in objects. 
 
 Let's take a look at the memory aspect: 
 
@@ -181,24 +181,24 @@ NumPy algorithms are typically 10-100 times faster than corresponding python fun
 Why does NumPy perform better? Well, 
 1. Scale: NumPy performs computations on entire arrays without the need for python 'for' loops. It has the ability to break down a task into multiple fragments and process those fragments in parallel (at the same time).  
 2. Memory: An array is a collection of same datatypes that are stored in contiguous memory locations, while a Python list is a collection of heterogeneous data types stored in distant memory locations.
-3. Numpy function are implemented in C language, which is faster.
+3. NumPy function are implemented in C language, which is faster.
 
 [Further reading on NumPy speed](https://towardsdatascience.com/how-fast-numpy-really-is-e9111df44347#:~:text=Because%20the%20Numpy%20array%20is,leap%20in%20terms%20of%20speed.)
 
 # NumPy ndarray
 
-The first item on our agenda is to make Numpy accessible in our code. We do this by using an import statement:
+The first item on our agenda is to make NumPy accessible in our code. We do this by using an import statement:
 
 ```
 import numpy as np
 ```
 
-Numpy is typically shortened to 'np' as a reference to keep it standardized (and short!).
+NumPy is typically shortened to 'np' as a reference to keep it standardized (and short!).
 
 Let's talk more about arrays. You can think of an array as a grid of values, and you might hear an array referred to as an **'ndarray'** which means "N-dimensional array" where n is the number of dimensions. You might see a 1D (one-dimensional) array referred to as a vector, and a 2D (two-dimensional) array referred to as a matrix. A matrix is a special case of 2D array where each data element is of the exact same size. So every matrix is also a two dimensional array but not vice versa. A tensor refers to any array 3D or higher. In Python, any table can be represented as a list of lists, and that is important to how we will be storing and manipulating data in this class. 
 
 Think of a 1-D array as a representation of a row of data with x columns. It's essentially a list. 
-Let's create a 1D numpy array from a python list: 
+Let's create a 1D NumPy array from a python list: 
 
 ```
 #import the numpy module
@@ -214,7 +214,7 @@ speeds_array = np.array(speeds_list)
 print(speeds_array)
 ```
 
-A 2D array is a list of lists. The element at each index contains a 1D array. It could represent multiple rows of x columns. Let's create a 2D numpy array from a list of lists:
+A 2D array is a list of lists. The element at each index contains a 1D array. It could represent multiple rows of x columns. Let's create a 2D NumPy array from a list of lists:
 
 ```
 import numpy as np
@@ -230,7 +230,7 @@ print(npArray)
 ```
 
 A 3D arrays are arrays of arrays and there is no limit to how far they are nested.
-Let's repeat the exercise for a 3D numpy array. 
+Let's repeat the exercise for a 3D NumPy array. 
 
 ```
 import numpy as np
@@ -273,7 +273,7 @@ Also common is data type, or **dtype**:
 int64
 ```
 
-Since Numpy is focused on numeric computations, the dtype will most often be 'float64' unless otherwise specified.
+Since NumPy is focused on numeric computations, the dtype will most often be 'float64' unless otherwise specified.
 
 We can specify the dtype when creating the array. This is particularly helpful when we want to store large amounts of data and storage space is an issue; it's nice to know we have control over the data type:
 
@@ -296,7 +296,7 @@ array([1., 2., 3.])
 ```
 
 
-We can also use a "random" number generator to create a list. Numpy has a "pseudorandom" number generator. Pseudorandom means it is not truly random and the data set is generated off of a written algorithm. To generate truly random numbers, you would need a data set of truly random numbers and run an algorithm based on that set of numbers. 
+We can also use a "random" number generator to create a list. NumPy has a "pseudorandom" number generator. Pseudorandom means it is not truly random and the data set is generated off of a written algorithm. To generate truly random numbers, you would need a data set of truly random numbers and run an algorithm based on that set of numbers. 
 
 Generate a random integer from 0 to 100 using randint():
 
@@ -337,7 +337,7 @@ x = random.rand(6, 5)
 print(x)
 ```
 
-We can also make random arrays with Numpy's random.randint() feature. We seed with a set value in order to ensure that the same random arrays are generated each time this code is run:
+We can also make random arrays with NumPy's random.randint() feature. We seed with a set value in order to ensure that the same random arrays are generated each time this code is run:
 
 ```
 np.random.seed(0)  # seed for reproducibility
@@ -369,7 +369,7 @@ array([0, 3, 0])
 >>> 
 ```
 
-Another fun way to learn more about the shape of a numpy array is to use numpy zeros. It will create an array of zeros with the given shape, dtype, and order.
+Another fun way to learn more about the shape of a NumPy array is to use NumPy zeros. It will create an array of zeros with the given shape, dtype, and order.
 
 Give it a length or a tuple:
 

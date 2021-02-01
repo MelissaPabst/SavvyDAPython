@@ -2,9 +2,9 @@
 
 ## Warmup
 
-We left off talking about the advantages of numpy ndarrays, and tonight we will delve into them further. But let's make sure you have the hang of creating a Numpy ndarray. 
+We left off talking about the advantages of NumPy ndarrays, and tonight we will delve into them further. But let's make sure you have the hang of creating a NumPy ndarray. 
 
-Given the following, create a numpy array:
+Given the following, create a NumPy array:
 
 ```
 temps = [[[34.5, 65.3], [23.4, 65.0], [99.3, 96.3]],  [[23.4, 54.2], [32.4, 34.2], [12.4, 56.4]]]
@@ -430,7 +430,7 @@ array([], dtype='<U7')
 
 # More methods: where(), any(), all()
 
-Numpy has methods that can vectorize if/else loops (where()) or capitalize on Boolean indexing (any() and all().
+NumPy has methods that can vectorize if/else loops (where()) or capitalize on Boolean indexing (any() and all().
 
 Behind the scenes, where( ) uses an if/else loop:
 
@@ -468,7 +468,7 @@ array([nan, nan])
 
 # Fancy Indexing
 
-Fancy indexing is Numpy's way of indexing using integer arrays to create new arrays. 
+Fancy indexing is NumPy's way of indexing using integer arrays to create new arrays. 
 
 Let's pass an array of indices to access multiple array elements at once: 
 

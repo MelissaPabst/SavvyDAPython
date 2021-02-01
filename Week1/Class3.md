@@ -335,3 +335,62 @@ array([[[ 0,  8],
         [ 7, 15]]])
 >>> 
 ```
+
+# Sort, Unique, and others
+
+NumPy Arrays can be sorted, just like Python lists. Note that sorting alters the array:
+
+
+```
+>>> newarray = np.random.randn(10)
+>>> newarray
+array([ 0.80503446,  0.2796042 , -0.94689967, -0.99679725,  0.61817218,
+       -1.59316213, -0.93874435, -0.64526106, -0.48129946,  1.11189637])
+>>> newarray.sort()
+# newarray was transformed from the original
+>>> newarray
+array([-1.59316213, -0.99679725, -0.94689967, -0.93874435, -0.64526106,
+       -0.48129946,  0.2796042 ,  0.61817218,  0.80503446,  1.11189637])
+```
+If you want to sort a multidimensional array by axis, you can pass in the axis:
+
+```
+# Sort rows
+>>> bigone = np.random.randint(10, size=(6, 3))
+>>> bigone
+array([[9, 0, 7],
+       [3, 1, 7],
+       [7, 1, 5],
+       [3, 8, 7],
+       [4, 8, 2],
+       [8, 6, 2]])
+>>> bigone.sort(1)
+>>> bigone
+array([[0, 7, 9],
+       [1, 3, 7],
+       [1, 5, 7],
+       [3, 7, 8],
+       [2, 4, 8],
+       [2, 6, 8]])
+```
+```
+# Sort columns
+>>> bigone = np.random.randint(10, size=(6, 3))
+>>> bigone
+array([[7, 1, 3],
+       [9, 8, 5],
+       [2, 3, 4],
+       [9, 7, 3],
+       [6, 1, 0],
+       [4, 7, 1]])
+>>> bigone.sort(0)
+>>> bigone
+array([[2, 1, 0],
+       [4, 1, 1],
+       [6, 3, 3],
+       [7, 7, 3],
+       [9, 7, 4],
+       [9, 8, 5]])
+```
+
+

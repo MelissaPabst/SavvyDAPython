@@ -55,8 +55,8 @@ Here's a reciprocal function. Remember to examine your datatypes so you get the 
 array([0, 0, 0, 1, 0, 0, 0, 0, 0, 0])
 >>> numeros.dtype
 dtype('int64')
->>> numers = np.reciprocal(numeros.astype('float64'))
->>> numers
+>>> numbers = np.reciprocal(numeros.astype('float64'))
+>>> numbers
 array([0.33333333, 0.11111111, 0.14285714, 1.        , 0.125     ,
        0.11111111, 0.16666667, 0.11111111, 0.2       , 0.16666667])
 >>> 

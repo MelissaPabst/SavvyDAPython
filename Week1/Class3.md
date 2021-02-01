@@ -108,6 +108,7 @@ array([[[ 4,  6],
 ```
 NumPy documentation has excellent examples and visualizations of how the arrays are "stretched" to perform operations. [Let's head over there now to check it out!](https://numpy.org/devdocs/user/theory.broadcasting.html) 
 
+![Broadcasting](broadcasting.jpg)
 
 
 # Universal Functions

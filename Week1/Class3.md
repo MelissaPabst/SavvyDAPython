@@ -299,7 +299,7 @@ array([[[ 0,  1,  2,  3],
 ```
 [This question in Stack Overflow resulted in an in-depth answer about how transpose() works. Read on if you want to learn about **strides**](https://stackoverflow.com/questions/32034237/how-does-numpys-transpose-method-permute-the-axes-of-an-array).
 
-In higher dimensions, say a 4D 2x3x4x5 array, the command array.T transposes the array into a 5x4x3x2 array. Element (i,j,k,l) in the original array maps to element (l,k,j,i) in the newly transposed array.
+In higher dimensions, say a 4D 2x3x4x5 array, the command array.T transposes the array into a 5x4x3x2 array. Element (i, j, k, l) in the original array maps to element (l, k, j, i) in the newly transposed array.
 
 If we want to swap axes, there is a command for that as well: 
 
@@ -338,7 +338,7 @@ array([[[ 0,  8],
 
 # Sort, Unique, and others
 
-NumPy Arrays can be sorted, just like Python lists. Note that sorting alters the array:
+NumPy Arrays can be sorted, just like Python lists. Note that sorting returns a sorted copy of the array:
 
 
 ```

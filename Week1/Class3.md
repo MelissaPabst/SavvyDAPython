@@ -452,7 +452,7 @@ array([('apples', 2.45,  7), ('celery', 3.54,  1),
        ('frozen piz', 7.1 ,  2), ('hot chocol', 4.67, 12),
        ('milk', 4.16, 11), ('pop-tarts', 6.2 , 14)],
       dtype=[('name', '<U10'), ('price', '<f8'), ('aisle', '<i8')])
-# having our list in alphabetical order isn't really useful because if we go straight down the list, we will backtrack all over the store to find our items in different aisles. Let's sort by aisles so we can shop more efficiently:
+# having our list in alphabetical order isn't really useful because if we go straight down the list, we will backtrack all over the store to find our items in #different aisles. Let's sort by aisles so we can shop more efficiently:
 >>> np.sort(our_structured_array, order='aisle')
 array([('celery', 3.54,  1), ('frozen piz', 7.1 ,  2),
        ('apples', 2.45,  7), ('milk', 4.16, 11), ('hot chocol', 4.67, 12),

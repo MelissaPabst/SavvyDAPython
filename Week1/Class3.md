@@ -336,61 +336,131 @@ array([[[ 0,  8],
 >>> 
 ```
 
-# Sort, Unique, and others
+# Sorting, Unique, and others
 
-NumPy Arrays can be sorted, just like Python lists. Note that sorting returns a sorted copy of the array:
-
+NumPy Arrays can be sorted, just like Python lists. We have two ways of executing sorting: np.sort(array) and array.sort(). This first one produces a sorted view, while calling .sort() on the array will produce a sorted copy. Let's try it out:
 
 ```
->>> newarray = np.random.randn(10)
->>> newarray
-array([ 0.80503446,  0.2796042 , -0.94689967, -0.99679725,  0.61817218,
-       -1.59316213, -0.93874435, -0.64526106, -0.48129946,  1.11189637])
->>> newarray.sort()
-# newarray was transformed from the original
->>> newarray
-array([-1.59316213, -0.99679725, -0.94689967, -0.93874435, -0.64526106,
-       -0.48129946,  0.2796042 ,  0.61817218,  0.80503446,  1.11189637])
+>>> guacamole = np.array([1, 4, 2, 5, 3, 6, 4, 7, 5, 8])
+>>> np.sort(guacamole)
+array([1, 2, 3, 4, 4, 5, 5, 6, 7, 8])
+# original guacamole is unchanged
+>>> guacamole
+array([1, 4, 2, 5, 3, 6, 4, 7, 5, 8])
+# sort "in-place" with .sort()
+>>> guacamole.sort()
+#guacamole is changed
+>>> guacamole
+array([1, 2, 3, 4, 4, 5, 5, 6, 7, 8])
+>>> 
 ```
+
 If you want to sort a multidimensional array by axis, you can pass in the axis:
 
 ```
-# Sort rows
->>> bigone = np.random.randint(10, size=(6, 3))
->>> bigone
-array([[9, 0, 7],
-       [3, 1, 7],
-       [7, 1, 5],
-       [3, 8, 7],
-       [4, 8, 2],
-       [8, 6, 2]])
->>> bigone.sort(1)
->>> bigone
-array([[0, 7, 9],
-       [1, 3, 7],
-       [1, 5, 7],
-       [3, 7, 8],
-       [2, 4, 8],
-       [2, 6, 8]])
+>>> gnome = np.random.randint(10, size=(6, 3))
+>>> gnome
+array([[7, 6, 1],
+       [9, 0, 3],
+       [2, 8, 5],
+       [7, 9, 7],
+       [0, 5, 4],
+       [3, 6, 6]])
+# axis=0 will sort the data in the columns
+>>> np.sort(gnome, axis=0)
+array([[0, 0, 1],
+       [2, 5, 3],
+       [3, 6, 4],
+       [7, 6, 5],
+       [7, 8, 6],
+       [9, 9, 7]])
+# gnome was unchanged, but here he is for comparison's sake
+>>> gnome
+array([[7, 6, 1],
+       [9, 0, 3],
+       [2, 8, 5],
+       [7, 9, 7],
+       [0, 5, 4],
+       [3, 6, 6]])
+# axis=1 sorts the data within the rows
+>>> np.sort(gnome, axis=1)
+array([[1, 6, 7],
+       [0, 3, 9],
+       [2, 5, 8],
+       [7, 7, 9],
+       [0, 4, 5],
+       [3, 6, 6]])
+# again, gnome was unchanged
+>>> gnome
+array([[7, 6, 1],
+       [9, 0, 3],
+       [2, 8, 5],
+       [7, 9, 7],
+       [0, 5, 4],
+       [3, 6, 6]])
+>>> 
 ```
+We can do something similar with array.sort(), but it does change the array:
+
 ```
-# Sort columns
->>> bigone = np.random.randint(10, size=(6, 3))
->>> bigone
-array([[7, 1, 3],
-       [9, 8, 5],
-       [2, 3, 4],
-       [9, 7, 3],
-       [6, 1, 0],
-       [4, 7, 1]])
->>> bigone.sort(0)
->>> bigone
-array([[2, 1, 0],
-       [4, 1, 1],
-       [6, 3, 3],
-       [7, 7, 3],
-       [9, 7, 4],
-       [9, 8, 5]])
+>>> gnome
+array([[7, 6, 1],
+       [9, 0, 3],
+       [2, 8, 5],
+       [7, 9, 7],
+       [0, 5, 4],
+       [3, 6, 6]])
+>>> gnome.sort(0)
+>>> gnome
+array([[0, 0, 1],
+       [2, 5, 3],
+       [3, 6, 4],
+       [7, 6, 5],
+       [7, 8, 6],
+       [9, 9, 7]])
+>>> 
 ```
+
+We have more capabilities with np.sort(array). [Click here for the documentation](https://numpy.org/doc/stable/reference/generated/numpy.sort.html)
+
+We can sort with no axis, which, in effect, flattens the array:
+
+```
+>>> np.sort(gnome, axis=None)
+array([0, 0, 1, 2, 3, 3, 4, 5, 5, 6, 6, 6, 7, 7, 7, 8, 9, 9])
+```
+Even more fun is using the **order** keyword in np.sort() on structured arrays. 
+
+Let's revisit the grocery store, but pretend the prices are normal and it's totally acceptable to have produce in different aisles. 
+
+```
+# first we will think about the data in our list
+>>> our_dtypes = [('name', 'U10'), ('price', float), ('aisle', int)]
+# next we'll create our list with the goodies
+>>> our_list = [('celery', 3.54, 1), ('apples', 2.45, 7), ('hot chocolate', 4.67, 12), ('milk', 4.16, 11), ('pop-tarts', 6.2, 14), ('frozen pizza', 7.1, 2)]
+# define the numpy array (note: we could create this directly without using the our_list and our_dtypes variables)
+>>> our_structured_array = np.array(our_list, dtype=our_dtypes)
+# our list has been mapped to the dataypes
+>>> our_structured_array
+array([('celery', 3.54,  1), ('apples', 2.45,  7),
+       ('hot chocol', 4.67, 12), ('milk', 4.16, 11),
+       ('pop-tarts', 6.2 , 14), ('frozen piz', 7.1 ,  2)],
+      dtype=[('name', '<U10'), ('price', '<f8'), ('aisle', '<i8')])
+# let's sort by name
+>>> np.sort(our_structured_array, order='name')
+array([('apples', 2.45,  7), ('celery', 3.54,  1),
+       ('frozen piz', 7.1 ,  2), ('hot chocol', 4.67, 12),
+       ('milk', 4.16, 11), ('pop-tarts', 6.2 , 14)],
+      dtype=[('name', '<U10'), ('price', '<f8'), ('aisle', '<i8')])
+# having our list in alphabetical order isn't really useful because if we go straight down the list, we will backtrack all over the store to find our items in different aisles. Let's sort by aisles so we can shop more efficiently:
+>>> np.sort(our_structured_array, order='aisle')
+array([('celery', 3.54,  1), ('frozen piz', 7.1 ,  2),
+       ('apples', 2.45,  7), ('milk', 4.16, 11), ('hot chocol', 4.67, 12),
+       ('pop-tarts', 6.2 , 14)],
+      dtype=[('name', '<U10'), ('price', '<f8'), ('aisle', '<i8')])
+>>> 
+```
+
+Our cart is full and it's time to checkout: How much will we spend? 
 
 

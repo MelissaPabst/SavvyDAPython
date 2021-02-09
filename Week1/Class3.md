@@ -478,3 +478,4 @@ array([3.54, 2.45, 4.67, 4.16, 6.2 , 7.1 ])
 ```
 $28.12 for six items? Does anyone have a gift card to help out? We didn't even consider taxes! 
 
+Discussion: Could we have used better datatypes? Yes/No/Why???

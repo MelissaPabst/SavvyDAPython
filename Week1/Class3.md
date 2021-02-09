@@ -336,7 +336,7 @@ array([[[ 0,  8],
 >>> 
 ```
 
-# Sorting, Unique, and others
+# Sorting
 
 NumPy Arrays can be sorted, just like Python lists. We have two ways of executing sorting: np.sort(array) and array.sort(). This first one produces a sorted view, while calling .sort() on the array will produce a sorted copy. Let's try it out:
 
@@ -479,3 +479,62 @@ array([3.54, 2.45, 4.67, 4.16, 6.2 , 7.1 ])
 $28.12 for six items? Does anyone have a gift card to help out? We didn't even consider taxes! 
 
 Discussion: Could we have used better datatypes? Yes/No/Why???
+
+Suppose we only came prepared to spend $25 (before taxes). How can we determine which item(s) to put back? It looks like we're roughly $3 over our budget. 
+
+Here is one way. Can you think of others?
+
+```
+>>> our_prices
+array([3.54, 2.45, 4.67, 4.16, 6.2 , 7.1 ])
+>>> less_than_three = our_prices < 3.12
+>>> less_than_three
+array([False,  True, False, False, False, False])
+>>> our_prices[1]
+2.45
+>>> our_structured_array[1]
+('apples', 2.45, 7)
+>>> 
+```
+
+# Unique() and argsort()
+
+Unique does what you'd think it does: returns the unique elements of an array.
+
+```
+# create an array, and use np.unique()
+>>> lemons = np.array([2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7])
+>>> print(lemons)
+[2 5 3 6 4 7 5 8 6 9 7]
+# unique tells you that each of these elements is in the array lemons at least once
+>>> np.unique(lemons)
+array([2, 3, 4, 5, 6, 7, 8, 9])
+```
+If we set return_index = True, unique also returns an array of where each unique element is first located. So, 2 is first located at lemons[0], while 9 is first located at lemons[9], etc. 
+
+```
+>>> np.unique(lemons, return_index = True)
+(array([2, 3, 4, 5, 6, 7, 8, 9]), array([0, 2, 4, 1, 3, 5, 7, 9]))
+```
+If we wanted to sort the unique items by order of appearance we will use argsort() on the index array, which is then used to sort the unique array
+
+```
+>>> our_uniques = np.unique(lemons)
+>>> firsts = np.unique(lemons, return_index = True)
+>>> firsts
+(array([2, 3, 4, 5, 6, 7, 8, 9]), array([0, 2, 4, 1, 3, 5, 7, 9]))
+>>> our_uniques[np.argsort(firsts)]
+array([[2, 3, 4, 5, 6, 7, 8, 9],
+       [2, 5, 3, 6, 4, 7, 8, 9]])
+>>> 
+```
+
+With return_counts = True, we can get a count of how many times each unique item makes an appearance in our array:
+
+```
+>>> lemons
+array([2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7])
+>>> np.unique(lemons, return_counts = True)
+(array([2, 3, 4, 5, 6, 7, 8, 9]), array([1, 1, 1, 2, 2, 2, 1, 1]))
+```
+

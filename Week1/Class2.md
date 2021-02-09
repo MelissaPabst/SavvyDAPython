@@ -12,6 +12,8 @@ temps = [[[34.5, 65.3], [23.4, 65.0], [99.3, 96.3]],  [[23.4, 54.2], [32.4, 34.2
 
 What are its attributes? ndim? shape? size? dtype?
 
+Sidenote: We make it a priority to provide many alternatives to understanding the material. If you are a visual learner, I highly recommend this stunning NumPy by visualization site to help you along the way, especially if we are doing virtual learning and the instructor does not have access to a whiteboard: [A Visual Intro to NumPy and Data Representation](http://jalammar.github.io/visual-numpy/)
+
 # Subsetting (Indexing) and Slicing
 
 In our previous studies, we discussed **indexing**, or how to access subsets of data or elements of data within arrays. 

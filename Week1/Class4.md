@@ -37,7 +37,6 @@ Text(0, 0.5, 'dollar')
 ```
 
 You should end up with something similar to this: 
-
 ![my donut chart](My Donut Chart.png)
 
 

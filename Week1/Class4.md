@@ -36,9 +36,7 @@ Text(0, 0.5, 'dollar')
 >>> plt.show()
 ```
 
-You should end up with something similar to this: 
-
-![my donut chart](My Donut Chart.jpg)
+You should end up with something similar to this: ![my donut chart](My Donut Chart.jpg)
 
 
 

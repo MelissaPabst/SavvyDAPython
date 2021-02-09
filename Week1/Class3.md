@@ -434,9 +434,9 @@ Even more fun is using the **order** keyword in np.sort() on structured arrays.
 Let's revisit the grocery store, but pretend the prices are normal and it's totally acceptable to have produce in different aisles. 
 
 ```
-# first we will think about the data in our list
+# first we will think about the data in our list and define the datatypes
 >>> our_dtypes = [('name', 'U10'), ('price', float), ('aisle', int)]
-# next we'll create our list with the goodies
+# next we'll create our grociery list with the items, prices, and locations
 >>> our_list = [('celery', 3.54, 1), ('apples', 2.45, 7), ('hot chocolate', 4.67, 12), ('milk', 4.16, 11), ('pop-tarts', 6.2, 14), ('frozen pizza', 7.1, 2)]
 # define the numpy array (note: we could create this directly without using the our_list and our_dtypes variables)
 >>> our_structured_array = np.array(our_list, dtype=our_dtypes)
@@ -464,4 +464,17 @@ array([('celery', 3.54,  1), ('frozen piz', 7.1 ,  2),
 
 Our cart is full and it's time to checkout: How much will we spend? 
 
+```
+# extract the items that are mapped to 'price' 
+>>> our_prices = our_structured_array['price']
+>>> our_prices
+array([3.54, 2.45, 4.67, 4.16, 6.2 , 7.1 ])
+# perform a sum method 
+>>> np.sum(our_prices)
+28.119999999999997
+# Of course, we don't carry around fractions of pennies on us, so we round it to two decimal places
+>>> round(np.sum(our_prices), 2)
+28.12
+```
+$28.12 for six items? Does anyone have a gift card to help out? We didn't even consider taxes! 
 

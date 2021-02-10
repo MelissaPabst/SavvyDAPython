@@ -8,9 +8,9 @@ Instructions for installation are [here](https://matplotlib.org/3.3.3/users/inst
 
 If you need a quick refresher on plotting with x and y axis, look [here](https://www.hmhco.com/blog/teaching-x-and-y-axis-graph-on-coordinate-grids)
 
-MatPlotLib is a library that lets us create visualizations from NumPy arrays. We can use it to make [all kinds of eye-catching charts and graphs](https://matplotlib.org/3.3.3/gallery/index.html). The type of plot you choose will directly correlate to the data you have and the story you want to tell.
+MatPlotLib is a library that lets us create visualizations from NumPy arrays, and is suitable enough for publication. We can use it to make [all kinds of eye-catching charts and graphs](https://matplotlib.org/3.3.3/gallery/index.html). The type of plot you choose will directly correlate to the data you have and the story you want to tell.
 
-Let's do a quick MatPlotLib tutorial so I can chart the relationship between donuts and dollars in my bakery. 
+Let's do a quick MatPlotLib tutorial so I can chart the relationship between dollars and donuts in my bakery. 
 
 Import pyplot from matplotlib and call it 'plt'. 
 

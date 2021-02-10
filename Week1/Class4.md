@@ -6,9 +6,13 @@ We've covered a lot of information, but tonight we'll keep it short to review an
 
 Instructions for installation are [here](https://matplotlib.org/3.3.3/users/installing.html).
 
-MatPlotLib is a library that lets us create visualizations from NumPy arrays. We can use it to make [all kinds of pretty charts and graphs](https://matplotlib.org/3.3.3/gallery/index.html).
+If you need a quick refresher on plotting with x and y axis, look [here](https://www.hmhco.com/blog/teaching-x-and-y-axis-graph-on-coordinate-grids)
 
-Let's do a quick MatPlotLib tutorial. Import pyplot from matplotlib and call it 'plt'. 
+MatPlotLib is a library that lets us create visualizations from NumPy arrays. We can use it to make [all kinds of eye-catching charts and graphs](https://matplotlib.org/3.3.3/gallery/index.html). The type of plot you choose will directly correlate to the data you have and the story you want to tell.
+
+Let's do a quick MatPlotLib tutorial so I can chart the relationship between donuts and dollars in my bakery. 
+
+Import pyplot from matplotlib and call it 'plt'. 
 
 ```
 # Standard imports, per usual
@@ -36,10 +40,11 @@ Text(0, 0.5, 'dollar')
 >>> plt.show()
 ```
 
-You should end up with something similar to this: 
+You should end up with something similar to this (yeah, my formula for pricing donuts is nuts): 
 
 ![my donut chart](donuts.jpg)
 
 
+We will continue to build our MatPlotLib skills as we progress, learning about the types of plots that best suit our data and how to choose the best plot. Humans are adept at picking out visual patterns, so learning to display our data properly to get our point across is imperative. 
 
 

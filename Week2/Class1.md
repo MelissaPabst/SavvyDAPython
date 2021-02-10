@@ -11,3 +11,29 @@ Why is it called pandas? I don't mean to de-mystify it, and you can continue to 
 Pandas has a wide range of capabilities beyond NumPy, especially when it comes to data structures and data manipulations needed to clean and analyze our data, but we'll still be using NumPy here and there. 
 
 Instructions for installation can be found [here](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html).
+
+And then we start by naming our imports:
+
+```
+>>> import pandas as pd
+>>> from pandas import Series, DataFrame
+```
+Whenever you see pd, we are referring to the pandas library. I also imported Series and Dataframe into the local namespace because they are frequently used, and now I can call them directly without typing pd.Series:
+
+```
+>>> my_obj = Series([4, 7, -2, -7])
+>>> my_obj
+0    4
+1    7
+2   -2
+3   -7
+dtype: int64
+>>> my_obj = pd.Series([2, 5, 8, 3])
+>>> my_obj
+0    2
+1    5
+2    8
+3    3
+dtype: int64
+```
+Feel free to do whatever you prefer when you are comfortable with direct imports like this. 

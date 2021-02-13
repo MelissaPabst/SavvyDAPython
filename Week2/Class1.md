@@ -38,16 +38,16 @@ dtype: int64
 ```
 Feel free to do whatever you prefer after you are comfortable with direct imports like this.
 
-## Series
+## pandas Data Structures Part I: Series and Index
 
-What we created above is a **series**, which is a 1D array-like object, similar to a NumPy 1D array, but has an associated array of index labels. 
+What we created above is a **series**, which is a 1D array-like object, similar to a NumPy 1D array, but has an associated array of index labels. The panda Series is for arrays of data of a single type, and can be thought of a column of a spreadsheet. 
 
 The most basic building of a series looks like this:
 
 ``` 
 >>> s = pd.Series(data, index=index)
 ```
-And "data" can be a Python dictionary, an ndarray, or even a scalar value. 
+And "data" can be a Python dictionary, an ndarray, or even a scalar value. We can provide attributes such as name, dtype, shape, index, and values when we create a panda Series.
 
 
 Here we have a panda series, with the index labels on the left and the data on the right:
@@ -89,7 +89,7 @@ p    0
 dtype: int64
 ```
 
-The default index label starts at 0, and goes up to length - 1, but we can specify the label should we choose by supplying "index = ". Note: index must be the same length as the data. 
+The default index label starts at 0, and goes up to length - 1, but we can specify the label (should we choose) by supplying "index = ". Note: A supplied index must be the same length as the data. 
  
 ```
  >>> labeled_obj = pd.Series([4, 6, -1, -2], index = ['m', 'e', 't', 'q'])
@@ -103,6 +103,20 @@ dtype: int64
 When we create a series from a scalar value, the value repeats to the size of the provided index. 
 
 ```
+# default is one value with one index
+>>> pd.Series(5)
+0    5
+dtype: int64
+# we can specify a range to determine the length of the series values
+>>> pd.Series(5, index = range(5))
+0    5
+1    5
+2    5
+3    5
+4    5
+dtype: int64
+>>> 
+# we can define 
 >>> pd.Series(5, index=["a", "b", "c", "d", "e"])
 a    5
 b    5
@@ -111,9 +125,28 @@ d    5
 e    5
 dtype: int64
 ```
+With any series, no matter the origin, if we don't like the default index labels, we can change them:
 
+```
+>>> s_street = pd.Series(5, index = range(5))
+>>> s_street
+0    5
+1    5
+2    5
+3    5
+4    5
+dtype: int64
+>>> s_street.index = ['Elmo', 'Cookie Monster', 'Big Bird', 'Oscar', 'Snuffy']
+>>> s_street
+Elmo              5
+Cookie Monster    5
+Big Bird          5
+Oscar             5
+Snuffy            5
+dtype: int64
+```
 
-We can call the **index** and **values** attributes of each array object we created:
+We can call the **index** and **values** attributes of each array object we created with methods of corresponding names (as well as many others you are already familiar with: ndim, size, shape, and many you haven't seen). A full list is [here in the documentation](https://pandas.pydata.org/pandas-docs/stable/reference/series.html). Give some a try to get practice:
 
 ```
 >>> my_obj = pd.Series([2, 5, 8, 3, 1, 0])
@@ -122,7 +155,6 @@ array([2, 5, 8, 3, 1, 0])
 >>> my_obj.index
 RangeIndex(start=0, stop=6, step=1)
 
-
 >>> labeled_obj = pd.Series([4, 6, -1, -2], index = ['m', 'e', 't', 'q'])
 >>> labeled_obj.values
 array([ 4,  6, -1, -2])
@@ -130,6 +162,42 @@ array([ 4,  6, -1, -2])
 Index(['m', 'e', 't', 'q'], dtype='object')
 >>> 
 ```
+A clever way to retrieve the values of the index object:
+
+```
+>>> my_obj_index = my_obj.index
+>>> my_obj_index
+RangeIndex(start=0, stop=6, step=1)
+>>> my_obj_index.values
+array([0, 1, 2, 3, 4, 5])
+```
+Or we can stack the method calls without assigning the index to a variable:
+
+```
+>>> my_obj.index.values
+array([0, 1, 2, 3, 4, 5])
+```
+We can check the name, dtype, shape, ndim, size, and uniqueness of index objects as well. [Here is a full list](https://pandas.pydata.org/pandas-docs/stable/reference/indexing.html).
+
+```
+>>> my_obj_index.dtype
+dtype('int64')
+>>> my_obj_index.shape
+(6,)
+>>> my_obj_index.is_unique
+True
+>>> my_obj_index.ndim
+1
+>>> my_obj_index.size
+6
+# OR by combining methods...
+>>> my_obj.index.shape
+(6,)
+>>> my_obj.index.size
+6
+# etc.
+```
+
 And just as with NumPy, we can select single values (or a set of values) from the series with indexing:
 
 ```
@@ -161,6 +229,65 @@ dtype: int64
 1    5
 dtype: int64
 ```
+Returning NaN: If we are building a series object from a dictionary, as we did earlier, the resulting series will place the keys in the original order. However, we can play with it. We can rearrange the order to how we want it to display. Notice below that if we put a key in the index that has no value in the dictionary, we get "NaN". 
+
+```
+>>> dict = {"r": 2, "d": 2, "c": 3, "p": 0}
+>>> dict_series = pd.Series(dict)
+>>> dict_series
+r    2
+d    2
+c    3
+p    0
+dtype: int64
+>>> bots = ['r', 'y', 'c', 'p']
+>>> new_series = pd.Series(dict, index = bots)
+>>> new_series
+r    2.0
+y    NaN
+c    3.0
+p    0.0
+dtype: float64 
+>>> bots = ['r', 'y', 'p', 'c']
+>>> new_series = pd.Series(dict, index = bots)
+>>> new_series
+r    2.0
+y    NaN
+p    0.0
+c    3.0
+dtype: float64
+```
+
+The panda functions **isnull** and **notnull** are used to detect missing data:
+
+```
+>>> pd.isnull(new_series)
+r    False
+y     True
+p    False
+c    False
+dtype: bool
+>>> pd.notnull(new_series)
+r     True
+y    False
+p     True
+c     True
+dtype: bool
+# using instance methods
+>>> new_series.isnull()
+r    False
+y     True
+p    False
+c    False
+dtype: bool
+>>> new_series.notnull()
+r     True
+y    False
+p     True
+c     True
+dtype: bool
+```
+
 We can perform mathematical operations, scalar operations, NumPy functions, etc. and the series will preserve the index-value relationship:
 
 ```
@@ -189,5 +316,9 @@ p    0
 dtype: int64
 >>> 
 ```
+
+
+## pandas Data Structures Part II: DataFrame
+
 
  

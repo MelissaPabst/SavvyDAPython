@@ -4,7 +4,7 @@ We've covered a lot of information, but tonight we'll keep it short to review an
 
 ## MatPlotLib - Visualizing data with NumPy
 
-Instructions for installation are [here](https://matplotlib.org/3.3.3/users/installing.html).
+Instructions for installation are [here](https://matplotlib.org/stable/index.html).
 
 If you need a quick refresher on plotting with x and y axis, look [here](https://www.hmhco.com/blog/teaching-x-and-y-axis-graph-on-coordinate-grids)
 

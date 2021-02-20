@@ -229,10 +229,16 @@ Remember, the first number in the tuple selects the matrix, so if we have a 1D a
   [52  1 87 29 37]]]
 >>> 
 ```
+Transposing uses the axis as a keyword argument. Let's flip some x's and y's to create a new view!
 
-Transposing uses the axis as a keyword argument. Let's flip some x's and y's to create a new view
+Transposing a 1D array returns an unchanged view of the original array:
 
-Transposing a 1-D array returns an unchanged view of the original array.
+```
+>>> array = np.array([1, 2, 3])
+>>> np.transpose(array)
+array([1, 2, 3])
+```
+An example of transposing a 2D array:
 
 ```
 >>> abc = np.arange(4).reshape((2, 2))

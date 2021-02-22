@@ -370,7 +370,14 @@ Not to blow your minds or anything, but a DataFrame is basically representation 
 
 ![DataFrame example](dfexample.jpg)
 
+Let's create an empty DataFrame: 
 
+```>>> df1 = pd.DataFrame()
+>>> df1
+Empty DataFrame
+Columns: []
+Index: []
+```
 
 Any Series can be a DataFrame on its own: 
 
@@ -396,6 +403,24 @@ PANDA!!
 5                                     0
 >>> 
 ```
+A multi-Series DataFrame can easily be created by a dictionary of equal-length lists or NumPy arrays. This will produce a DataFrame with an automatically assigned index and columns placed in sorted order. 
+
+```
+>>> data = {'student':['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade':[97, 56, 76, 85, 99, 100, 98], 'age':[13, 13, 13, 13, 13, 14, 13]}
+>>> df = pd.DataFrame(data)
+>>> df
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> 
+```
+Practice: Build a DataFrame on your own, giving it at least 10 rows of data. 
+
 
 
 

@@ -6,7 +6,7 @@ We're switching gears a bit; NumPy taught us how to do math with ndarrays of sin
 
 Remember MatPlotLib? Well, pandas provides **wrappers** around the matplotlib library, reducing the lines of code needed to use matploblib code. You may recall from your lesson on object-oriented programming the concept of **abstraction**, which aims to hide the bits that aren't needed, effectively reducing the complexity and therefore the lines of code. Well, that's what a wrapper does. You don't need to know how your coffee pot works, but that you can get some hot bean juice if you do x, y, and z steps. A wrapper is like the buttons on the coffee pot. 
 
-Why is it called pandas? I don't mean to de-mystify it, and you can continue to picture in your mind cute little pandas typing away inside your computer, but it comes from *panel data*, an econometrics term you don't hear a lot and is the term for multidimensional structured datasets. (Please stop trying to insert bamboo in your floppy disk drive.)
+Why is it called pandas? I don't mean to de-mystify it, and you can continue to picture in your mind cute little pandas typing away inside your computer, but it comes from *panel data*, an econometrics term you don't hear a lot and is the term for multidimensional structured datasets. (Please stop trying to insert bamboo into your floppy disk drive.)
 
 Pandas has a wide range of capabilities beyond NumPy, especially when it comes to data structures and data manipulations needed to clean and analyze our data, but we'll still be using NumPy here and there. 
 
@@ -42,7 +42,7 @@ Feel free to do whatever you prefer after you are comfortable with direct import
 
 What we created above is a **series**, which is a 1D array-like object, similar to a NumPy 1D array, but has an associated array of index labels. The panda Series is for arrays of data of a single type, and can be thought of a column of a spreadsheet. 
 
-The most basic building of a series looks like this:
+The most basic build of a series looks like this:
 
 ``` 
 >>> s = pd.Series(data, index=index)
@@ -162,6 +162,7 @@ array([ 4,  6, -1, -2])
 Index(['m', 'e', 't', 'q'], dtype='object')
 >>> 
 ```
+
 A clever way to retrieve the values of the index object:
 
 ```
@@ -171,12 +172,31 @@ RangeIndex(start=0, stop=6, step=1)
 >>> my_obj_index.values
 array([0, 1, 2, 3, 4, 5])
 ```
-Or we can stack the method calls without assigning the index to a variable:
+Or we can stack the method calls without assigning the index to a variable (create index object, then call the method on the index object all in one line!):
 
 ```
 >>> my_obj.index.values
 array([0, 1, 2, 3, 4, 5])
 ```
+
+We can give the Series object and its index object names: 
+
+```
+>>> my_obj = pd.Series([2, 5, 8, 3, 1, 0])
+>>> my_obj.name = 'MY FIRST PANDA OBJECT!!'
+>>> my_obj.index.name = 'PANDA!!'
+>>> my_obj
+PANDA!!
+0    2
+1    5
+2    8
+3    3
+4    1
+5    0
+Name: MY FIRST PANDA OBJECT!!, dtype: int64
+>>> 
+```
+
 We can check the name, dtype, shape, ndim, size, and uniqueness of index objects as well. [Here is a full list](https://pandas.pydata.org/pandas-docs/stable/reference/indexing.html).
 
 ```
@@ -316,9 +336,68 @@ p    0
 dtype: int64
 >>> 
 ```
-
+When we perform operations on Series with misaligned indexes, the resulting Series will have an index label aligned by arithmetic operations. This is similar to a 'join' function used in databases (think SQL). Check out the outcome of the index labels of the following:
+ 
+```
+>>> dict_series
+r    2
+d    2
+c    3
+p    0
+dtype: int64
+>>> new_series
+r    2.0
+y    NaN
+c    3.0
+p    0.0
+dtype: float64
+>>> dict_series + new_series
+c    6.0
+d    NaN
+p    0.0
+r    4.0
+y    NaN
+dtype: float64
+>>> 
+```
 
 ## pandas Data Structures Part II: DataFrame
+
+Not to blow your minds or anything, but a DataFrame is basically representation of a table or spreadsheet. Each column can be a Series of varying origins. DataFrames have a row index (axis = 0) and column index (axis = 1). Here are some basic examples to help you visualize what we will be creating and working with: 
+
+![DataFrame construction](SandD.jpg)
+
+
+![DataFrame example](dfexample.jpg)
+
+
+
+Any Series can be a DataFrame on its own: 
+
+```
+>>> my_obj
+PANDA VALUES!!
+0    2
+1    5
+2    8
+3    3
+4    1
+5    0
+Name: MY FIRST PANDA OBJECT!!, dtype: int64
+>>> df = pd.DataFrame(my_obj)
+>>> df
+                MY FIRST PANDA OBJECT!!
+PANDA VALUES!!                         
+0                                     2
+1                                     5
+2                                     8
+3                                     3
+4                                     1
+5                                     0
+>>> 
+```
+
+
 
 
  

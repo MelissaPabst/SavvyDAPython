@@ -419,7 +419,10 @@ A multi-Series DataFrame can easily be created by a dictionary of equal-length l
 6   Thomas     98   13
 >>> 
 ```
-Practice: Build a DataFrame on your own, giving it at least 10 rows of data. 
+Practice: Build a DataFrame on your own, giving it at least 10 rows of data.
+
+Of course, we can specify the column order: 
+
 
 
 

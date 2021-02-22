@@ -376,7 +376,7 @@ Any Series can be a DataFrame on its own:
 
 ```
 >>> my_obj
-PANDA VALUES!!
+PANDA!!
 0    2
 1    5
 2    8
@@ -387,7 +387,7 @@ Name: MY FIRST PANDA OBJECT!!, dtype: int64
 >>> df = pd.DataFrame(my_obj)
 >>> df
                 MY FIRST PANDA OBJECT!!
-PANDA VALUES!!                         
+PANDA!!                         
 0                                     2
 1                                     5
 2                                     8

@@ -489,8 +489,93 @@ Name: age, dtype: int64
 >>> 
 ```
 
+We can use the index objects to return the contents of rows at a location:
 
+```
+>>> df
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df.loc[4]
+student    Elaine
+grade          99
+age            13
+Name: 4, dtype: object
+>>> 
+```
+To demonstrate with index object with specified names:
+ 
 
+```
+>>> data
+{'student': ['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade': [97, 56, 76, 85, 99, 100, 98], 'age': [13, 13, 13, 13, 13, 14, 13]}
+>>> df = pd.DataFrame(data, index = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'])
+>>> df
+        student  grade  age
+red        Jane     97   13
+orange  Delilah     56   13
+yellow     Kyle     76   13
+green       Sam     85   13
+blue     Elaine     99   13
+indigo   Arthur    100   14
+violet   Thomas     98   13
+>>> df.loc['blue']
+student    Elaine
+grade          99
+age            13
+Name: blue, dtype: object
+>>> 
+```
+
+Remember our DataFrame with NaN for "height"? We can assign values, either scalar or with an array:
+
+```
+>>> df3
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+>>> df3['height'] = 60
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      60
+1     56   13  Delilah      60
+2     76   13     Kyle      60
+3     85   13      Sam      60
+4     99   13   Elaine      60
+5    100   14   Arthur      60
+6     98   13   Thomas      60
+>>> df3['height'] = (60, 55, 60, 55, 60, 55, 60)
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      60
+1     56   13  Delilah      55
+2     76   13     Kyle      60
+3     85   13      Sam      55
+4     99   13   Elaine      60
+5    100   14   Arthur      55
+6     98   13   Thomas      60
+>>> df3['height'] = np.arange(56, 63, 1)
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
+>>> 
+```
 
 
 

@@ -424,6 +424,72 @@ Practice: Build a DataFrame on your own, giving it at least 10 rows of data.
 
 Of course, we can specify the column order: 
 
+```
+>>> df2 = pd.DataFrame(data, columns=['grade', 'age', 'student'])
+>>> df2
+   grade  age  student
+0     97   13     Jane
+1     56   13  Delilah
+2     76   13     Kyle
+3     85   13      Sam
+4     99   13   Elaine
+5    100   14   Arthur
+6     98   13   Thomas
+>>> 
+```
+Watch what happens when we pass a column that isn't in the original data dictionary:
+
+```
+>>> df3
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+>>> 
+```
+No data was provided for "height", so the values will appear to be missing. 
+
+We can call the columns attribute of the DataFrames, just in case we forget what columns exist. Pretty handy for larger DataFrames!:
+
+```
+>>> df.columns
+Index(['student', 'grade', 'age'], dtype='object')
+>>> df2.columns
+Index(['grade', 'age', 'student'], dtype='object')
+>>> df3.columns
+Index(['grade', 'age', 'student', 'height'], dtype='object')
+>>> 
+```
+
+We can retrieve a Series from a DataFrame either by dictionary notation or by column-named attribute: 
+
+```
+>>> df['age']
+0    13
+1    13
+2    13
+3    13
+4    13
+5    14
+6    13
+Name: age, dtype: int64
+>>> df.age
+0    13
+1    13
+2    13
+3    13
+4    13
+5    14
+6    13
+Name: age, dtype: int64
+>>> 
+```
+
+
 
 
 

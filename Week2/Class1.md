@@ -576,8 +576,21 @@ Remember our DataFrame with NaN for "height"? We can assign values, either scala
 6     98   13   Thomas      62
 >>> 
 ```
+We can also assign values with a Series. Take note, if the length of the Series does not match the length of the DataFrame, NaN will be inserted into any index value left blank:
 
-
+```
+>>> new_height = pd.Series([70, 71, 72], index = [1, 4, 6])
+>>> df3['height'] = new_height
+>>> df3
+   grade  age  student  height
+0     97   13     Jane     NaN
+1     56   13  Delilah    70.0
+2     76   13     Kyle     NaN
+3     85   13      Sam     NaN
+4     99   13   Elaine    71.0
+5    100   14   Arthur     NaN
+6     98   13   Thomas    72.0
+```
 
 
  

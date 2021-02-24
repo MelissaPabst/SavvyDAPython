@@ -404,7 +404,7 @@ PANDA!!
 5                                     0
 >>> 
 ```
-Or we can transfor the Series with .to_frame()
+Or we can transform the Series to a DataFrame with .to_frame()
 
 ```>>> my_obj
 PANDA VALUES!!
@@ -656,4 +656,6 @@ That kind of pokes fun at the short kids, so let's delete the column "tall":
 >>> 
 ```
 Be careful; deleting a column isn't something you would want to do accidentally.
+
+
 

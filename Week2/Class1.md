@@ -372,7 +372,8 @@ Not to blow your minds or anything, but a DataFrame is basically representation 
 
 Let's create an empty DataFrame: 
 
-```>>> df1 = pd.DataFrame()
+```
+>>> df1 = pd.DataFrame()
 >>> df1
 Empty DataFrame
 Columns: []

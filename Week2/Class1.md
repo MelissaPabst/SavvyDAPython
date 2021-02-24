@@ -614,6 +614,46 @@ We can also assign values with a Series. Take note, if the length of the Series 
 5    100   14   Arthur     NaN
 6     98   13   Thomas    72.0
 ```
+Let's reexamine our df3 and document with a new column whether a student is considered tall or not:
 
+```
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
+>>> df3['tall'] = df3.height >= 60
+>>> df3
+   grade  age  student  height   tall
+0     97   13     Jane      56  False
+1     56   13  Delilah      57  False
+2     76   13     Kyle      58  False
+3     85   13      Sam      59  False
+4     99   13   Elaine      60   True
+5    100   14   Arthur      61   True
+6     98   13   Thomas      62   True
+>>> 
+```
+The column "tall" was added, containing boolean values for rows that have a height >=60. 
 
- 
+That kind of pokes fun at the short kids, so let's delete the column "tall":
+
+```
+>>> del df3['tall']
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
+>>> 
+```
+Be careful; deleting a column isn't something you would want to do accidentally.
+

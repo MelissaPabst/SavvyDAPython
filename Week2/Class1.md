@@ -443,6 +443,18 @@ A multi-Series DataFrame can easily be created by a dictionary of equal-length l
 6   Thomas     98   13
 >>> 
 ```
+We can create a DataFrame from a nested dict of dicts, where the outer data is the columns and the inner data as the rows:
+
+```
+>>> dict_data = {'St. Louis': {2020: 3.4, 2021: 3.2}, 'Kansas City': {2020: 2.3, 2021: 2.3}}
+>>> dict_df = pd.DataFrame(dict_data)
+>>> dict_df
+      St. Louis  Kansas City
+2020        3.4          2.3
+2021        3.2          2.3
+>>> 
+```
+
 Practice: Build a DataFrame on your own, giving it at least 10 rows of data.
 
 Of course, we can specify the column order: 

@@ -404,6 +404,29 @@ PANDA!!
 5                                     0
 >>> 
 ```
+Or we can transfor the Series with .to_frame()
+
+```>>> my_obj
+PANDA VALUES!!
+0    2
+1    5
+2    8
+3    3
+4    1
+5    0
+Name: MY FIRST PANDA OBJECT!!, dtype: int64
+>>> my_obj.to_frame()
+                MY FIRST PANDA OBJECT!!
+PANDA VALUES!!                         
+0                                     2
+1                                     5
+2                                     8
+3                                     3
+4                                     1
+5                                     0
+>>> 
+```
+
 A multi-Series DataFrame can easily be created by a dictionary of equal-length lists or NumPy arrays. This will produce a DataFrame with an automatically assigned index and columns placed in sorted order. 
 
 ```
@@ -532,7 +555,7 @@ Name: blue, dtype: object
 >>> 
 ```
 
-Remember our DataFrame with NaN for "height"? We can assign values, either scalar or with an array:
+Remember our DataFrame with NaN for "height"? We can assign values, either scalar or with an array (Note, values length must match the DataFrame length.):
 
 ```
 >>> df3

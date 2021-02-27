@@ -51,6 +51,20 @@ Let's do a quick practice and use the above methods to retrieve the following 2 
 
 Get help if you need it!
 
+There is also the values attribute you can call on a df, which returns a 2D ndarray:
+
+```
+>>> df5.values
+array([['Jane', 97, 13],
+       ['Delilah', 56, 13],
+       ['Kyle', 76, 13],
+       ['Sam', 85, 13],
+       ['Elaine', 99, 13],
+       ['Arthur', 100, 14],
+       ['Thomas', 98, 13]], dtype=object)
+>>> 
+```
+
 ## Retrieving Rows
 
 What if we want all of the info on Jane? She is in row 0, so we can do the following:
@@ -136,7 +150,7 @@ Thomas      98   13
 6   Thomas     98   13
 >>> 
 ```
-Want to name your index? We can do that too.
+Want to name your index? We can do that too, with the name attribute.
 
 ```
 >>> df5
@@ -161,6 +175,32 @@ studentID
 6           Thomas     98   13
 >>> 
 ```
+There is also a name attribute for columns:
+
+```
+>>> df5
+           student  grade  age
+studentID                     
+0             Jane     97   13
+1          Delilah     56   13
+2             Kyle     76   13
+3              Sam     85   13
+4           Elaine     99   13
+5           Arthur    100   14
+6           Thomas     98   13
+>>> df5.columns.name = 'student info'
+>>> df5
+student info  student  grade  age
+studentID                        
+0                Jane     97   13
+1             Delilah     56   13
+2                Kyle     76   13
+3                 Sam     85   13
+4              Elaine     99   13
+5              Arthur    100   14
+6              Thomas     98   13
+>>> 
+```
 
 ## Add a Row
 
@@ -170,5 +210,7 @@ studentID
 
 
 
-
+## Transpose
+## Pop
+## 
 

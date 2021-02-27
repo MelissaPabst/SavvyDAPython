@@ -23,18 +23,27 @@ How do we get the name of the student at index 0? We have several options:
 
 
 ```
->>> df5.iloc[0][0]
-'Jane'
 >>> df5.loc[0]['student']
+'Jane'
+>>> df5.iloc[0][0]
 'Jane'
 >>> df5.at[0, 'student']
 'Jane'
 >>> df5.iat[0, 0]
 'Jane'
 ```
-Note the subtle differences with each method. 
+Note the subtle differences with each method:
 
-Let's do a quick practice and retrieve the following 2 values: 
+.loc[] works on the labels of your index to access a group of rows/colums.
+
+.iloc[] works on the integer positions in your index to access a group of rows/columns.
+
+.at[] lets us access a single value for a row/column label pair.
+
+.iat[] lest us access a single value for a row/column pair by integer position.
+
+
+Let's do a quick practice and use the above methods to retrieve the following 2 values: 
 
 1. Thomas's grade
 
@@ -81,7 +90,7 @@ When we created df5, the index was automatically assigned to be a numerical rang
 
 ```
 >>> df5
-'   student  grade  age
+   student  grade  age
 0     Jane     97   13
 1  Delilah     56   13
 2     Kyle     76   13
@@ -89,7 +98,8 @@ When we created df5, the index was automatically assigned to be a numerical rang
 4   Elaine     99   13
 5   Arthur    100   14
 6   Thomas     98   13
->>> df5.set_index('student')
+>>> df5_new = df5.set_index('student')
+>>> df5_new
          grade  age
 student            
 Jane        97   13
@@ -99,6 +109,56 @@ Sam         85   13
 Elaine      99   13
 Arthur     100   14
 Thomas      98   13
+>>>
+```
+
+Great news! Setting the index is reversible. Don't like it? Change it back with df.reset_index().
+
+```
+>>> df5_new
+         grade  age
+student            
+Jane        97   13
+Delilah     56   13
+Kyle        76   13
+Sam         85   13
+Elaine      99   13
+Arthur     100   14
+Thomas      98   13
+>>> df5_new.reset_index()
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> 
+```
+Want to name your index? We can do that too.
+
+```
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5.index.name = 'studentID'
+>>> df5
+           student  grade  age
+studentID                     
+0             Jane     97   13
+1          Delilah     56   13
+2             Kyle     76   13
+3              Sam     85   13
+4           Elaine     99   13
+5           Arthur    100   14
+6           Thomas     98   13
 >>> 
 ```
 

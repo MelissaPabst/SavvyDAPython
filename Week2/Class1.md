@@ -491,7 +491,7 @@ Watch what happens when we pass a column that isn't in the original data diction
 6     98   13   Thomas    NaN
 >>> 
 ```
-No data was provided for "height", so the values will appear to be missing. 
+We just added a column! No data was provided for "height", so the values will appear to be missing. 
 
 We can call the columns attribute of the DataFrames, just in case we forget what columns exist. Pretty handy for larger DataFrames!:
 

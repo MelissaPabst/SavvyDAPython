@@ -370,6 +370,8 @@ Not to blow your minds or anything, but a DataFrame is basically representation 
 
 ![DataFrame example](dfexample.jpg)
 
+In the above example, think about the NaN values could have came about. 
+
 Let's create an empty DataFrame: 
 
 ```
@@ -475,6 +477,9 @@ Of course, we can specify the column order:
 Watch what happens when we pass a column that isn't in the original data dictionary:
 
 ```
+>>> data
+{'student': ['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade': [97, 56, 76, 85, 99, 100, 98], 'age': [13, 13, 13, 13, 13, 14, 13]}
+>>> df3 = pd.DataFrame(data, columns=['grade', 'age', 'student', 'height'])
 >>> df3
    grade  age  student height
 0     97   13     Jane    NaN

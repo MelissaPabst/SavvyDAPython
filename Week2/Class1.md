@@ -631,7 +631,7 @@ We can also assign values with a Series. Take note, if the length of the Series 
 5    100   14   Arthur     NaN
 6     98   13   Thomas    72.0
 ```
-Let's reexamine our df3 and document with a new column whether a student is considered tall or not:
+Let's reexamine our df3 and document with a new column, with boolean values, whether a student is considered tall or not:
 
 ```
 >>> df3

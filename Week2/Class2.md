@@ -1,6 +1,6 @@
-## DataFrames, Continued. 
+# DataFrames, Continued. 
 
-# Retrieving Values
+## Retrieving Values
 
 Consider the following DataFrame: 
 
@@ -42,7 +42,7 @@ Let's do a quick practice and retrieve the following 2 values:
 
 Get help if you need it!
 
-# Retrieving Rows
+## Retrieving Rows
 
 What if we want all of the info on Jane? She is in row 0, so we can do the following:
  
@@ -57,7 +57,7 @@ Name: 0, dtype: object
 
 Try it yourself, but get the data for Elaine. 
 
-# Retrieving Columns
+## Retrieving Columns
 
 Of course, if we wanted to do an average of the grades, we would need to gather all the grades, first. Let's do it!
 
@@ -75,7 +75,7 @@ Name: grade, dtype: int64
 ```
 Practice getting column data by getting the names of the students. 
 
-# Set Your Own Index
+## Set Your Own Index
 
 When we created df5, the index was automatically assigned to be a numerical range. In some situations that may not be helpful or convenient. We have the ability to reassign the index column with df.set_index().
 
@@ -102,7 +102,7 @@ Thomas      98   13
 >>> 
 ```
 
-# Add a Row
+## Add a Row
 
 
 

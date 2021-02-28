@@ -100,7 +100,7 @@ Practice getting column data by getting the names of the students.
 
 ## Set Your Own Index
 
-When we created df5, the index was automatically assigned to be a numerical range. In some situations that may not be helpful or convenient. We have the ability to reassign the index column with df.set_index().
+When we created df5, the index was automatically assigned to be a numerical range spanning the size of your df. In some situations that may not be helpful or convenient. We have the ability to reassign the index column with df.set_index().
 
 ```
 >>> df5
@@ -204,9 +204,93 @@ studentID
 
 ## Add a Row
 
+We have a new student, Steve, who also took the test, so we need to add a row to our df. 
 
+```
+>>> df5.loc[7] = ['Steve', 97, 14]
+>>> df5
+student info  student  grade  age
+studentID                        
+0                Jane     97   13
+1             Delilah     56   13
+2                Kyle     76   13
+3                 Sam     85   13
+4              Elaine     99   13
+5              Arthur    100   14
+6              Thomas     98   13
+7               Steve     97   14
+>>> 
+```
 
+What do you think would happen if we assigned Steve to .loc[2] instead of .loc[7]?
 
+```
+>>> df5
+student info  student  grade  age
+studentID                        
+0                Jane     97   13
+1             Delilah     56   13
+2                Kyle     76   13
+3                 Sam     85   13
+4              Elaine     99   13
+5              Arthur    100   14
+6              Thomas     98   13
+7               Steve     97   14
+>>> df5.loc[2] = ['Steve', 97, 14]
+>>> df5
+student info  student  grade  age
+studentID                        
+0                Jane     97   13
+1             Delilah     56   13
+2               Steve     97   14
+3                 Sam     85   13
+4              Elaine     99   13
+5              Arthur    100   14
+6              Thomas     98   13
+7               Steve     97   14
+>>> 
+```
+Dangit, we overwrote Kyle's info. We didn't want to do that! I hope we made a backup somewhere... 
+
+## Add a column
+
+We can append a column by adding a Series to an existing DataFrame using .loc[]:
+
+```
+>>> df5.loc[:,'height'] = pd.Series([56, 62, 67, 54, 78, 76, 56, 57])
+>>> df5
+student info  student  grade  age  height
+studentID                                
+0                Jane     97   13      56
+1             Delilah     56   13      62
+2                Kyle     76   13      67
+3                 Sam     85   13      54
+4              Elaine     99   13      78
+5              Arthur    100   14      76
+6              Thomas     98   13      56
+7               Steve     97   14      57
+>>> 
+```
+If appending (adding it to the end) is not what we want to do, we can instead use df.insert(), and place the column in a desired index. 
+
+```
+# insert(loc, column name, data, allow_duplicates)
+>>> df5.insert(1, 'height', height, False)
+>>> df5
+student info  student  height  grade  age
+studentID                                
+0                Jane      56     97   13
+1             Delilah      62     56   13
+2                Kyle      67     76   13
+3                 Sam      54     85   13
+4              Elaine      78     99   13
+5              Arthur      76    100   14
+6              Thomas      56     98   13
+7               Steve      57     97   14
+>>> 
+```
+
+## Append and Concat
 
 
 

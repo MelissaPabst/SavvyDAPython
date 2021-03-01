@@ -320,6 +320,43 @@ studentID
 7               Steve     97   14      57
 >>> 
 ```
+We can declare a list and convert it into a column:
+
+```
+>>> hometowns = ['Chicago', 'Minneapolis', 'Cairo', 'Vancouver', 'St. Louis', 'Seattle', 'Carbondale', 'Los Angeles']
+>>> df5['birthplace'] = hometowns
+>>> df5
+student info  student  height  grade  age   birthplace
+studentID                                             
+0                Jane      56     97   13      Chicago
+1             Delilah      62     56   13  Minneapolis
+2                Kyle      67     76   13        Cairo
+3                 Sam      54     85   13    Vancouver
+4              Elaine      78     99   13    St. Louis
+5              Arthur      76    100   14      Seattle
+6              Thomas      56     98   13   Carbondale
+7               Steve      57     97   14  Los Angeles
+>>> 
+```
+
+We can use .assign() to return a new object with all original columns in addition to new ones:
+
+```
+>>> df5_towns = df5.assign(birthplace = hometowns)
+>>> df5_towns
+student info  student  height  grade  age   birthplace
+studentID                                             
+0                Jane      56     97   13      Chicago
+1             Delilah      62     56   13  Minneapolis
+2                Kyle      67     76   13        Cairo
+3                 Sam      54     85   13    Vancouver
+4              Elaine      78     99   13    St. Louis
+5              Arthur      76    100   14      Seattle
+6              Thomas      56     98   13   Carbondale
+7               Steve      57     97   14  Los Angeles
+>>> 
+```
+
 If appending (adding it to the end) is not what we want to do, we can instead use df.insert(), and place the column in a desired index. 
 
 ```
@@ -338,6 +375,7 @@ studentID
 7               Steve      57     97   14
 >>> 
 ```
+By far the easiest and most recommended method is to use .loc[], but as you have probably noticed there are multiple ways to accomplish the manipulation you need.
 
 ## Append and Concat
 

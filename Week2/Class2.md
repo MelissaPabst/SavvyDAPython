@@ -19,11 +19,13 @@ Consider the following DataFrame:
 6   Thomas     98   13
 ```
 
+We briefly looked at .loc[] last class to retrieve a row. Let's expand its use and look at other methods. 
+
 How do we get the name of the student at index 0? We have several options:
 
 
 ```
->>> df5.loc[0]['student']
+>>> df5.loc[0]['student'] 
 'Jane'
 >>> df5.iloc[0][0]
 'Jane'
@@ -150,6 +152,53 @@ Thomas      98   13
 6   Thomas     98   13
 >>> 
 ```
+The method .reindex() allows us to create a new object with the data realigned to the new index: 
+
+```
+>>> df5
+student info  student  height  grade  age
+studentID                                
+0                Jane      56     97   13
+1             Delilah      62     56   13
+2                Kyle      67     76   13
+3                 Sam      54     85   13
+4              Elaine      78     99   13
+5              Arthur      76    100   14
+6              Thomas      56     98   13
+7               Steve      57     97   14
+>>> df5_index = df5.reindex([1, 2, 3, 4, 5, 6, 7, 0])
+>>> df5_index
+student info  student  height  grade  age
+studentID                                
+1             Delilah      62     56   13
+2                Kyle      67     76   13
+3                 Sam      54     85   13
+4              Elaine      78     99   13
+5              Arthur      76    100   14
+6              Thomas      56     98   13
+7               Steve      57     97   14
+0                Jane      56     97   13
+>>> 
+```
+The columns can be reindexed with the columns keyword:
+
+
+```
+>>> df5_index = df5.reindex(columns = stats)
+>>> df5_index
+student info  student  grade  age  height
+studentID                                
+0                Jane     97   13      56
+1             Delilah     56   13      62
+2                Kyle     76   13      67
+3                 Sam     85   13      54
+4              Elaine     99   13      78
+5              Arthur    100   14      76
+6              Thomas     98   13      56
+7               Steve     97   14      57
+>>> 
+```
+
 Want to name your index? We can do that too, with the name attribute.
 
 ```
@@ -295,6 +344,26 @@ studentID
 
 
 ## Transpose
-## Pop
-## 
+
+Swapping rows and columns is easy, and similar to transposing with NumPy arrays:
+
+```
+>>> df
+        student  grade  age  height
+red        Jane     97   13     NaN
+orange  Delilah     56   13     NaN
+yellow     Kyle     76   13     NaN
+green       Sam     85   13     NaN
+blue     Elaine     99   13     NaN
+indigo   Arthur    100   14     NaN
+violet   Thomas     98   13     NaN
+>>> df.T
+          red   orange yellow green    blue  indigo  violet
+student  Jane  Delilah   Kyle   Sam  Elaine  Arthur  Thomas
+grade      97       56     76    85      99     100      98
+age        13       13     13    13      13      14      13
+height    NaN      NaN    NaN   NaN     NaN     NaN     NaN
+>>> 
+```
+ 
 

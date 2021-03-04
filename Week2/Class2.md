@@ -301,6 +301,51 @@ studentID
 ```
 Dangit, we overwrote Kyle's info. We didn't want to do that! I hope we made a backup somewhere... 
 
+There is also an append function to add a row: 
+
+```
+>>> df6 = pd.DataFrame({"grade":[87], "age":[13], "student":['Rex'], "height":[76]})
+>>> df3
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+>>> df6
+   grade  age student  height
+0     87   13     Rex      76
+>>> df3.append(df6)
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+0     87   13      Rex     76
+>>> 
+```
+Pay attention to the index when using .append(). You can set "ingore_index" to True to avoid keeping the index from the original df. In this case, pretend we needed the row to be assigned a new index number. 
+
+```
+>>> df3.append(df6, ignore_index=True)
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+7     87   13      Rex     76
+>>> 
+ ```
+
+
 ## Add a column
 
 We can append a column by adding a Series to an existing DataFrame using .loc[]:

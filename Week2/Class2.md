@@ -301,7 +301,7 @@ studentID
 ```
 Dangit, we overwrote Kyle's info. We didn't want to do that! I hope we made a backup somewhere... 
 
-There is also an append function to add a row: 
+There is also an append function to add a row, or an entire df: 
 
 ```
 >>> df6 = pd.DataFrame({"grade":[87], "age":[13], "student":['Rex'], "height":[76]})
@@ -329,7 +329,7 @@ There is also an append function to add a row:
 0     87   13      Rex     76
 >>> 
 ```
-Pay attention to the index when using .append(). You can set "ingore_index" to True to avoid keeping the index from the original df. In this case, pretend we needed the row to be assigned a new index number. 
+Pay attention to the index when using .append(). You can set "ingore_index" to True to avoid maintaining the index from the original df. In this case, pretend we needed the row to be assigned a new index number. 
 
 ```
 >>> df3.append(df6, ignore_index=True)
@@ -344,6 +344,23 @@ Pay attention to the index when using .append(). You can set "ingore_index" to T
 7     87   13      Rex     76
 >>> 
  ```
+When we use .append(), columns not in the original df are added as new columns and the new cells are populated with NaN value. 
+
+```
+>>> df6 = pd.DataFrame({"grade":[87], "age":[13], "student":['Rex'], "height":[76], "hometown":["St. Louis"]})
+>>> df3.append(df6)
+   grade  age  student height   hometown
+0     97   13     Jane    NaN        NaN
+1     56   13  Delilah    NaN        NaN
+2     76   13     Kyle    NaN        NaN
+3     85   13      Sam    NaN        NaN
+4     99   13   Elaine    NaN        NaN
+5    100   14   Arthur    NaN        NaN
+6     98   13   Thomas    NaN        NaN
+0     87   13      Rex     76  St. Louis
+>>> 
+```
+In a way, we just added a column! But let's look at more efficient ways to do that. 
 
 
 ## Add a column
@@ -422,7 +439,6 @@ studentID
 ```
 By far the easiest and most recommended method is to use .loc[], but as you have probably noticed there are multiple ways to accomplish the manipulation you need.
 
-## Append and Concat
 
 
 

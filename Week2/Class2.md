@@ -136,7 +136,19 @@ green     12
 Name: one, dtype: int64
 ```
 
-There is also the values attribute you can call on a df, which returns a 2D ndarray:
+In summary:
+
+**df[val]** Selects a column or sequence of columns from a DataFrame
+
+**df.loc[val]** Selects a single row or subset of rows from a DataFrame by label
+
+**df.loc[:, val]** Selects a single column or subset of columns by label
+
+**df.iloc[val1, val2]** Selects both rows and columns by label
+
+**df.iloc[where]** Selects single row or subset of rows from a DataFrame by integer position
+
+There is also the **values** attribute you can call on a df, which returns a 2D ndarray:
 
 ```
 >>> df5.values

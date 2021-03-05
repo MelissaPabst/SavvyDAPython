@@ -1,4 +1,4 @@
-# DataFrames, Continued. 
+# Series and DataFrames, cont'd. 
 
 ## Retrieving Values: Indexing options 
 
@@ -102,7 +102,7 @@ Name: 3, dtype: object
 We can also use Indexing and Slicing methods as we used with Python, NumPy, and panda Series:
 
 ```
->>> data = pd.DataFrame(np.arange(16).reshape((4,4),), index=['red', 'yellow', 'orange','green'], columns=['one', 'two', 'three', 'four'])
+>>> data = pd.DataFrame(np.arange(16).reshape(4,4), index=['red', 'yellow', 'orange','green'], columns=['one', 'two', 'three', 'four'])
 >>> data
         one  two  three  four
 red       0    1      2     3
@@ -557,5 +557,75 @@ age        13       13     13    13      13      14      13
 height    NaN      NaN    NaN   NaN     NaN     NaN     NaN
 >>> 
 ```
- 
+## Drop
+
+Return a view or assign a new object with the indicated value(s) removed from an axis:
+
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+# drop a row
+>>> df5.drop(6)
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+# drop two rows
+>>> df5.drop([5, 4])
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+6   Thomas     98   13
+>>> 
+# drop a column. must specify which axis, or "columns"
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5.drop('age', axis=1)
+   student  grade
+0     Jane     97
+1  Delilah     56
+2     Kyle     76
+3      Sam     85
+4   Elaine     99
+5   Arthur    100
+6   Thomas     98
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5.drop('age', axis='columns')
+   student  grade
+0     Jane     97
+1  Delilah     56
+2     Kyle     76
+3      Sam     85
+4   Elaine     99
+5   Arthur    100
+6   Thomas     98
+>>> 
+
+
 

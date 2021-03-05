@@ -148,6 +148,14 @@ In summary:
 
 **df.iloc[where]** Selects single row or subset of rows from a DataFrame by integer position
 
+**df.iloc[:, where]** Selects a single column or subset of coumns by integer position
+
+**df.iloc[where_i, where_j]** Select both rows and columns by integer position
+
+**df.at[label_i, label_j]** Select a single scaler value by row and column label
+
+**df.iat[i, j]** Select a single scalar value by row and column integer positions
+
 There is also the **values** attribute you can call on a df, which returns a 2D ndarray:
 
 ```

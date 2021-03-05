@@ -561,6 +561,7 @@ height    NaN      NaN    NaN   NaN     NaN     NaN     NaN
 
 Return a view or assign a new object with the indicated value(s) removed from an axis:
 
+```
 >>> df5
    student  grade  age
 0     Jane     97   13
@@ -626,6 +627,7 @@ Return a view or assign a new object with the indicated value(s) removed from an
 5   Arthur    100
 6   Thomas     98
 >>> 
+```
 
 
 

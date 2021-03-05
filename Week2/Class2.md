@@ -27,6 +27,7 @@ How do we get the name of the student at index 0? We have several options:
 ```
 >>> df5.loc[0]['student'] 
 'Jane'
+# iloc[row slicing, column slicing]
 >>> df5.iloc[0][0]
 'Jane'
 >>> df5.at[0, 'student']

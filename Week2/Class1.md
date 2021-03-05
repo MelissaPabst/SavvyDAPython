@@ -89,7 +89,7 @@ p    0
 dtype: int64
 ```
 
-The default index label starts at 0, and goes up to length - 1, but we can specify the label (should we choose) by supplying "index = ". Note: A supplied index must be the same length as the data. 
+The default index label starts at 0, and goes up to "length - 1", but we can specify the label (should we choose) by supplying "index = ". Note: A supplied index must be the same length as the data. 
  
 ```
  >>> labeled_obj = pd.Series([4, 6, -1, -2], index = ['m', 'e', 't', 'q'])
@@ -232,6 +232,22 @@ dtype: int64
 >>> labeled_obj[['q', 'm']]
 q   -2
 m    4
+dtype: int64
+>>> labeled_obj[[1, 3]]
+e    6
+q   -2
+dtype: int64
+>>> labeled_obj[labeled_obj < 2]
+t   -1
+q   -2
+dtype: int64
+>>> labeled_obj[1:2]
+e    6
+dtype: int64
+>>> labeled_obj['e':'q']
+e    6
+t   -1
+q   -2
 dtype: int64
 >>> my_obj
 0    2

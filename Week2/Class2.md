@@ -1,6 +1,6 @@
 # DataFrames, Continued. 
 
-## Retrieving Values
+## Retrieving Values: Indexing options 
 
 Consider the following DataFrame: 
 
@@ -27,7 +27,6 @@ How do we get the name of the student at index 0? We have several options:
 ```
 >>> df5.loc[0]['student'] 
 'Jane'
-# iloc[row slicing, column slicing]
 >>> df5.iloc[0][0]
 'Jane'
 >>> df5.at[0, 'student']
@@ -53,6 +52,89 @@ Let's do a quick practice and use the above methods to retrieve the following 2 
 2. Arthur's age
 
 Get help if you need it!
+
+We can use these methods with indexing & slicing!
+
+
+```
+>>> df5.iloc[3, [2]]
+age    13
+Name: 3, dtype: object
+>>> df5.loc[3, ['grade']]
+grade    85
+Name: 3, dtype: object
+>>> df5.loc[:3]
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+>>> df5.loc[df5.age > 12]
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5.iloc[:, :2][df5.age > 12]
+   student  grade
+0     Jane     97
+1  Delilah     56
+2     Kyle     76
+3      Sam     85
+4   Elaine     99
+5   Arthur    100
+6   Thomas     98
+>>> df5.iloc[:, :1][df5.age > 12]
+   student
+0     Jane
+1  Delilah
+2     Kyle
+3      Sam
+4   Elaine
+5   Arthur
+6   Thomas
+>>> 
+```
+
+We can also use Indexing and Slicing methods as we used with Python, NumPy, and panda Series:
+
+```
+>>> data = pd.DataFrame(np.arange(16).reshape((4,4),), index=['red', 'yellow', 'orange','green'], columns=['one', 'two', 'three', 'four'])
+>>> data
+        one  two  three  four
+red       0    1      2     3
+yellow    4    5      6     7
+orange    8    9     10    11
+green    12   13     14    15
+>>> data['three']
+red        2
+yellow     6
+orange    10
+green     14
+Name: three, dtype: int64
+>>> data[['one', 'four']]
+        one  four
+red       0     3
+yellow    4     7
+orange    8    11
+green    12    15
+# provides row data
+>>> data[:3]
+        one  two  three  four
+red       0    1      2     3
+yellow    4    5      6     7
+orange    8    9     10    11
+# provides column data
+>>> data['one']
+red        0
+yellow     4
+orange     8
+green     12
+Name: one, dtype: int64
+```
 
 There is also the values attribute you can call on a df, which returns a 2D ndarray:
 
@@ -439,8 +521,6 @@ studentID
 >>> 
 ```
 By far the easiest and most recommended method is to use .loc[], but as you have probably noticed there are multiple ways to accomplish the manipulation you need.
-
-
 
 
 ## Transpose

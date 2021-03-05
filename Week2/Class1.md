@@ -116,7 +116,7 @@ dtype: int64
 4    5
 dtype: int64
 >>> 
-# we can define 
+# we can define our index
 >>> pd.Series(5, index=["a", "b", "c", "d", "e"])
 a    5
 b    5
@@ -210,7 +210,7 @@ True
 1
 >>> my_obj_index.size
 6
-# OR by combining methods...
+# OR by calling methods on the index objects
 >>> my_obj.index.shape
 (6,)
 >>> my_obj.index.size
@@ -406,10 +406,13 @@ PANDA!!
 5                                     0
 >>> 
 ```
+What do you notice that is different between the Series and the DataFrame made of one Series? (Hint: Is there a name/title? Spacing?)
+
 Or we can transform the Series to a DataFrame with .to_frame()
 
-```>>> my_obj
-PANDA VALUES!!
+```
+>>> my_obj
+PANDA!!
 0    2
 1    5
 2    8
@@ -419,7 +422,7 @@ PANDA VALUES!!
 Name: MY FIRST PANDA OBJECT!!, dtype: int64
 >>> my_obj.to_frame()
                 MY FIRST PANDA OBJECT!!
-PANDA VALUES!!                         
+PANDA!!                         
 0                                     2
 1                                     5
 2                                     8
@@ -616,7 +619,7 @@ Remember our DataFrame with NaN for "height"? We can assign values, either scala
 6     98   13   Thomas      62
 >>> 
 ```
-We can also assign values with a Series. Take note, if the length of the Series does not match the length of the DataFrame, NaN will be inserted into any index value left blank:
+We can also assign values with a Series. Take note, if the length of the Series does not match the length of the DataFrame, or no values are provided for an index, NaN will be inserted into any index value left blank:
 
 ```
 >>> new_height = pd.Series([70, 71, 72], index = [1, 4, 6])

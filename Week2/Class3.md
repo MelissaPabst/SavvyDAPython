@@ -187,10 +187,20 @@ Other fun parameters include naming the starting row/column where you want the d
 
 ## JSON files
 
-JSON stands for JavaScript Object Notation. These types of files are 
+JSON stands for JavaScript Object Notation. These types of files are plaintext (text-only) files and meant for easy human reading. Because of the text format, code can be written in any programming language to read or write them. Lucky for us! We can use them with Python Pandas! JSON data is written as name/value pairs. While it can be technically be used for data storage, JSON files are primarily used for serialization and information exchange between a client and server.
+
+![JSONStatham](week2images/jsonstatham.png)
+
+Below is an example of a JSON file. This example defines a "users" object, which is an array of 5 user records (objects). How does this data translate to a table? Meaning, if you had to arrange this data as a table, what are the rows? What are the columns?
 
 
 ![JSONfile](week2images/practice_jsonpic.png)
+
+
+## JSON to DataFrame
+
+We can read JSON files with **read_json()**. Again, just supply a filename. Documentation can be found [here](https://pandas.pydata.org/docs/reference/api/pandas.read_json.html):
+
 
 ```
 >>> jsondf = pd.read_json('practice.json')
@@ -204,4 +214,27 @@ JSON stands for JavaScript Object Notation. These types of files are
 >>> 
 ```
 
+## DataFrame to JSON
+
+There's also a function to convert your DataFrame to JSON. You might need to do this if your data needs to be formatted to be fed into a website... and read via JavaScript! As always, read the [documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_json.html#pandas.DataFrame.to_json).
+
+
+```
+>>> our_new_df.to_json('our_new_df.json')
+>>> 
+```
+
+Go ahead and open your newly created file. Your instructor will wait patiently. :)
+
+Either you'll see something like below, or yours might appear as a straight line, depending on what editor you are using. 
+
+![JSONpic](week2images/jsonfilepic.png)
+
+Why do you think that is? Well, you'll need to install a JSON editor specific to your IDE to make it readable. 
+
+OR use an online formatter! [Check it out](https://www.freeformatter.com/json-formatter.html)
+
+OR you can drag the file into your web browser! Give it a try. Pretty cool tricks, huh?
+
+JSON itself is tricksy, Precious. 
 

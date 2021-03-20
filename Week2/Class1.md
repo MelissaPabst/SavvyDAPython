@@ -18,6 +18,9 @@ And then we start by naming our imports:
 >>> import pandas as pd
 >>> from pandas import Series, DataFrame
 ```
+
+![ImportPandas](week2images/importpandas.png)
+
 Whenever you see pd, we are referring to the pandas library. I also imported Series and Dataframe into the local namespace because they are frequently used, and now I can call them directly without typing pd.Series:
 
 ```

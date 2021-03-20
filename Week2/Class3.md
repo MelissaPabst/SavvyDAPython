@@ -230,11 +230,11 @@ Either you'll see something like below, or yours might appear as a straight line
 
 ![JSONpic](week2images/jsonfilepic.png)
 
-Why do you think that is? Well, you'll need to install a JSON editor specific to your IDE to make it readable. 
+Why do you think that is? Well, you might need to install a JSON editor specific to your IDE to make it readable. 
 
-OR use an online formatter! [Check it out](https://www.freeformatter.com/json-formatter.html)
+**OR** use an online formatter! [Check it out](https://www.freeformatter.com/json-formatter.html)
 
-OR you can drag the file into your web browser! Give it a try. Pretty cool tricks, huh?
+**OR** you can drag the file into your web browser! Give it a try. Pretty cool tricks, huh?
 
 JSON itself is tricksy, Precious. 
 

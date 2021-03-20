@@ -1,6 +1,6 @@
 # pandas
 
-![pandas](pandashi.jpeg)
+![pandas](week2images/pandashi.jpeg)
 
 We're switching gears a bit; NumPy taught us how to do math with ndarrays of single-type data (homogenous) efficiently, and next on our agenda is **pandas**. Pandas is another library for Python and is built on top of NumPy. Pandas is better suited for data of heterogenous types, and data in tables, or **dataframes**, as they call them in pandas. 
 
@@ -381,10 +381,10 @@ dtype: float64
 
 Not to blow your minds or anything, but a DataFrame is basically representation of a table or spreadsheet. Each column can be a Series of varying origins. DataFrames have a row index (axis = 0) and column index (axis = 1). Here are some basic examples to help you visualize what we will be creating and working with: 
 
-![DataFrame construction](SandD.jpg)
+![DataFrame construction](week2images/SandD.jpg)
 
 
-![DataFrame example](dfexample.jpg)
+![DataFrame example](week2images/dfexample.jpg)
 
 In the above example, think about the NaN values could have came about. 
 

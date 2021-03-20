@@ -158,7 +158,7 @@ Remember, in a 2D array, it is easy to think of axis 0 as rows and axis 1 as col
 
 In a 3D array, axis 0 is the matrix, axis 1 is rows, and axis 2 is columns.
 
-![Array Diagram](arrayaxes.jpg)
+![Array Diagram](week1images/arrayaxes.jpg)
 
 
 # Copying arrays

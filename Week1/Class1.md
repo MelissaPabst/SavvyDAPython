@@ -22,7 +22,7 @@ Keep in mind, the process is heavily-based in data preparation and determining i
 
 Repeat if necessary!
 
-![Data Analysis Workflow](dataanalysisflow.jpg)
+![Data Analysis Workflow](week1images/dataanalysisflow.jpg)
 
 ## Data Collection
 
@@ -245,7 +245,7 @@ print(npArray)
 
 ```
 
-![Array Diagram](arrayaxes.jpg)
+![Array Diagram](week1images/arrayaxes.jpg)
 
 
 Each array has attributes **ndim** (the number of dimensions), **shape** (the size of each dimension), and **size** (the total size of the array):

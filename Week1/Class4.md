@@ -42,7 +42,7 @@ Text(0, 0.5, 'dollar')
 
 You should end up with something similar to this (yeah, my formula for pricing donuts is nuts): 
 
-![my donut chart](donuts.jpg)
+![my donut chart](week1images/donuts.jpg)
 
 
 We will continue to build our MatPlotLib skills as we progress, learning about the types of plots that best suit our data and how to choose the best plot. Humans are adept at picking out visual patterns, so learning to spot areas of concern in our data and display our data properly to get our point across is imperative. 

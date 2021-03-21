@@ -1,240 +1,641 @@
-# Reading and Importing Files Using Pandas
+# Series and DataFrames, cont'd. 
 
-Now that you know how to work with smaller Series and DataFrames, we're going to switch gears a bit and learn to import larger files in formats you will encounter in the wild. These file types can contain a high volume of data. It will be good to learn using these types of files, to earn your own trust in your data manipulation abilities and practice real-life data analysis scenarios to assist in data science or business analysis. 
+## Retrieving Values: Indexing options 
 
-## Tabular Data
+Consider the following DataFrame: 
 
-We may have mentioned Tabular Data before, and you'll see it as you do your own research on the Internet, but let's give it a proper definition:
+```
+>>> data
+{'student': ['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade': [97, 56, 76, 85, 99, 100, 98], 'age': [13, 13, 13, 13, 13, 14, 13]}
+>>> df5 = pd.DataFrame(data)
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+```
 
-Tabular data is data that is structured into rows/columns, like a table. Columns and rows are identified by headers/labels that explain the data located therein.  
+We briefly looked at .loc[] last class to retrieve a row. Let's expand its use and look at other methods. 
 
-## CSV Files
-
-Need to import a CSV? Wait... what is a CSV? CSV is an acronym for Comma Separated Values, and may sometimes be referred to as Comma Delimited Files (Delimited is another way of saying Separated). A CSV is a plain text file that contains a list of data and are often used for exchanging data between different types of applications. For example, I can convert Microsoft Excel files (or even Google Spreadsheets) to CSV files and then import them as CSV into other applications. Considering how popular Excel is, knowing how to import CSV files is pretty handy. 
-
-As expected, commas are used to delimit (separate) the data, but sometimes other characters, such as semicolons or spaces, can be used. 
-
-![CSV](week2images/CSVimage.png)
-
-Let's practice with a smaller file, first. In the folder Practice Files, you should find a file called "submission.csv". If you've downloaded these files into a folder, you'll need to check where are located so you provide the proper path to tell pandas where to look for the CSV file. 
-
-We can import 'os' to check our operating system's current working directory to determine the path we need to supply to the file. In my case, I am working in SavvyDAPython, and the file is located within the PracticeFiles subfolder. You can store your files wherever you'd like, but if you get errors telling you the file doesn't exist, it's a good idea to check your path. Going forward, I will only point to the file itself and let you figure out the proper path. :)
+How do we get the name of the student at index 0? We have several options:
 
 
 ```
->>> import os
->>> os.getcwd()
-'/Users/me/SavvyPython/SavvyDAPython'
->>> df = pd.read_csv('PracticeFiles/submission.csv')
+>>> df5.loc[0]['student'] 
+'Jane'
+>>> df5.iloc[0][0]
+'Jane'
+>>> df5.at[0, 'student']
+'Jane'
+>>> df5.iat[0, 0]
+'Jane'
+```
+Note the subtle differences with each method:
+
+.loc[] works on the labels of your index to access a group of rows/colums.
+
+.iloc[] works on the integer positions in your index to access a group of rows/columns.
+
+.at[] lets us access a single value for a row/column label pair.
+
+.iat[] lest us access a single value for a row/column pair by integer position.
+
+
+Let's do a quick practice and use the above methods to retrieve the following 2 values: 
+
+1. Thomas's grade
+
+2. Arthur's age
+
+Get help if you need it!
+
+We can use these methods with indexing & slicing!
+
+
+```
+>>> df5.iloc[3, [2]]
+age    13
+Name: 3, dtype: object
+>>> df5.loc[3, ['grade']]
+grade    85
+Name: 3, dtype: object
+>>> df5.loc[:3]
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+>>> df5.loc[df5.age > 12]
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5.iloc[:, :2][df5.age > 12]
+   student  grade
+0     Jane     97
+1  Delilah     56
+2     Kyle     76
+3      Sam     85
+4   Elaine     99
+5   Arthur    100
+6   Thomas     98
+>>> df5.iloc[:, :1][df5.age > 12]
+   student
+0     Jane
+1  Delilah
+2     Kyle
+3      Sam
+4   Elaine
+5   Arthur
+6   Thomas
+>>> 
+```
+
+We can also use Indexing and Slicing methods as we used with Python, NumPy, and panda Series:
+
+```
+>>> data = pd.DataFrame(np.arange(16).reshape(4,4), index=['red', 'yellow', 'orange','green'], columns=['one', 'two', 'three', 'four'])
+>>> data
+        one  two  three  four
+red       0    1      2     3
+yellow    4    5      6     7
+orange    8    9     10    11
+green    12   13     14    15
+>>> data['three']
+red        2
+yellow     6
+orange    10
+green     14
+Name: three, dtype: int64
+>>> data[['one', 'four']]
+        one  four
+red       0     3
+yellow    4     7
+orange    8    11
+green    12    15
+# provides row data
+>>> data[:3]
+        one  two  three  four
+red       0    1      2     3
+yellow    4    5      6     7
+orange    8    9     10    11
+# provides column data
+>>> data['one']
+red        0
+yellow     4
+orange     8
+green     12
+Name: one, dtype: int64
+```
+
+In summary:
+
+**df[val]** Selects a column or sequence of columns from a DataFrame
+
+**df.loc[val]** Selects a single row or subset of rows from a DataFrame by label
+
+**df.loc[:, val]** Selects a single column or subset of columns by label
+
+**df.iloc[val1, val2]** Selects both rows and columns by label
+
+**df.iloc[where]** Selects single row or subset of rows from a DataFrame by integer position
+
+**df.iloc[:, where]** Selects a single column or subset of coumns by integer position
+
+**df.iloc[where_i, where_j]** Select both rows and columns by integer position
+
+**df.at[label_i, label_j]** Select a single scaler value by row and column label
+
+**df.iat[i, j]** Select a single scalar value by row and column integer positions
+
+There is also the **values** attribute you can call on a df, which returns a 2D ndarray:
+
+```
+>>> df5.values
+array([['Jane', 97, 13],
+       ['Delilah', 56, 13],
+       ['Kyle', 76, 13],
+       ['Sam', 85, 13],
+       ['Elaine', 99, 13],
+       ['Arthur', 100, 14],
+       ['Thomas', 98, 13]], dtype=object)
+>>> 
+```
+
+## Retrieving Rows
+
+What if we want all of the info on Jane? She is in row 0, so we can do the following:
+ 
+```
+>>> df5.iloc[0]
+student    Jane
+grade        97
+age          13
+Name: 0, dtype: object
+>>> 
+```
+
+Try it yourself, but get the data for Elaine. 
+
+## Retrieving Columns
+
+Of course, if we wanted to do an average of the grades, we would need to gather all the grades, first. Let's do it!
+
+```
+>>> df5.loc[:,'grade']
+0     97
+1     56
+2     76
+3     85
+4     99
+5    100
+6     98
+Name: grade, dtype: int64
+>>> 
+```
+Practice getting column data by getting the names of the students. 
+
+## Set Your Own Index
+
+When we created df5, the index was automatically assigned to be a numerical range spanning the size of your df. In some situations that may not be helpful or convenient. We have the ability to reassign the index column with df.set_index().
+
+```
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5_new = df5.set_index('student')
+>>> df5_new
+         grade  age
+student            
+Jane        97   13
+Delilah     56   13
+Kyle        76   13
+Sam         85   13
+Elaine      99   13
+Arthur     100   14
+Thomas      98   13
+>>>
+```
+
+Great news! Setting the index is reversible. Don't like it? Change it back with df.reset_index().
+
+```
+>>> df5_new
+         grade  age
+student            
+Jane        97   13
+Delilah     56   13
+Kyle        76   13
+Sam         85   13
+Elaine      99   13
+Arthur     100   14
+Thomas      98   13
+>>> df5_new.reset_index()
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> 
+```
+The method .reindex() allows us to create a new object with the data realigned to the new index: 
+
+```
+>>> df5
+student info  student  height  grade  age
+studentID                                
+0                Jane      56     97   13
+1             Delilah      62     56   13
+2                Kyle      67     76   13
+3                 Sam      54     85   13
+4              Elaine      78     99   13
+5              Arthur      76    100   14
+6              Thomas      56     98   13
+7               Steve      57     97   14
+>>> df5_index = df5.reindex([1, 2, 3, 4, 5, 6, 7, 0])
+>>> df5_index
+student info  student  height  grade  age
+studentID                                
+1             Delilah      62     56   13
+2                Kyle      67     76   13
+3                 Sam      54     85   13
+4              Elaine      78     99   13
+5              Arthur      76    100   14
+6              Thomas      56     98   13
+7               Steve      57     97   14
+0                Jane      56     97   13
+>>> 
+```
+The columns can be reindexed with the columns keyword:
+
+
+```
+>>> df5_index = df5.reindex(columns = stats)
+>>> df5_index
+student info  student  grade  age  height
+studentID                                
+0                Jane     97   13      56
+1             Delilah     56   13      62
+2                Kyle     76   13      67
+3                 Sam     85   13      54
+4              Elaine     99   13      78
+5              Arthur    100   14      76
+6              Thomas     98   13      56
+7               Steve     97   14      57
+>>> 
+```
+
+Want to name your index? We can do that too, with the name attribute.
+
+```
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5.index.name = 'studentID'
+>>> df5
+           student  grade  age
+studentID                     
+0             Jane     97   13
+1          Delilah     56   13
+2             Kyle     76   13
+3              Sam     85   13
+4           Elaine     99   13
+5           Arthur    100   14
+6           Thomas     98   13
+>>> 
+```
+There is also a name attribute for columns:
+
+```
+>>> df5
+           student  grade  age
+studentID                     
+0             Jane     97   13
+1          Delilah     56   13
+2             Kyle     76   13
+3              Sam     85   13
+4           Elaine     99   13
+5           Arthur    100   14
+6           Thomas     98   13
+>>> df5.columns.name = 'student info'
+>>> df5
+student info  student  grade  age
+studentID                        
+0                Jane     97   13
+1             Delilah     56   13
+2                Kyle     76   13
+3                 Sam     85   13
+4              Elaine     99   13
+5              Arthur    100   14
+6              Thomas     98   13
+>>> 
+```
+
+## Add a Row
+
+We have a new student, Steve, who also took the test, so we need to add a row to our df. 
+
+```
+>>> df5.loc[7] = ['Steve', 97, 14]
+>>> df5
+student info  student  grade  age
+studentID                        
+0                Jane     97   13
+1             Delilah     56   13
+2                Kyle     76   13
+3                 Sam     85   13
+4              Elaine     99   13
+5              Arthur    100   14
+6              Thomas     98   13
+7               Steve     97   14
+>>> 
+```
+
+What do you think would happen if we assigned Steve to .loc[2] instead of .loc[7]?
+
+```
+>>> df5
+student info  student  grade  age
+studentID                        
+0                Jane     97   13
+1             Delilah     56   13
+2                Kyle     76   13
+3                 Sam     85   13
+4              Elaine     99   13
+5              Arthur    100   14
+6              Thomas     98   13
+7               Steve     97   14
+>>> df5.loc[2] = ['Steve', 97, 14]
+>>> df5
+student info  student  grade  age
+studentID                        
+0                Jane     97   13
+1             Delilah     56   13
+2               Steve     97   14
+3                 Sam     85   13
+4              Elaine     99   13
+5              Arthur    100   14
+6              Thomas     98   13
+7               Steve     97   14
+>>> 
+```
+Dangit, we overwrote Kyle's info. We didn't want to do that! I hope we made a backup somewhere... 
+
+There is also an append function to add a row, or an entire df: 
+
+```
+>>> df6 = pd.DataFrame({"grade":[87], "age":[13], "student":['Rex'], "height":[76]})
+>>> df3
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+>>> df6
+   grade  age student  height
+0     87   13     Rex      76
+>>> df3.append(df6)
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+0     87   13      Rex     76
+>>> 
+```
+Pay attention to the index when using .append(). You can set "ingore_index" to True to avoid maintaining the index from the original df. In this case, pretend we needed the row to be assigned a new index number. 
+
+```
+>>> df3.append(df6, ignore_index=True)
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+7     87   13      Rex     76
+>>> 
+ ```
+When we use .append(), columns not in the original df are added as new columns and the new cells are populated with NaN value. 
+
+```
+>>> df6 = pd.DataFrame({"grade":[87], "age":[13], "student":['Rex'], "height":[76], "hometown":["St. Louis"]})
+>>> df3.append(df6)
+   grade  age  student height   hometown
+0     97   13     Jane    NaN        NaN
+1     56   13  Delilah    NaN        NaN
+2     76   13     Kyle    NaN        NaN
+3     85   13      Sam    NaN        NaN
+4     99   13   Elaine    NaN        NaN
+5    100   14   Arthur    NaN        NaN
+6     98   13   Thomas    NaN        NaN
+0     87   13      Rex     76  St. Louis
+>>> 
+```
+In a way, we just added a column! But let's look at more efficient ways to do that. 
+
+
+## Add a column
+
+We can append a column by adding a Series to an existing DataFrame using .loc[]:
+
+```
+>>> df5.loc[:,'height'] = pd.Series([56, 62, 67, 54, 78, 76, 56, 57])
+>>> df5
+student info  student  grade  age  height
+studentID                                
+0                Jane     97   13      56
+1             Delilah     56   13      62
+2                Kyle     76   13      67
+3                 Sam     85   13      54
+4              Elaine     99   13      78
+5              Arthur    100   14      76
+6              Thomas     98   13      56
+7               Steve     97   14      57
+>>> 
+```
+We can declare a list and convert it into a column:
+
+```
+>>> hometowns = ['Chicago', 'Minneapolis', 'Cairo', 'Vancouver', 'St. Louis', 'Seattle', 'Carbondale', 'Los Angeles']
+>>> df5['birthplace'] = hometowns
+>>> df5
+student info  student  height  grade  age   birthplace
+studentID                                             
+0                Jane      56     97   13      Chicago
+1             Delilah      62     56   13  Minneapolis
+2                Kyle      67     76   13        Cairo
+3                 Sam      54     85   13    Vancouver
+4              Elaine      78     99   13    St. Louis
+5              Arthur      76    100   14      Seattle
+6              Thomas      56     98   13   Carbondale
+7               Steve      57     97   14  Los Angeles
+>>> 
+```
+
+We can use .assign() to return a new object with all original columns in addition to new ones:
+
+```
+>>> df5_towns = df5.assign(birthplace = hometowns)
+>>> df5_towns
+student info  student  height  grade  age   birthplace
+studentID                                             
+0                Jane      56     97   13      Chicago
+1             Delilah      62     56   13  Minneapolis
+2                Kyle      67     76   13        Cairo
+3                 Sam      54     85   13    Vancouver
+4              Elaine      78     99   13    St. Louis
+5              Arthur      76    100   14      Seattle
+6              Thomas      56     98   13   Carbondale
+7               Steve      57     97   14  Los Angeles
+>>> 
+```
+
+If appending (adding it to the end) is not what we want to do, we can instead use df.insert(), and place the column in a desired index. 
+
+```
+# insert(loc, column name, data, allow_duplicates)
+>>> df5.insert(1, 'height', height, False)
+>>> df5
+student info  student  height  grade  age
+studentID                                
+0                Jane      56     97   13
+1             Delilah      62     56   13
+2                Kyle      67     76   13
+3                 Sam      54     85   13
+4              Elaine      78     99   13
+5              Arthur      76    100   14
+6              Thomas      56     98   13
+7               Steve      57     97   14
+>>> 
+```
+By far the easiest and most recommended method is to use .loc[], but as you have probably noticed there are multiple ways to accomplish the manipulation you need.
+
+
+## Transpose
+
+Swapping rows and columns is easy, and similar to transposing with NumPy arrays:
+
+```
 >>> df
-     Unnamed: 0  data
-0             0     0
-1             1     1
-2             2     2
-3             3     3
-4             4     4
-..          ...   ...
-995         995   995
-996         996   996
-997         997   997
-998         998   998
-999         999   999
-[1000 rows x 2 columns]
+        student  grade  age  height
+red        Jane     97   13     NaN
+orange  Delilah     56   13     NaN
+yellow     Kyle     76   13     NaN
+green       Sam     85   13     NaN
+blue     Elaine     99   13     NaN
+indigo   Arthur    100   14     NaN
+violet   Thomas     98   13     NaN
+>>> df.T
+          red   orange yellow green    blue  indigo  violet
+student  Jane  Delilah   Kyle   Sam  Elaine  Arthur  Thomas
+grade      97       56     76    85      99     100      98
+age        13       13     13    13      13      14      13
+height    NaN      NaN    NaN   NaN     NaN     NaN     NaN
+>>> 
 ```
+## Drop
 
-Side question: Can anyone guess what **cwd** stands for? 
-
-We read a file with 1000 rows with two columns, so it's larger than we are used to. When we first create the DataFrame it will give us a preview of the first and last rows, but we can use **.head()** to get a preview of the first five rows, specifically:
+Return a view or assign a new object with the indicated value(s) removed from an axis:
 
 ```
->>> df.head()
-   Unnamed: 0  data
-0           0     0
-1           1     1
-2           2     2
-3           3     3
-4           4     4
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+# drop a row
+>>> df5.drop(6)
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+# drop two rows
+>>> df5.drop([5, 4])
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+6   Thomas     98   13
+>>> 
+# drop a column. must specify which axis, or "columns"
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5.drop('age', axis=1)
+   student  grade
+0     Jane     97
+1  Delilah     56
+2     Kyle     76
+3      Sam     85
+4   Elaine     99
+5   Arthur    100
+6   Thomas     98
+>>> df5
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df5.drop('age', axis='columns')
+   student  grade
+0     Jane     97
+1  Delilah     56
+2     Kyle     76
+3      Sam     85
+4   Elaine     99
+5   Arthur    100
+6   Thomas     98
 >>> 
 ```
 
-Pretty cool, right? 
 
-## DataFrame to CSV
-
-Sometimes you'll need to convert DataFrames to CSV files for exporting purposes, i.e you need to move your work to another software because of your co-worker who refuses to learn Pandas. 
-
-Let's create a generic DataFrame, but a little bigger this time:
-
-```
->>> our_new_df = pd.DataFrame({'id': np.arange(1000), 'location':np.random.normal(size=1000), 'animal':pd.Series(np.random.choice(['lion', 'tiger', 'bear'], size=1000, replace=True), dtype="string")})
->>> print(our_new_df)
-      id  location animal
-0      0  1.098952   lion
-1      1 -1.112979   lion
-2      2  0.228454   lion
-3      3  0.299128   lion
-4      4  0.181097  tiger
-..   ...       ...    ...
-995  995  0.049029   bear
-996  996  0.188222   bear
-997  997  0.473430   lion
-998  998  0.908793   lion
-999  999 -0.635300   bear
-
-[1000 rows x 3 columns]
->>> 
-```
-
-It's simple to write this DataFrame to a CSV. There is a built-in method **DataFrame.to_csv()** you can use, supplying a name for the file as follows:
-
-```
->>> our_new_df.to_csv('scary_pets.csv')
-```
-
-The file will get written to your Current Working Directory (Remember, that's what the **cwd** abbreviation is for). You can always supply the path with the **path_or_buff** parameter, if you'd like to save it somewhere else. Make sure the pathway exists or you'll get an error!
-
-
-```
->>> our_new_df.to_csv(path_or_buff='/home/files_for_coworker_who_will_not_learn_pandas/scary_pets.csv')
-```
-
-Let's open our new CSV file in a text editor. 
-
-(Mine opened in Numbers because I'm using a Mac... Your file may look different, depending on what OS/software you choose to use.)
-
-![ScaryPetsNumbers](week2images/scary_pets.png)
-
-By default, **to_csv()** assigns an index, but we often won't want it. We can get around it by passing **index=false**. 
-
-
-```
->>> our_new_df.to_csv('scary_pets2.csv', index=False)
-```
-
-Let's open our 2nd CSV to make a comparison:
-
-![ScaryPets2Numbers](week2images/scary_pets_2.png)
-
-As you can see, the index column was not created. 
-
-There are more parameters for **to_csv()** and can be found [here](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_csv.html). Feel free to play around. 
-
-Just for fun/practice... Convert our scary pets CSV to a DataFrame! 
-Bonus: Try passing different parameters from the **read_csv()** documentation found [here](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html#pandas.read_csv)
-
-## Missing Data in CSV
-
-When you save your DataFrame to a CSV file, any missing data will be represented by empty strings (''). You can customize how you would like an empty cell to appear with **na_rep**:
-
-```
->>> our_new_df.to_csv('scary_pets2.csv', index=False, na_rep='**empty**')
-```
-In this example, any empty strings (''), 'nan', '-nan', 'NA', 'N/A', 'NaN', 'null', etc, will now have the value of "**empty**". Of course, our dataframe didn't have any missing data. We'll surely get to use this later! 
-
-
-## DataFrame to Excel
-
-If you need to convert your DataFrame straight to Excel, we can do that with **to_Excel()**, which is found [here](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_excel.html#pandas.DataFrame.to_excel).
-
-Although there are a whole host of parameters to pass to customize the Excel output, the bare minimum is the file name:
-
-```
->>> our_new_df.to_excel('scary_pets_excel.xlsx')
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/Users/melissapabst/miniconda3/envs/dapenv/lib/python3.8/site-packages/pandas/core/generic.py", line 2188, in to_excel
-    formatter.write(
-  File "/Users/melissapabst/miniconda3/envs/dapenv/lib/python3.8/site-packages/pandas/io/formats/excel.py", line 815, in write
-    writer = ExcelWriter(  # type: ignore[abstract]
-  File "/Users/melissapabst/miniconda3/envs/dapenv/lib/python3.8/site-packages/pandas/io/excel/_openpyxl.py", line 28, in __init__
-    from openpyxl.workbook import Workbook
-ModuleNotFoundError: No module named 'openpyxl'
->>> 
-```
-
-OH NO! An error. A quick google of "ModuleNotFoundError: No module named 'openpyxl'" shows us that we need to install the 'openpyxl' module. Let's use our dependency manager to make sure we get the right version:
-
-```
-conda install openpyxl
-Fetching package metadata ...........
-Solving package specifications: .
-
-Package plan for installation in environment /Users/melissapabst/miniconda3/envs/dapenv:
-
-The following NEW packages will be INSTALLED:
-
-    et_xmlfile: 1.0.1-py_1001     
-    jdcal:      1.4.1-py_0        
-    openpyxl:   3.0.7-pyhd3eb1b0_0
-
-Proceed ([y]/n)? y
-```
-
-After a successful installation, we can use openpyxl to write CSV to Excel formats. 
-
-```
->>> our_new_df.to_excel('scary_pets_excel.xlsx')
->>> 
-```
-
-Yay! No issues, and the file was created in my current working directory. 
-
-![ScaryPetsExcel](week2images/scary_pets_excelpic.png)
-
-Again, it has that pesky index, so you can try on your own to set the index=false, as we have done with other Pandas objects. 
-
-Other fun parameters include naming the starting row/column where you want the data to appear, freezing panes, how to represent missing data, and how to round/format data. 
-
-## JSON files
-
-JSON stands for JavaScript Object Notation. These types of files are plaintext (text-only) files and meant for easy human reading. Because of the text format, code can be written in any programming language to read or write them. Lucky for us! We can use them with Python Pandas! JSON data is written as name/value pairs. While it can be technically be used for data storage, JSON files are primarily used for serialization and information exchange between a client and server.
-
-![JSONStatham](week2images/jsonstatham.png)
-
-Below is an example of a JSON file. This example defines a "users" object, which is an array of 5 user records (objects). How does this data translate to a table? Meaning, if you had to arrange this data as a table, what are the rows? What are the columns?
-
-
-![JSONfile](week2images/practice_jsonpic.png)
-
-
-## JSON to DataFrame
-
-We can read JSON files with **read_json()**. Again, just supply a filename. Documentation can be found [here](https://pandas.pydata.org/docs/reference/api/pandas.read_json.html):
-
-
-```
->>> jsondf = pd.read_json('practice.json')
->>> print(jsondf)
-                                               users
-0  {'userId': 1, 'firstName': 'Krish', 'lastName'...
-1  {'userId': 2, 'firstName': 'racks', 'lastName'...
-2  {'userId': 3, 'firstName': 'denial', 'lastName...
-3  {'userId': 4, 'firstName': 'devid', 'lastName'...
-4  {'userId': 5, 'firstName': 'jone', 'lastName':...
->>> 
-```
-
-## DataFrame to JSON
-
-There's also a function to convert your DataFrame to JSON. You might need to do this if your data needs to be formatted to be fed into a website... and read via JavaScript! As always, read the [documentation](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_json.html#pandas.DataFrame.to_json).
-
-
-```
->>> our_new_df.to_json('our_new_df.json')
->>> 
-```
-
-Go ahead and open your newly created file. Your instructor will wait patiently. :)
-
-Either you'll see something like below, or yours might appear as a straight line, depending on what editor you are using. 
-
-![JSONpic](week2images/jsonfilepic.png)
-
-Why do you think that is? Well, you might need to install a JSON editor specific to your IDE to make it readable. 
-
-**OR** use an online formatter! [Check it out](https://www.freeformatter.com/json-formatter.html)
-
-**OR** you can drag the file into your web browser! Give it a try. Pretty cool tricks, huh?
-
-JSON itself is tricksy, Precious. 
 

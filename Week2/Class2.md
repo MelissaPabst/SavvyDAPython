@@ -1,413 +1,125 @@
-# Series and DataFrames, cont'd. 
+## pandas Data Structures Part II: DataFrame
 
-## Retrieving Values: Indexing options 
+Not to blow your minds or anything, but a DataFrame is basically representation of a table or spreadsheet. Each column can be a Series of varying origins. DataFrames have a row index (axis = 0) and column index (axis = 1). Here are some basic examples to help you visualize what we will be creating and working with: 
 
-Consider the following DataFrame: 
+![DataFrame construction](week2images/SandD.jpg)
+
+
+![DataFrame example](week2images/dfexample.jpg)
+
+In the above example, think about the NaN values could have came about. 
+
+Let's create an empty DataFrame: 
+
+```
+>>> df1 = pd.DataFrame()
+>>> df1
+Empty DataFrame
+Columns: []
+Index: []
+```
+
+Any Series can be a DataFrame on its own: 
+
+```
+>>> my_obj
+PANDA!!
+0    2
+1    5
+2    8
+3    3
+4    1
+5    0
+Name: MY FIRST PANDA OBJECT!!, dtype: int64
+>>> df = pd.DataFrame(my_obj)
+>>> df
+                MY FIRST PANDA OBJECT!!
+PANDA!!                         
+0                                     2
+1                                     5
+2                                     8
+3                                     3
+4                                     1
+5                                     0
+>>> 
+```
+What do you notice that is different between the Series and the DataFrame made of one Series? (Hint: Is there a name/title? Spacing?)
+
+Or we can transform the Series to a DataFrame with .to_frame()
+
+```
+>>> my_obj
+PANDA!!
+0    2
+1    5
+2    8
+3    3
+4    1
+5    0
+Name: MY FIRST PANDA OBJECT!!, dtype: int64
+>>> my_obj.to_frame()
+                MY FIRST PANDA OBJECT!!
+PANDA!!                         
+0                                     2
+1                                     5
+2                                     8
+3                                     3
+4                                     1
+5                                     0
+>>> 
+```
+
+A multi-Series DataFrame can easily be created by a dictionary of equal-length lists or NumPy arrays. This will produce a DataFrame with an automatically assigned index and columns placed in sorted order. 
+
+```
+>>> data = {'student':['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade':[97, 56, 76, 85, 99, 100, 98], 'age':[13, 13, 13, 13, 13, 14, 13]}
+>>> df = pd.DataFrame(data)
+>>> df
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> 
+```
+We can create a DataFrame from a nested dict of dicts, where the outer data is the columns and the inner data as the rows:
+
+```
+>>> dict_data = {'St. Louis': {2020: 3.4, 2021: 3.2}, 'Kansas City': {2020: 2.3, 2021: 2.3}}
+>>> dict_df = pd.DataFrame(dict_data)
+>>> dict_df
+      St. Louis  Kansas City
+2020        3.4          2.3
+2021        3.2          2.3
+>>> 
+```
+
+Practice: Build a DataFrame on your own, giving it at least 10 rows of data.
+
+Of course, we can specify the column order: 
+
+```
+>>> df2 = pd.DataFrame(data, columns=['grade', 'age', 'student'])
+>>> df2
+   grade  age  student
+0     97   13     Jane
+1     56   13  Delilah
+2     76   13     Kyle
+3     85   13      Sam
+4     99   13   Elaine
+5    100   14   Arthur
+6     98   13   Thomas
+>>> 
+```
+Watch what happens when we pass a column that isn't in the original data dictionary:
 
 ```
 >>> data
 {'student': ['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade': [97, 56, 76, 85, 99, 100, 98], 'age': [13, 13, 13, 13, 13, 14, 13]}
->>> df5 = pd.DataFrame(data)
->>> df5
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
-```
-
-We briefly looked at .loc[] last class to retrieve a row. Let's expand its use and look at other methods. 
-
-How do we get the name of the student at index 0? We have several options:
-
-
-```
->>> df5.loc[0]['student'] 
-'Jane'
->>> df5.iloc[0][0]
-'Jane'
->>> df5.at[0, 'student']
-'Jane'
->>> df5.iat[0, 0]
-'Jane'
-```
-Note the subtle differences with each method:
-
-.loc[] works on the labels of your index to access a group of rows/colums.
-
-.iloc[] works on the integer positions in your index to access a group of rows/columns.
-
-.at[] lets us access a single value for a row/column label pair.
-
-.iat[] lest us access a single value for a row/column pair by integer position.
-
-
-Let's do a quick practice and use the above methods to retrieve the following 2 values: 
-
-1. Thomas's grade
-
-2. Arthur's age
-
-Get help if you need it!
-
-We can use these methods with indexing & slicing!
-
-
-```
->>> df5.iloc[3, [2]]
-age    13
-Name: 3, dtype: object
->>> df5.loc[3, ['grade']]
-grade    85
-Name: 3, dtype: object
->>> df5.loc[:3]
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
->>> df5.loc[df5.age > 12]
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
->>> df5.iloc[:, :2][df5.age > 12]
-   student  grade
-0     Jane     97
-1  Delilah     56
-2     Kyle     76
-3      Sam     85
-4   Elaine     99
-5   Arthur    100
-6   Thomas     98
->>> df5.iloc[:, :1][df5.age > 12]
-   student
-0     Jane
-1  Delilah
-2     Kyle
-3      Sam
-4   Elaine
-5   Arthur
-6   Thomas
->>> 
-```
-
-We can also use Indexing and Slicing methods as we used with Python, NumPy, and panda Series:
-
-```
->>> data = pd.DataFrame(np.arange(16).reshape(4,4), index=['red', 'yellow', 'orange','green'], columns=['one', 'two', 'three', 'four'])
->>> data
-        one  two  three  four
-red       0    1      2     3
-yellow    4    5      6     7
-orange    8    9     10    11
-green    12   13     14    15
->>> data['three']
-red        2
-yellow     6
-orange    10
-green     14
-Name: three, dtype: int64
->>> data[['one', 'four']]
-        one  four
-red       0     3
-yellow    4     7
-orange    8    11
-green    12    15
-# provides row data
->>> data[:3]
-        one  two  three  four
-red       0    1      2     3
-yellow    4    5      6     7
-orange    8    9     10    11
-# provides column data
->>> data['one']
-red        0
-yellow     4
-orange     8
-green     12
-Name: one, dtype: int64
-```
-
-In summary:
-
-**df[val]** Selects a column or sequence of columns from a DataFrame
-
-**df.loc[val]** Selects a single row or subset of rows from a DataFrame by label
-
-**df.loc[:, val]** Selects a single column or subset of columns by label
-
-**df.iloc[val1, val2]** Selects both rows and columns by label
-
-**df.iloc[where]** Selects single row or subset of rows from a DataFrame by integer position
-
-**df.iloc[:, where]** Selects a single column or subset of coumns by integer position
-
-**df.iloc[where_i, where_j]** Select both rows and columns by integer position
-
-**df.at[label_i, label_j]** Select a single scaler value by row and column label
-
-**df.iat[i, j]** Select a single scalar value by row and column integer positions
-
-There is also the **values** attribute you can call on a df, which returns a 2D ndarray:
-
-```
->>> df5.values
-array([['Jane', 97, 13],
-       ['Delilah', 56, 13],
-       ['Kyle', 76, 13],
-       ['Sam', 85, 13],
-       ['Elaine', 99, 13],
-       ['Arthur', 100, 14],
-       ['Thomas', 98, 13]], dtype=object)
->>> 
-```
-
-## Retrieving Rows
-
-What if we want all of the info on Jane? She is in row 0, so we can do the following:
- 
-```
->>> df5.iloc[0]
-student    Jane
-grade        97
-age          13
-Name: 0, dtype: object
->>> 
-```
-
-Try it yourself, but get the data for Elaine. 
-
-## Retrieving Columns
-
-Of course, if we wanted to do an average of the grades, we would need to gather all the grades, first. Let's do it!
-
-```
->>> df5.loc[:,'grade']
-0     97
-1     56
-2     76
-3     85
-4     99
-5    100
-6     98
-Name: grade, dtype: int64
->>> 
-```
-Practice getting column data by getting the names of the students. 
-
-## Set Your Own Index
-
-When we created df5, the index was automatically assigned to be a numerical range spanning the size of your df. In some situations that may not be helpful or convenient. We have the ability to reassign the index column with df.set_index().
-
-```
->>> df5
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
->>> df5_new = df5.set_index('student')
->>> df5_new
-         grade  age
-student            
-Jane        97   13
-Delilah     56   13
-Kyle        76   13
-Sam         85   13
-Elaine      99   13
-Arthur     100   14
-Thomas      98   13
->>>
-```
-
-Great news! Setting the index is reversible. Don't like it? Change it back with df.reset_index().
-
-```
->>> df5_new
-         grade  age
-student            
-Jane        97   13
-Delilah     56   13
-Kyle        76   13
-Sam         85   13
-Elaine      99   13
-Arthur     100   14
-Thomas      98   13
->>> df5_new.reset_index()
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
->>> 
-```
-The method .reindex() allows us to create a new object with the data realigned to the new index: 
-
-```
->>> df5
-student info  student  height  grade  age
-studentID                                
-0                Jane      56     97   13
-1             Delilah      62     56   13
-2                Kyle      67     76   13
-3                 Sam      54     85   13
-4              Elaine      78     99   13
-5              Arthur      76    100   14
-6              Thomas      56     98   13
-7               Steve      57     97   14
->>> df5_index = df5.reindex([1, 2, 3, 4, 5, 6, 7, 0])
->>> df5_index
-student info  student  height  grade  age
-studentID                                
-1             Delilah      62     56   13
-2                Kyle      67     76   13
-3                 Sam      54     85   13
-4              Elaine      78     99   13
-5              Arthur      76    100   14
-6              Thomas      56     98   13
-7               Steve      57     97   14
-0                Jane      56     97   13
->>> 
-```
-The columns can be reindexed with the columns keyword:
-
-
-```
->>> df5_index = df5.reindex(columns = stats)
->>> df5_index
-student info  student  grade  age  height
-studentID                                
-0                Jane     97   13      56
-1             Delilah     56   13      62
-2                Kyle     76   13      67
-3                 Sam     85   13      54
-4              Elaine     99   13      78
-5              Arthur    100   14      76
-6              Thomas     98   13      56
-7               Steve     97   14      57
->>> 
-```
-
-Want to name your index? We can do that too, with the name attribute.
-
-```
->>> df5
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
->>> df5.index.name = 'studentID'
->>> df5
-           student  grade  age
-studentID                     
-0             Jane     97   13
-1          Delilah     56   13
-2             Kyle     76   13
-3              Sam     85   13
-4           Elaine     99   13
-5           Arthur    100   14
-6           Thomas     98   13
->>> 
-```
-There is also a name attribute for columns:
-
-```
->>> df5
-           student  grade  age
-studentID                     
-0             Jane     97   13
-1          Delilah     56   13
-2             Kyle     76   13
-3              Sam     85   13
-4           Elaine     99   13
-5           Arthur    100   14
-6           Thomas     98   13
->>> df5.columns.name = 'student info'
->>> df5
-student info  student  grade  age
-studentID                        
-0                Jane     97   13
-1             Delilah     56   13
-2                Kyle     76   13
-3                 Sam     85   13
-4              Elaine     99   13
-5              Arthur    100   14
-6              Thomas     98   13
->>> 
-```
-
-## Add a Row
-
-We have a new student, Steve, who also took the test, so we need to add a row to our df. 
-
-```
->>> df5.loc[7] = ['Steve', 97, 14]
->>> df5
-student info  student  grade  age
-studentID                        
-0                Jane     97   13
-1             Delilah     56   13
-2                Kyle     76   13
-3                 Sam     85   13
-4              Elaine     99   13
-5              Arthur    100   14
-6              Thomas     98   13
-7               Steve     97   14
->>> 
-```
-
-What do you think would happen if we assigned Steve to .loc[2] instead of .loc[7]?
-
-```
->>> df5
-student info  student  grade  age
-studentID                        
-0                Jane     97   13
-1             Delilah     56   13
-2                Kyle     76   13
-3                 Sam     85   13
-4              Elaine     99   13
-5              Arthur    100   14
-6              Thomas     98   13
-7               Steve     97   14
->>> df5.loc[2] = ['Steve', 97, 14]
->>> df5
-student info  student  grade  age
-studentID                        
-0                Jane     97   13
-1             Delilah     56   13
-2               Steve     97   14
-3                 Sam     85   13
-4              Elaine     99   13
-5              Arthur    100   14
-6              Thomas     98   13
-7               Steve     97   14
->>> 
-```
-Dangit, we overwrote Kyle's info. We didn't want to do that! I hope we made a backup somewhere... 
-
-There is also an append function to add a row, or an entire df: 
-
-```
->>> df6 = pd.DataFrame({"grade":[87], "age":[13], "student":['Rex'], "height":[76]})
+>>> df3 = pd.DataFrame(data, columns=['grade', 'age', 'student', 'height'])
 >>> df3
    grade  age  student height
 0     97   13     Jane    NaN
@@ -417,225 +129,190 @@ There is also an append function to add a row, or an entire df:
 4     99   13   Elaine    NaN
 5    100   14   Arthur    NaN
 6     98   13   Thomas    NaN
->>> df6
-   grade  age student  height
-0     87   13     Rex      76
->>> df3.append(df6)
-   grade  age  student height
-0     97   13     Jane    NaN
-1     56   13  Delilah    NaN
-2     76   13     Kyle    NaN
-3     85   13      Sam    NaN
-4     99   13   Elaine    NaN
-5    100   14   Arthur    NaN
-6     98   13   Thomas    NaN
-0     87   13      Rex     76
 >>> 
 ```
-Pay attention to the index when using .append(). You can set "ingore_index" to True to avoid maintaining the index from the original df. In this case, pretend we needed the row to be assigned a new index number. 
+We just added a column! No data was provided for "height", so the values will appear to be missing. 
+
+We can call the columns attribute of the DataFrames, just in case we forget what columns exist. Pretty handy for larger DataFrames!:
 
 ```
->>> df3.append(df6, ignore_index=True)
-   grade  age  student height
-0     97   13     Jane    NaN
-1     56   13  Delilah    NaN
-2     76   13     Kyle    NaN
-3     85   13      Sam    NaN
-4     99   13   Elaine    NaN
-5    100   14   Arthur    NaN
-6     98   13   Thomas    NaN
-7     87   13      Rex     76
->>> 
- ```
-When we use .append(), columns not in the original df are added as new columns and the new cells are populated with NaN value. 
-
-```
->>> df6 = pd.DataFrame({"grade":[87], "age":[13], "student":['Rex'], "height":[76], "hometown":["St. Louis"]})
->>> df3.append(df6)
-   grade  age  student height   hometown
-0     97   13     Jane    NaN        NaN
-1     56   13  Delilah    NaN        NaN
-2     76   13     Kyle    NaN        NaN
-3     85   13      Sam    NaN        NaN
-4     99   13   Elaine    NaN        NaN
-5    100   14   Arthur    NaN        NaN
-6     98   13   Thomas    NaN        NaN
-0     87   13      Rex     76  St. Louis
->>> 
-```
-In a way, we just added a column! But let's look at more efficient ways to do that. 
-
-
-## Add a column
-
-We can append a column by adding a Series to an existing DataFrame using .loc[]:
-
-```
->>> df5.loc[:,'height'] = pd.Series([56, 62, 67, 54, 78, 76, 56, 57])
->>> df5
-student info  student  grade  age  height
-studentID                                
-0                Jane     97   13      56
-1             Delilah     56   13      62
-2                Kyle     76   13      67
-3                 Sam     85   13      54
-4              Elaine     99   13      78
-5              Arthur    100   14      76
-6              Thomas     98   13      56
-7               Steve     97   14      57
->>> 
-```
-We can declare a list and convert it into a column:
-
-```
->>> hometowns = ['Chicago', 'Minneapolis', 'Cairo', 'Vancouver', 'St. Louis', 'Seattle', 'Carbondale', 'Los Angeles']
->>> df5['birthplace'] = hometowns
->>> df5
-student info  student  height  grade  age   birthplace
-studentID                                             
-0                Jane      56     97   13      Chicago
-1             Delilah      62     56   13  Minneapolis
-2                Kyle      67     76   13        Cairo
-3                 Sam      54     85   13    Vancouver
-4              Elaine      78     99   13    St. Louis
-5              Arthur      76    100   14      Seattle
-6              Thomas      56     98   13   Carbondale
-7               Steve      57     97   14  Los Angeles
+>>> df.columns
+Index(['student', 'grade', 'age'], dtype='object')
+>>> df2.columns
+Index(['grade', 'age', 'student'], dtype='object')
+>>> df3.columns
+Index(['grade', 'age', 'student', 'height'], dtype='object')
 >>> 
 ```
 
-We can use .assign() to return a new object with all original columns in addition to new ones:
+We can retrieve a Series from a DataFrame either by dictionary notation or by column-named attribute: 
 
 ```
->>> df5_towns = df5.assign(birthplace = hometowns)
->>> df5_towns
-student info  student  height  grade  age   birthplace
-studentID                                             
-0                Jane      56     97   13      Chicago
-1             Delilah      62     56   13  Minneapolis
-2                Kyle      67     76   13        Cairo
-3                 Sam      54     85   13    Vancouver
-4              Elaine      78     99   13    St. Louis
-5              Arthur      76    100   14      Seattle
-6              Thomas      56     98   13   Carbondale
-7               Steve      57     97   14  Los Angeles
+>>> df['age']
+0    13
+1    13
+2    13
+3    13
+4    13
+5    14
+6    13
+Name: age, dtype: int64
+>>> df.age
+0    13
+1    13
+2    13
+3    13
+4    13
+5    14
+6    13
+Name: age, dtype: int64
 >>> 
 ```
 
-If appending (adding it to the end) is not what we want to do, we can instead use df.insert(), and place the column in a desired index. 
-
-```
-# insert(loc, column name, data, allow_duplicates)
->>> df5.insert(1, 'height', height, False)
->>> df5
-student info  student  height  grade  age
-studentID                                
-0                Jane      56     97   13
-1             Delilah      62     56   13
-2                Kyle      67     76   13
-3                 Sam      54     85   13
-4              Elaine      78     99   13
-5              Arthur      76    100   14
-6              Thomas      56     98   13
-7               Steve      57     97   14
->>> 
-```
-By far the easiest and most recommended method is to use .loc[], but as you have probably noticed there are multiple ways to accomplish the manipulation you need.
-
-
-## Transpose
-
-Swapping rows and columns is easy, and similar to transposing with NumPy arrays:
+We can use the index objects to return the contents of rows at a location:
 
 ```
 >>> df
-        student  grade  age  height
-red        Jane     97   13     NaN
-orange  Delilah     56   13     NaN
-yellow     Kyle     76   13     NaN
-green       Sam     85   13     NaN
-blue     Elaine     99   13     NaN
-indigo   Arthur    100   14     NaN
-violet   Thomas     98   13     NaN
->>> df.T
-          red   orange yellow green    blue  indigo  violet
-student  Jane  Delilah   Kyle   Sam  Elaine  Arthur  Thomas
-grade      97       56     76    85      99     100      98
-age        13       13     13    13      13      14      13
-height    NaN      NaN    NaN   NaN     NaN     NaN     NaN
+   student  grade  age
+0     Jane     97   13
+1  Delilah     56   13
+2     Kyle     76   13
+3      Sam     85   13
+4   Elaine     99   13
+5   Arthur    100   14
+6   Thomas     98   13
+>>> df.loc[4]
+student    Elaine
+grade          99
+age            13
+Name: 4, dtype: object
 >>> 
 ```
-## Drop
-
-Return a view or assign a new object with the indicated value(s) removed from an axis:
+To demonstrate with index object with specified names:
+ 
 
 ```
->>> df5
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
-# drop a row
->>> df5.drop(6)
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-# drop two rows
->>> df5.drop([5, 4])
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-6   Thomas     98   13
->>> 
-# drop a column. must specify which axis, or "columns"
->>> df5
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
->>> df5.drop('age', axis=1)
-   student  grade
-0     Jane     97
-1  Delilah     56
-2     Kyle     76
-3      Sam     85
-4   Elaine     99
-5   Arthur    100
-6   Thomas     98
->>> df5
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
->>> df5.drop('age', axis='columns')
-   student  grade
-0     Jane     97
-1  Delilah     56
-2     Kyle     76
-3      Sam     85
-4   Elaine     99
-5   Arthur    100
-6   Thomas     98
+>>> data
+{'student': ['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade': [97, 56, 76, 85, 99, 100, 98], 'age': [13, 13, 13, 13, 13, 14, 13]}
+>>> df = pd.DataFrame(data, index = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'])
+>>> df
+        student  grade  age
+red        Jane     97   13
+orange  Delilah     56   13
+yellow     Kyle     76   13
+green       Sam     85   13
+blue     Elaine     99   13
+indigo   Arthur    100   14
+violet   Thomas     98   13
+>>> df.loc['blue']
+student    Elaine
+grade          99
+age            13
+Name: blue, dtype: object
 >>> 
 ```
+
+Remember our DataFrame with NaN for "height"? We can assign values, either scalar or with an array (Note, values length must match the DataFrame length.):
+
+```
+>>> df3
+   grade  age  student height
+0     97   13     Jane    NaN
+1     56   13  Delilah    NaN
+2     76   13     Kyle    NaN
+3     85   13      Sam    NaN
+4     99   13   Elaine    NaN
+5    100   14   Arthur    NaN
+6     98   13   Thomas    NaN
+>>> df3['height'] = 60
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      60
+1     56   13  Delilah      60
+2     76   13     Kyle      60
+3     85   13      Sam      60
+4     99   13   Elaine      60
+5    100   14   Arthur      60
+6     98   13   Thomas      60
+>>> df3['height'] = (60, 55, 60, 55, 60, 55, 60)
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      60
+1     56   13  Delilah      55
+2     76   13     Kyle      60
+3     85   13      Sam      55
+4     99   13   Elaine      60
+5    100   14   Arthur      55
+6     98   13   Thomas      60
+>>> df3['height'] = np.arange(56, 63, 1)
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
+>>> 
+```
+We can also assign values with a Series. Take note, if the length of the Series does not match the length of the DataFrame, or no values are provided for an index, NaN will be inserted into any index value left blank:
+
+```
+>>> new_height = pd.Series([70, 71, 72], index = [1, 4, 6])
+>>> df3['height'] = new_height
+>>> df3
+   grade  age  student  height
+0     97   13     Jane     NaN
+1     56   13  Delilah    70.0
+2     76   13     Kyle     NaN
+3     85   13      Sam     NaN
+4     99   13   Elaine    71.0
+5    100   14   Arthur     NaN
+6     98   13   Thomas    72.0
+```
+Let's reexamine our df3 and document with a new column, with boolean values, whether a student is considered tall or not:
+
+```
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
+>>> df3['tall'] = df3.height >= 60
+>>> df3
+   grade  age  student  height   tall
+0     97   13     Jane      56  False
+1     56   13  Delilah      57  False
+2     76   13     Kyle      58  False
+3     85   13      Sam      59  False
+4     99   13   Elaine      60   True
+5    100   14   Arthur      61   True
+6     98   13   Thomas      62   True
+>>> 
+```
+The column "tall" was added, containing boolean values for rows that have a height >=60. 
+
+That kind of pokes fun at the short kids, so let's delete the column "tall":
+
+```
+>>> del df3['tall']
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
+>>> 
+```
+Be careful; deleting a column isn't something you would want to do accidentally.
 
 
 

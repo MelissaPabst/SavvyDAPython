@@ -39,7 +39,9 @@ dtype: int64
 3    3
 dtype: int64
 ```
-Feel free to do whatever you prefer after you are comfortable with direct imports like this.
+Feel free to do whatever you prefer after you are comfortable with direct imports like this. But as we discussed before, "np" and "pd" are pretty standard naming conventions for NumPy and pandas. 
+
+![pep8](week2images/PEP8.png)
 
 ## pandas Data Structures Part I: Series and Index
 

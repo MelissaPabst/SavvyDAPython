@@ -1,5 +1,7 @@
 # Series and DataFrames, cont'd. 
 
+Tonight we'll visit some methods to manipulate Series and DataFrames, but mostly demonstrating with DataFrames. Keep in mind these methods can be used on Series as well. 
+
 ## Retrieving Values: Indexing options 
 
 Consider the following DataFrame: 

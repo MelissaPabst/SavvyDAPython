@@ -43,7 +43,7 @@ Feel free to do whatever you prefer after you are comfortable with direct import
 
 ## pandas Data Structures Part I: Series and Index
 
-What we created above is a **series**, which is a 1D array-like object, similar to a NumPy 1D array, but has an associated array of index labels. The panda Series is for arrays of data of a single type, and can be thought of a column of a spreadsheet. 
+What we created above is a **series**, which is a 1D array-like object, similar to a NumPy 1D array, but has an associated array of index labels. Pandas actually stores data by using a NumPy 1D array! The panda Series is for arrays of data of a single type, and can be thought of a column of a spreadsheet. Documentation can be found [here](https://pandas.pydata.org/docs/reference/api/pandas.Series.html).
 
 The most basic build of a series looks like this:
 
@@ -52,8 +52,9 @@ The most basic build of a series looks like this:
 ```
 And "data" can be a Python dictionary, an ndarray, or even a scalar value. We can provide attributes such as name, dtype, shape, index, and values when we create a panda Series.
 
+The easiest way to make a Series is from a list, of course. 
 
-Here we have a panda series, with the index labels on the left and the data on the right:
+Here we have a panda series, with the Series index labels in the left column and the data on the right:
 
 ```
 >>> my_obj = pd.Series([2, 5, 8, 3, 1, 0])
@@ -66,7 +67,28 @@ Here we have a panda series, with the index labels on the left and the data on t
 5    0
 dtype: int64
 ```
-Here is one made from a NumPy array: 
+
+When creating a Series from a list of strings, etc., pay attention to the dtype of the object. Here we created one without specifying the dtype, so it gets read as an object. When we take the time to the tell the Series what data type is stored, it will be beneficial to us in the future. 
+
+```
+>>> series_string = pd.Series(['dog', 'cat', 'fish'])
+>>> print(series_string)
+0     dog
+1     cat
+2    fish
+dtype: object
+
+>>> series_string_2 = pd.Series(['dog', 'cat', 'fish'], dtype='string')
+>>> print(series_string_2)
+0     dog
+1     cat
+2    fish
+dtype: string
+>>> 
+```
+
+
+Numpy is very powerful and can be a building block for pandas, so you can see why it was important to master it first! Here is a Series made from a NumPy array: 
 
 ```
 >>> import numpy as np
@@ -79,6 +101,8 @@ Here is one made from a NumPy array:
 4   -0.166437
 dtype: float64
 ```
+
+
 Here is a series from a python dictionary:
 
 ```
@@ -379,322 +403,4 @@ y    NaN
 dtype: float64
 >>> 
 ```
-
-## pandas Data Structures Part II: DataFrame
-
-Not to blow your minds or anything, but a DataFrame is basically representation of a table or spreadsheet. Each column can be a Series of varying origins. DataFrames have a row index (axis = 0) and column index (axis = 1). Here are some basic examples to help you visualize what we will be creating and working with: 
-
-![DataFrame construction](week2images/SandD.jpg)
-
-
-![DataFrame example](week2images/dfexample.jpg)
-
-In the above example, think about the NaN values could have came about. 
-
-Let's create an empty DataFrame: 
-
-```
->>> df1 = pd.DataFrame()
->>> df1
-Empty DataFrame
-Columns: []
-Index: []
-```
-
-Any Series can be a DataFrame on its own: 
-
-```
->>> my_obj
-PANDA!!
-0    2
-1    5
-2    8
-3    3
-4    1
-5    0
-Name: MY FIRST PANDA OBJECT!!, dtype: int64
->>> df = pd.DataFrame(my_obj)
->>> df
-                MY FIRST PANDA OBJECT!!
-PANDA!!                         
-0                                     2
-1                                     5
-2                                     8
-3                                     3
-4                                     1
-5                                     0
->>> 
-```
-What do you notice that is different between the Series and the DataFrame made of one Series? (Hint: Is there a name/title? Spacing?)
-
-Or we can transform the Series to a DataFrame with .to_frame()
-
-```
->>> my_obj
-PANDA!!
-0    2
-1    5
-2    8
-3    3
-4    1
-5    0
-Name: MY FIRST PANDA OBJECT!!, dtype: int64
->>> my_obj.to_frame()
-                MY FIRST PANDA OBJECT!!
-PANDA!!                         
-0                                     2
-1                                     5
-2                                     8
-3                                     3
-4                                     1
-5                                     0
->>> 
-```
-
-A multi-Series DataFrame can easily be created by a dictionary of equal-length lists or NumPy arrays. This will produce a DataFrame with an automatically assigned index and columns placed in sorted order. 
-
-```
->>> data = {'student':['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade':[97, 56, 76, 85, 99, 100, 98], 'age':[13, 13, 13, 13, 13, 14, 13]}
->>> df = pd.DataFrame(data)
->>> df
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
->>> 
-```
-We can create a DataFrame from a nested dict of dicts, where the outer data is the columns and the inner data as the rows:
-
-```
->>> dict_data = {'St. Louis': {2020: 3.4, 2021: 3.2}, 'Kansas City': {2020: 2.3, 2021: 2.3}}
->>> dict_df = pd.DataFrame(dict_data)
->>> dict_df
-      St. Louis  Kansas City
-2020        3.4          2.3
-2021        3.2          2.3
->>> 
-```
-
-Practice: Build a DataFrame on your own, giving it at least 10 rows of data.
-
-Of course, we can specify the column order: 
-
-```
->>> df2 = pd.DataFrame(data, columns=['grade', 'age', 'student'])
->>> df2
-   grade  age  student
-0     97   13     Jane
-1     56   13  Delilah
-2     76   13     Kyle
-3     85   13      Sam
-4     99   13   Elaine
-5    100   14   Arthur
-6     98   13   Thomas
->>> 
-```
-Watch what happens when we pass a column that isn't in the original data dictionary:
-
-```
->>> data
-{'student': ['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade': [97, 56, 76, 85, 99, 100, 98], 'age': [13, 13, 13, 13, 13, 14, 13]}
->>> df3 = pd.DataFrame(data, columns=['grade', 'age', 'student', 'height'])
->>> df3
-   grade  age  student height
-0     97   13     Jane    NaN
-1     56   13  Delilah    NaN
-2     76   13     Kyle    NaN
-3     85   13      Sam    NaN
-4     99   13   Elaine    NaN
-5    100   14   Arthur    NaN
-6     98   13   Thomas    NaN
->>> 
-```
-We just added a column! No data was provided for "height", so the values will appear to be missing. 
-
-We can call the columns attribute of the DataFrames, just in case we forget what columns exist. Pretty handy for larger DataFrames!:
-
-```
->>> df.columns
-Index(['student', 'grade', 'age'], dtype='object')
->>> df2.columns
-Index(['grade', 'age', 'student'], dtype='object')
->>> df3.columns
-Index(['grade', 'age', 'student', 'height'], dtype='object')
->>> 
-```
-
-We can retrieve a Series from a DataFrame either by dictionary notation or by column-named attribute: 
-
-```
->>> df['age']
-0    13
-1    13
-2    13
-3    13
-4    13
-5    14
-6    13
-Name: age, dtype: int64
->>> df.age
-0    13
-1    13
-2    13
-3    13
-4    13
-5    14
-6    13
-Name: age, dtype: int64
->>> 
-```
-
-We can use the index objects to return the contents of rows at a location:
-
-```
->>> df
-   student  grade  age
-0     Jane     97   13
-1  Delilah     56   13
-2     Kyle     76   13
-3      Sam     85   13
-4   Elaine     99   13
-5   Arthur    100   14
-6   Thomas     98   13
->>> df.loc[4]
-student    Elaine
-grade          99
-age            13
-Name: 4, dtype: object
->>> 
-```
-To demonstrate with index object with specified names:
- 
-
-```
->>> data
-{'student': ['Jane', 'Delilah', 'Kyle', 'Sam', 'Elaine', 'Arthur', 'Thomas'], 'grade': [97, 56, 76, 85, 99, 100, 98], 'age': [13, 13, 13, 13, 13, 14, 13]}
->>> df = pd.DataFrame(data, index = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'])
->>> df
-        student  grade  age
-red        Jane     97   13
-orange  Delilah     56   13
-yellow     Kyle     76   13
-green       Sam     85   13
-blue     Elaine     99   13
-indigo   Arthur    100   14
-violet   Thomas     98   13
->>> df.loc['blue']
-student    Elaine
-grade          99
-age            13
-Name: blue, dtype: object
->>> 
-```
-
-Remember our DataFrame with NaN for "height"? We can assign values, either scalar or with an array (Note, values length must match the DataFrame length.):
-
-```
->>> df3
-   grade  age  student height
-0     97   13     Jane    NaN
-1     56   13  Delilah    NaN
-2     76   13     Kyle    NaN
-3     85   13      Sam    NaN
-4     99   13   Elaine    NaN
-5    100   14   Arthur    NaN
-6     98   13   Thomas    NaN
->>> df3['height'] = 60
->>> df3
-   grade  age  student  height
-0     97   13     Jane      60
-1     56   13  Delilah      60
-2     76   13     Kyle      60
-3     85   13      Sam      60
-4     99   13   Elaine      60
-5    100   14   Arthur      60
-6     98   13   Thomas      60
->>> df3['height'] = (60, 55, 60, 55, 60, 55, 60)
->>> df3
-   grade  age  student  height
-0     97   13     Jane      60
-1     56   13  Delilah      55
-2     76   13     Kyle      60
-3     85   13      Sam      55
-4     99   13   Elaine      60
-5    100   14   Arthur      55
-6     98   13   Thomas      60
->>> df3['height'] = np.arange(56, 63, 1)
->>> df3
-   grade  age  student  height
-0     97   13     Jane      56
-1     56   13  Delilah      57
-2     76   13     Kyle      58
-3     85   13      Sam      59
-4     99   13   Elaine      60
-5    100   14   Arthur      61
-6     98   13   Thomas      62
->>> 
-```
-We can also assign values with a Series. Take note, if the length of the Series does not match the length of the DataFrame, or no values are provided for an index, NaN will be inserted into any index value left blank:
-
-```
->>> new_height = pd.Series([70, 71, 72], index = [1, 4, 6])
->>> df3['height'] = new_height
->>> df3
-   grade  age  student  height
-0     97   13     Jane     NaN
-1     56   13  Delilah    70.0
-2     76   13     Kyle     NaN
-3     85   13      Sam     NaN
-4     99   13   Elaine    71.0
-5    100   14   Arthur     NaN
-6     98   13   Thomas    72.0
-```
-Let's reexamine our df3 and document with a new column, with boolean values, whether a student is considered tall or not:
-
-```
->>> df3
-   grade  age  student  height
-0     97   13     Jane      56
-1     56   13  Delilah      57
-2     76   13     Kyle      58
-3     85   13      Sam      59
-4     99   13   Elaine      60
-5    100   14   Arthur      61
-6     98   13   Thomas      62
->>> df3['tall'] = df3.height >= 60
->>> df3
-   grade  age  student  height   tall
-0     97   13     Jane      56  False
-1     56   13  Delilah      57  False
-2     76   13     Kyle      58  False
-3     85   13      Sam      59  False
-4     99   13   Elaine      60   True
-5    100   14   Arthur      61   True
-6     98   13   Thomas      62   True
->>> 
-```
-The column "tall" was added, containing boolean values for rows that have a height >=60. 
-
-That kind of pokes fun at the short kids, so let's delete the column "tall":
-
-```
->>> del df3['tall']
->>> df3
-   grade  age  student  height
-0     97   13     Jane      56
-1     56   13  Delilah      57
-2     76   13     Kyle      58
-3     85   13      Sam      59
-4     99   13   Elaine      60
-5    100   14   Arthur      61
-6     98   13   Thomas      62
->>> 
-```
-Be careful; deleting a column isn't something you would want to do accidentally.
-
-
 

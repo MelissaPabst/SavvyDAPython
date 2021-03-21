@@ -158,6 +158,57 @@ In summary:
 
 **df.iat[i, j]** Select a single scalar value by row and column integer positions
 
+
+As a practical example, let's look at the tricksy problem of eliminating NaN values when performing math operations we saw in our Series lesson:
+
+```
+>>> monster = pd.Series([10, 20, 30, 40, 50])
+>>> monster
+0    10
+1    20
+2    30
+3    40
+4    50
+dtype: int64
+>>> creature = pd.Series([100, 200], index = [4, 3])
+>>> creature
+4    100
+3    200
+dtype: int64
+>>> monster + creature
+0      NaN
+1      NaN
+2      NaN
+3    240.0
+4    150.0
+dtype: float64
+>>> 
+```
+
+First, we would select the values of monster contained in the creature Series index values:
+
+```
+>>> monster.loc[creature.index]
+4    50
+3    40
+dtype: int64
+>>>
+```
+
+Then we would += creature to add creature to those values, giving monster new values.
+
+```
+>>> monster.loc[creature.index] += creature
+>>> print(monster)
+0     10
+1     20
+2     30
+3    240
+4    150
+dtype: int64
+>>> 
+```
+
 There is also the **values** attribute you can call on a df, which returns a 2D ndarray:
 
 ```
@@ -171,6 +222,7 @@ array([['Jane', 97, 13],
        ['Thomas', 98, 13]], dtype=object)
 >>> 
 ```
+ 
 
 ## Retrieving Rows
 

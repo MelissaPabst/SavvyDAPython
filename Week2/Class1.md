@@ -292,6 +292,8 @@ dtype: int64
 1    5
 dtype: int64
 ```
+Indexing isn't the **best** way to do this, as we will see later, but is certainly an option. 
+
 Returning NaN: If we are building a series object from a dictionary, as we did earlier, the resulting series will place the keys in the original order. However, we can play with it. We can rearrange the order to how we want it to display. Notice below that if we put a key in the index that has no value in the dictionary, we get "NaN". 
 
 ```
@@ -403,4 +405,120 @@ y    NaN
 dtype: float64
 >>> 
 ```
+
+Let's examine adding two Series a bit further to understand the underlying methods. 
+
+Say we have the following Series, and add a scalar:
+
+```
+>>> monster = pd.Series([10, 20, 30, 40, 50])
+>>> monster + 1
+0    11
+1    21
+2    31
+3    41
+4    51
+dtype: int64
+>>> 
+```
+
+The behavior appears to have used broadcasting (remember that term we learned in with Numpy?) to add 1, element-wise, to our monster Series. 
+
+What if we present that "1" value as a Series instead of an integer?
+
+```
+>>> monster + pd.Series(1)
+0    11.0
+1     NaN
+2     NaN
+3     NaN
+4     NaN
+dtype: float64
+>>> 
+```
+
+When we create a Series, its size corresponds to the number of values we give it. So there wasn't a "1" to add to index values 1, 2, 3, and 4. Pandas only performs operations on Series with the same index label, and it this case, it was "0" as that is the index both Series had in common. 
+
+Let's add two Series. 
+
+```
+>>> A = pd.Series([10, 20, 30, 40, 50])
+>>> B = pd.Series([1, 2, 3, 4, 5])
+>>> A + B
+0    11
+1    22
+2    33
+3    44
+4    55
+dtype: int64
+```
+
+It appears that the addition happened element-wise, yes?
+
+Consider rearranging the index of A and performing the same operation:
+
+```
+>>> A.index = np.array([4, 3, 2, 1, 0])
+>>> A + B
+0    51
+1    42
+2    33
+3    24
+4    15
+dtype: int64
+>>> 
+```
+
+Why did that happen? Well, A has a new index, and the operations happen according to index label. 
+
+```
+# New index of A
+>>> A
+4    10
+3    20
+2    30
+1    40
+0    50
+dtype: int64
+>>> 
+```
+
+The same behavior happens whether is addition, subtraction, multiplication, division, etc. 
+
+To avoid this behavior, you'll have to perform the operation at the NumPy level with **to_numpy()**: 
+
+```
+>>> A.to_numpy() + B.to_numpy()
+array([11, 22, 33, 44, 55])
+>>> 
+```
+And if you want it in the form of a Series:
+
+```
+>>> pd.Series(A.to_numpy() + B.to_numpy())
+0    11
+1    22
+2    33
+3    44
+4    55
+dtype: int64
+>>> 
+```
+
+As you can see, dropping to the Numpy level will allow us to perform the operations element-wise. 
+
+Things get crazy if we add a NumPy Array to a Series. Since we changed the index of A, we get a Series with the new index of A: 
+
+```
+>>> A + B.to_numpy()
+4    11
+3    22
+2    33
+1    44
+0    55
+dtype: int64
+>>>
+```
+
+
 

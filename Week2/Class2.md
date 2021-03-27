@@ -99,7 +99,7 @@ We can create a DataFrame from a nested dict of dicts, where the outer data is t
 >>> 
 ```
 
-Practice: Build a DataFrame on your own, giving it at least 10 rows of data, and at least 3 columns.
+**Practice**: Build a DataFrame on your own, giving it at least 10 rows of data, and at least 3 columns. The hardes part about this will be not making syntax typos. If you're getting an error, that's probably what you want to check first.
 
 Of course, we can specify the column order: 
 

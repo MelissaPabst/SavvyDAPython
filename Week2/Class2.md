@@ -22,6 +22,8 @@ Index: []
 Any Series can be a DataFrame on its own: 
 
 ```
+>>> my_obj = pd.Series([2, 5, 8, 3, 1, 0], name='MY FIRST PANDA OBJECT!!')
+>>> my_obj.index.name = 'PANDA!!'
 >>> my_obj
 PANDA!!
 0    2

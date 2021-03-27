@@ -214,7 +214,7 @@ Name: blue, dtype: object
 >>> 
 ```
 
-Remember our DataFrame with NaN for "height"? We can assign values, either scalar or with an array (Note, values length must match the DataFrame length.):
+Remember our DataFrame with NaN for "height"? We can either add a column or assign values, with a list, numpy array, Series, or a scalar. (Note, values length must match the DataFrame length.):
 
 ```
 >>> df3
@@ -258,7 +258,7 @@ Remember our DataFrame with NaN for "height"? We can assign values, either scala
 6     98   13   Thomas      62
 >>> 
 ```
-We can also assign values with a Series. Take note, if the length of the Series does not match the length of the DataFrame, or no values are provided for an index, NaN will be inserted into any index value left blank:
+Here is an example of assigning values with a Series. Take note, if the length of the Series does not match the length of the DataFrame, or no values are provided for an index, NaN will be inserted into any index value left blank:
 
 ```
 >>> new_height = pd.Series([70, 71, 72], index = [1, 4, 6])

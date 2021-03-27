@@ -381,16 +381,27 @@ How can boolean indexing be helpful? Well, it can help us narrow our dataset to 
 Arthur's grade is suspicious because he usually doesn't do well. Let's say Arthur got caught cheating and we need to give him a zero instead of a 100%. We can use boolean indexing to update his grade!:
 
 ```
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
 >>> df3.loc[df3.student == 'Arthur', 'grade'] = 0
 >>> df3
-   grade  age  student  height  
-0     97   13     Jane      56  
-1     56   13  Delilah      57  
-2     76   13     Kyle      58 
-3     85   13      Sam      59  
-4     99   13   Elaine      60  
-5      0   14   Arthur      61  
-6     98   13   Thomas      62  
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5      0   14   Arthur      61
+6     98   13   Thomas      62
 >>> 
 ```
-What a troublemaker! I mean, if you're going to cheat, don't make it obvious! 
+What a troublemaker! I mean, if you're going to cheat, don't make it obvious!
+
+ 

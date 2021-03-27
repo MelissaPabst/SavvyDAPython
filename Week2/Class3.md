@@ -678,6 +678,10 @@ Return a view or assign a new object with the indicated value(s) removed from an
 3      Sam     85   13
 6   Thomas     98   13
 >>> 
+```
+We already discussed how to use **del** to eliminate a column, but we can also use **drop**, when specifying the axis:
+
+```
 # drop a column. must specify which axis, or "columns"
 >>> df5
    student  grade  age

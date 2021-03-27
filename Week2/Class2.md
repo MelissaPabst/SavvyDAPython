@@ -273,7 +273,67 @@ We can also assign values with a Series. Take note, if the length of the Series 
 5    100   14   Arthur     NaN
 6     98   13   Thomas    72.0
 ```
-Let's reexamine our df3 and document with a new column, with boolean values, whether a student is considered tall or not:
+
+**Boolean Indexing**
+
+Let's say we consider any student "tall" when their height is equal to or above 60 inches:
+
+```
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
+>>> 
+>>> tall = df3.height >= 60
+>>> tall
+0    False
+1    False
+2    False
+3    False
+4     True
+5     True
+6     True
+Name: height, dtype: bool
+>>> 
+```
+We can pick out the rows that specifically match "tall":
+
+```
+>>> df3.loc[tall]
+   grade  age student  height
+4     99   13  Elaine      60
+5    100   14  Arthur      61
+6     98   13  Thomas      62
+>>> 
+```
+
+Often this could be accomplished in one line. As you get more comfortable with coding, this is how you'll be doing it!:
+
+```
+>>> df3.loc[df3.height >= 60]
+   grade  age student  height
+4     99   13  Elaine      60
+5    100   14  Arthur      61
+6     98   13  Thomas      62
+>>> 
+```
+And, of course, boolean statements can be combined to refine your results:
+
+```
+>>> df3.loc[(df3.grade < 90) & (df3.age == 13)]
+   grade  age  student  height
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+>>> 
+```
+
+Let's enhance our df3 and document "tall" with a new column, with boolean values, whether a student is considered tall or not:
 
 ```
 >>> df3
@@ -316,5 +376,4 @@ That kind of pokes fun at the short kids, so let's delete the column "tall":
 ```
 Be careful; deleting a column isn't something you would want to do accidentally.
 
-
-
+How can boolean indexing be helpful? Well, it can help us narrow our dataset to find values we don't want to include. We could delete the rows where students didn't score a passing grade to give that class list to their next teacher. Or if you needed to produce a list of tall kids to study their mutant genes. Or if you needed to know how many girls are in the class. Etc. The kind of data important to you determines your manipulation. 

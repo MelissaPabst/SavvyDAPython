@@ -378,3 +378,19 @@ Be careful; deleting a column isn't something you would want to do accidentally.
 
 How can boolean indexing be helpful? Well, it can help us narrow our dataset to find values we don't want to include. We could delete the rows where students didn't score a passing grade to give that class list to their next teacher. Or if you needed to produce a list of tall kids to study their mutant genes. Or if you needed to know how many girls are in the class. Etc. The kind of data important to you determines your manipulation. 
 
+Arthur's grade is suspicious because he usually doesn't do well. Let's say Arthur got caught cheating and we need to give him a zero instead of a 100%. We can use boolean indexing to update his grade!:
+
+```
+>>> df3.loc[df3.student == 'Arthur', 'grade'] = 0
+>>> df3
+   grade  age  student  height  silly
+0     97   13     Jane      56    110
+1     56   13  Delilah      57     69
+2     76   13     Kyle      58     89
+3     85   13      Sam      59     98
+4     99   13   Elaine      60    112
+5      0   14   Arthur      61    114
+6     98   13   Thomas      62    111
+>>> 
+```
+What a troublemaker! I mean, if you're going to cheat, don't make it obvious! 

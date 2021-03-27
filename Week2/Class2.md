@@ -147,7 +147,7 @@ Index(['grade', 'age', 'student', 'height'], dtype='object')
 >>> 
 ```
 
-We can retrieve a Series from a DataFrame either by dictionary notation or by column-named attribute: 
+We can retrieve a Series from a DataFrame either by dictionary notation (brackets) or by a column-named attribute (dot notation): 
 
 ```
 >>> df['age']
@@ -377,3 +377,4 @@ That kind of pokes fun at the short kids, so let's delete the column "tall":
 Be careful; deleting a column isn't something you would want to do accidentally.
 
 How can boolean indexing be helpful? Well, it can help us narrow our dataset to find values we don't want to include. We could delete the rows where students didn't score a passing grade to give that class list to their next teacher. Or if you needed to produce a list of tall kids to study their mutant genes. Or if you needed to know how many girls are in the class. Etc. The kind of data important to you determines your manipulation. 
+

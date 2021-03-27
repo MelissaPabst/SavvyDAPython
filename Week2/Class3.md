@@ -722,5 +722,220 @@ We already discussed how to use **del** to eliminate a column, but we can also u
 >>> 
 ```
 
+## View and Copy
+ 
+Just like working with NumPy, we need to be cognizant of when we are creating views vs. copies with Series and Dataframes. Remember that copies are separate instances of the data, and a view is just creating a way to access or look at the original data. Problems can arise when you modify a view and forget that any modifications cause changes to the original DataFrame.
+
+To demonstrate the nuances, let's begin with a simple DataFrame:
+
+```
+>>> dframe = pd.DataFrame({'a':[1, 2, 3, 4, 5], 'b':[10, 20, 30, 40, 50]})
+>>> dframe
+   a   b
+0  1  10
+1  2  20
+2  3  30
+3  4  40
+4  5  50
+```
+
+We can pull out the Series 'a' and store it in a variable, v1:
+
+```
+>>> v1 = dframe['a']
+>>> v1
+0    1
+1    2
+2    3
+3    4
+4    5
+Name: a, dtype: int64
+>>>
+```
+
+If we modify v1, we also modify our original dframe. 
+
+```
+>>> v1.iloc[1] = 222
+>>> v1
+0      1
+1    222
+2      3
+3      4
+4      5
+Name: a, dtype: int64
+>>> dframe
+     a   b
+0    1  10
+1  222  20
+2    3  30
+3    4  40
+4    5  50
+>>>
+```
+
+Let's extract 'b' and add 1, and assign it to v2 (Our current version of dframe is unchanged.):
+
+```
+>>> v2 = dframe['b'] + 1
+>>> v2
+0    11
+1    21
+2    31
+3    41
+4    51
+Name: b, dtype: int64
+>>> dframe
+     a   b
+0    1  10
+1  222  20
+2    3  30
+3    4  40
+4    5  50
+>>>
+```
+
+Any change we make to v2 does not affect our dframe values.
+
+```
+>>> v2.iloc[0] = 0
+>>> v2
+0     0
+1    21
+2    31
+3    41
+4    51
+Name: b, dtype: int64
+>>> dframe
+     a   b
+0    1  10
+1  222  20
+2    3  30
+3    4  40
+4    5  50
+>>>
+```
+
+Next up is to create seemingly identical v1 and v2. First, we will use a list of indices to set v1 equal to the first two rows of dframe:
+
+```
+>>> v1 = dframe.iloc[[0, 1]]
+>>> v1
+     a   b
+0    1  10
+1  222  20
+>>>
+```
+
+With v2, we will use slicing to select the first two rows:
+
+```
+>>> v2 = dframe.iloc[:2]
+>>> v2
+     a   b
+0    1  10
+1  222  20
+>>>
+```
+
+Let's attempt to modify v1:
+
+```
+>>> v1.iloc[1] = 333
+/Users/melissapabst/miniconda3/envs/dapenv/lib/python3.8/site-packages/pandas/core/indexing.py:1637: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self._setitem_single_block(indexer, value, name)
+/Users/melissapabst/miniconda3/envs/dapenv/lib/python3.8/site-packages/pandas/core/indexing.py:692: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  iloc._setitem_with_indexer(indexer, value, self.name)
+>>> v1
+     a    b
+0    1   10
+1  333  333
+>>> dframe
+     a   b
+0    1  10
+1  222  20
+2    3  30
+3    4  40
+4    5  50
+>>>
+```
+
+OH NO! We got a warning! "A value is trying to be set on a copy of a slice from a DataFrame". Of course, dframe is unchanged because v1 was a COPY. 
+
+Let's modify v2 in the same way: 
+
+```
+>>> v2.iloc[1] = 333
+/Users/melissapabst/miniconda3/envs/dapenv/lib/python3.8/site-packages/pandas/core/indexing.py:1637: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  self._setitem_single_block(indexer, value, name)
+/Users/melissapabst/miniconda3/envs/dapenv/lib/python3.8/site-packages/pandas/core/indexing.py:692: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  iloc._setitem_with_indexer(indexer, value, self.name)
+ >>> v2
+     a    b
+0    1   10
+1  333  333
+>>> dframe
+     a    b
+0    1   10
+1  333  333
+2    3   30
+3    4   40
+4    5   50
+>>> 
+```
+
+OH NO! We got a warning again. "A value is trying to be set on a copy of a slice from a DataFrame" BUT this time as v2 was changed, our dframe was also changed. This means v2 is a VIEW, or a reference, and v2 is simply pointing to dframe. 
+
+
+Using **copy()** explicitly will help us stay on track and only modify a copy. 
+
+```
+>>> v3 = dframe.iloc[:2].copy()
+>>> v3
+     a    b
+0    1   10
+1  333  333
+>>> 
+```
+
+You can then modify v3 all you want and it will DEFINITELY not affect the original dframe. 
+
+```
+>>> dframe
+     a    b
+0    1   10
+1  333  333
+2    3   30
+3    4   40
+4    5   50
+>>> v3.iloc[1] = 444
+>>> v3
+     a    b
+0    1   10
+1  444  444
+>>> dframe
+     a    b
+0    1   10
+1  333  333
+2    3   30
+3    4   40
+4    5   50
+>>> 
+```
+
+Our dframe goes unchanged when you modify a copy. If it's a view, well, then I hope you intended to change the data. 
+
 
 

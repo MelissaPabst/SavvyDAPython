@@ -596,6 +596,33 @@ studentID
 ```
 By far the easiest and most recommended method is to use .loc[], but as you have probably noticed there are multiple ways to accomplish the manipulation you need.
 
+You can also combine columns to form one new column. It wouldn't be a real scenario, but as an example you could combine grade and age to create a column "silly" by doing the following: 
+
+```
+>>> df3
+   grade  age  student  height
+0     97   13     Jane      56
+1     56   13  Delilah      57
+2     76   13     Kyle      58
+3     85   13      Sam      59
+4     99   13   Elaine      60
+5    100   14   Arthur      61
+6     98   13   Thomas      62
+>>> df3['silly'] = df3.grade + df3.age
+>>> df3
+   grade  age  student  height  silly
+0     97   13     Jane      56    110
+1     56   13  Delilah      57     69
+2     76   13     Kyle      58     89
+3     85   13      Sam      59     98
+4     99   13   Elaine      60    112
+5    100   14   Arthur      61    114
+6     98   13   Thomas      62    111
+>>> 
+```
+
+Combining columns to form a new column would provide value in other situations, but not with this dataset. 
+
 
 ## Transpose
 

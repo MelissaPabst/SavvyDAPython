@@ -383,14 +383,14 @@ Arthur's grade is suspicious because he usually doesn't do well. Let's say Arthu
 ```
 >>> df3.loc[df3.student == 'Arthur', 'grade'] = 0
 >>> df3
-   grade  age  student  height  silly
-0     97   13     Jane      56    110
-1     56   13  Delilah      57     69
-2     76   13     Kyle      58     89
-3     85   13      Sam      59     98
-4     99   13   Elaine      60    112
-5      0   14   Arthur      61    114
-6     98   13   Thomas      62    111
+   grade  age  student  height  
+0     97   13     Jane      56  
+1     56   13  Delilah      57  
+2     76   13     Kyle      58 
+3     85   13      Sam      59  
+4     99   13   Elaine      60  
+5      0   14   Arthur      61  
+6     98   13   Thomas      62  
 >>> 
 ```
 What a troublemaker! I mean, if you're going to cheat, don't make it obvious! 

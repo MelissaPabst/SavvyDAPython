@@ -320,15 +320,14 @@ Sometimes we will need to retrieve data from online resources. Let's examine how
 
 
 ```
-(dapenv) Melissas-MacBook-Pro:savvydapython melissa$ conda install requests
+ conda install requests
 ```
 
 Let's work with an API that does not require authentication, for ease of practice. 
 
 A recently published list of fun API's with no auth can be found [here](https://mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis/). 
 
-I chose to work with [Cat Facts](https://alexwohlbruck.github.io/cat-facts/).
-The API documentation for Cat Facts is [here](https://alexwohlbruck.github.io/cat-facts/docs/). 
+I chose to work with data from [Cat Facts](https://cat-fact.herokuapp.com/#/). The GitHub Page is [here](https://alexwohlbruck.github.io/cat-facts/). The API documentation for Cat Facts is [here](https://alexwohlbruck.github.io/cat-facts/docs/). 
 
 ![catfacts](week2images/catfacts.jpg)
 

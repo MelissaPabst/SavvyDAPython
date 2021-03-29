@@ -277,5 +277,211 @@ Why do you think that is? Well, you might need to install a JSON editor specific
 
 **OR** you can drag the file into your web browser! Give it a try. Pretty cool tricks, huh?
 
-JSON itself is tricksy, Precious. 
+JSON is tricksy, Precious. 
+
+## Other file types
+
+While CSV, Excel, and JSON files are probably the most common, other data formats exist. 
+
+You might be given file types of .txt, HTML, or even a Python pickle file (yeah, that's a real thing!), so it's just a matter of looking up the methods needed to work with those kinds of files. [Here is a good place to get started](https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html).
+
+## Data Dump
+
+Getting data from outside Python is commonly referred to as a **data dump**, and happens often when files are obtained via and API or a database, versus someone conveniently (and kindly!) handing us a file. The reason for the "data dump" verbiage is that the incoming file is often a very large amount of data, with varying degrees of granularity, and none of it has been sorted out. It can be useful to our analysis, and it is our job to sift through it to make those determinations depending on the questions we need to answer. 
+
+
+### Data from a Database
+
+Note: SQL = Structured Query Language and is used to query databases.
+
+Pandas has the built-in ability to interact with SQLite, and the installation of SQLAlchemy allows us to interact with other types of databases. 
+
+This is kind of what it would look like should we want to write "scary_pets.csv" to a  database called "animals" as a table called "nightmares":
+
+```
+>>> import sqlite3
+>>> with sqlite3.connect('animals.db') as connection: pd.read_csv('PracticeFiles/scary_pets.csv).to_sql('nightmares', connection, index=False, if_exists='replace')
+```
+Getting data from the database involves the use of SQL queries. Retrieving our "nightmares" table data would look similar to this: 
+
+```
+>>> with sqlite3.connect('animals.db') as connection: scary_pets = pd.read_sql('SELECT * FROM nightmares', connection)
+```
+
+And that's the gist of our query. We went to animals database, and read ALL data from the SQL table "nightmares" and stored it in a scary_pets DataFrame. 
+
+### Data from an API
+
+Sometimes we will need to retrieve data from online resources. Let's examine how to do that:
+
+1. We will be making a GET request. GET is an HTTP method that tells a server we want to read some data. If the server requires authentication, we will make a POST request. Information about HTTP requests can be found [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).
+2. We will need the URL/endpoint of the API where we access the data.
+3. We need the Python requests module in order to make API calls... You should know the drill by now. Documentation can be found [here](https://docs.python-requests.org/en/master/):
+
+
+```
+(dapenv) Melissas-MacBook-Pro:savvydapython melissa$ conda install requests
+```
+
+Let's work with an API that does not require authentication, for ease of practice. 
+
+A recently published list of fun API's with no auth can be found [here](https://mixedanalytics.com/blog/list-actually-free-open-no-auth-needed-apis/). 
+
+I chose to work with [Cat Facts](https://alexwohlbruck.github.io/cat-facts/).
+The API documentation for Cat Facts is [here](https://alexwohlbruck.github.io/cat-facts/docs/). 
+
+![catfacts](week2images/catfacts.jpg)
+
+Our base URL for our data fetch will be "https://cat-fact.herokuapp.com", and we will add the endpoint of "/facts" because we want ALL the cat facts. 
+
+We'll import requests, and then check to make sure the HTTP status code of the request is a 200, which signifies the API is operational and everything is okay. We'll then format the response as JSON, and examine the response. 
+
+```
+>>> import requests
+>>> url = 'https://cat-fact.herokuapp.com/facts'
+>>> response = requests.get(url)
+>>> response
+<Response [200]>
+>>> response = requests.get(url).json()
+>>> response
+[{'status': {'verified': True, 'sentCount': 1}, 'type': 'cat', 'deleted': False, '_id': '58e008800aac31001185ed07', 'user': '58e007480aac31001185ecef', 'text': 'Wikipedia has a recording of a cat meowing, because why not?', '__v': 0, 'source': 'user', 'updatedAt': '2020-08-23T20:20:01.611Z', 'createdAt': '2018-03-06T21:20:03.505Z', 'used': False}, {'status': {'verified': True, 'sentCount': 1}, 'type': 'cat', 'deleted': False, '_id': '58e008630aac31001185ed01', 'user': '58e007480aac31001185ecef', 'text': 'When cats grimace, they are usually "taste-scenting." They have an extra organ that, with some breathing control, allows the cats to taste-sense the air.', '__v': 0, 'source': 'user', 'updatedAt': '2020-08-23T20:20:01.611Z', 'createdAt': '2018-02-07T21:20:02.903Z', 'used': False}, {'status': {'verified': True, 'sentCount': 1}, 'type': 'cat', 'deleted': False, '_id': '58e00a090aac31001185ed16', 'user': '58e007480aac31001185ecef', 'text': 'Cats make more than 100 different sounds whereas dogs make around 10.', '__v': 0, 'source': 'user', 'updatedAt': '2020-08-23T20:20:01.611Z', 'createdAt': '2018-02-11T21:20:03.745Z', 'used': False}, {'status': {'verified': True, 'sentCount': 1}, 'type': 'cat', 'deleted': False, '_id': '58e009390aac31001185ed10', 'user': '58e007480aac31001185ecef', 'text': "Most cats are lactose intolerant, and milk can cause painful stomach cramps and diarrhea. It's best to forego the milk and just give your cat the standard: clean, cool drinking water.", '__v': 0, 'source': 'user', 'updatedAt': '2020-08-23T20:20:01.611Z', 'createdAt': '2018-03-04T21:20:02.979Z', 'used': False}, {'status': {'verified': True, 'sentCount': 1}, 'type': 'cat', 'deleted': False, '_id': '58e008780aac31001185ed05', 'user': '58e007480aac31001185ecef', 'text': 'Owning a cat can reduce the risk of stroke and heart attack by a third.', '__v': 0, 'source': 'user', 'updatedAt': '2020-08-23T20:20:01.611Z', 'createdAt': '2018-03-29T20:20:03.844Z', 'used': False}]
+>>> 
+```
+
+Great, but how do we unpack that??? We can look at the keys to look at how the data is structured:  
+
+
+```
+>>> response.keys()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'list' object has no attribute 'keys'
+```
+
+
+UM WHAT?? An error? Sigh. We just tried to get keys from a Python list object. Let's try using a URL that has a single cat fact as an endpoint. 
+
+
+```
+>>> url = 'https://cat-fact.herokuapp.com/facts/random'
+>>> response = requests.get(url)
+>>> response
+<Response [200]>
+>>> response.json()
+{'status': {'verified': True, 'sentCount': 1}, 'type': 'cat', 'deleted': False, '_id': '58e00b4d0aac31001185ed22', 'user': '58e007480aac31001185ecef', 'text': 'Original kitty litter was made out of sand but it was replaced by more absorbent clay in 1948.', '__v': 0, 'source': 'user', 'updatedAt': '2020-08-23T20:20:01.611Z', 'createdAt': '2018-01-13T21:20:04.481Z', 'used': False}
+>>> response.json().keys()
+dict_keys(['status', 'type', 'deleted', '_id', 'user', 'text', '__v', 'source', 'updatedAt', 'createdAt', 'used'])
+>>> 
+```
+
+Then we can investigate the data in that one single cat fact by looking at the types of data stored in a key:
+
+```
+>>> catfacts_json = response.json()
+>>> type(catfacts_json['_id'])
+<class 'str'>
+>>> type(catfacts_json['status'])
+<class 'dict'>
+>>> 
+```
+
+We can use the keys to extract data from the response object: 
+
+```
+>>> catfacts_json['status']
+{'verified': True, 'sentCount': 1}
+>>> catfacts_json['status']['verified']
+>>> True
+>>> catfacts_json['text']
+'Original kitty litter was made out of sand but it was replaced by more absorbent clay in 1948.'
+>>> 
+```
+
+Now that you're warmed up with API's, let's look at one that is a little meatier. This API returns the most 30 recent open issues for pandas on GitHub (Shame! Someone needs to get on those!):
+
+
+```
+>>> url = 'https://api.github.com/repos/pandas-dev/pandas/issues'
+>>> response = requests.get(url)
+>>> response
+<Response [200]
+>>> issues_data = response.json()
+```
+
+Let's examine the GitHub issues to see what the first one looks like: 
+
+```
+>>> issues_data[0]
+{'url': 'https://api.github.com/repos/pandas-dev/pandas/issues/40672', 'repository_url': 'https://api.github.com/repos/pandas-dev/pandas', 'labels_url': 'https://api.github.com/repos/pandas-dev/pandas/issues/40672/labels{/name}', 'comments_url': 'https://api.github.com/repos/pandas-dev/pandas/issues/40672/comments', 'events_url': 'https://api.github.com/repos/pandas-dev/pandas/issues/40672/events', 'html_url': 'https://github.com/pandas-dev/pandas/pull/40672', 'id': 842874460, 'node_id': 'MDExOlB1bGxSZXF1ZXN0NjAyMzQzNDI0', 'number': 40672, 'title': 'REF: _cython_operation handle values.ndim==1 case up-front', 'user': {'login': 'jbrockmendel', 'id': 8078968, 'node_id': 'MDQ6VXNlcjgwNzg5Njg=', 'avatar_url': 'https://avatars.githubusercontent.com/u/8078968?v=4', 'gravatar_id': '', 'url': 'https://api.github.com/users/jbrockmendel', 'html_url': 'https://github.com/jbrockmendel', 'followers_url': 'https://api.github.com/users/jbrockmendel/followers', 'following_url': 'https://api.github.com/users/jbrockmendel/following{/other_user}', 'gists_url': 'https://api.github.com/users/jbrockmendel/gists{/gist_id}', 'starred_url': 'https://api.github.com/users/jbrockmendel/starred{/owner}{/repo}', 'subscriptions_url': 'https://api.github.com/users/jbrockmendel/subscriptions', 'organizations_url': 'https://api.github.com/users/jbrockmendel/orgs', 'repos_url': 'https://api.github.com/users/jbrockmendel/repos', 'events_url': 'https://api.github.com/users/jbrockmendel/events{/privacy}', 'received_events_url': 'https://api.github.com/users/jbrockmendel/received_events', 'type': 'User', 'site_admin': False}, 'labels': [], 'state': 'open', 'locked': False, 'assignee': None, 'assignees': [], 'milestone': None, 'comments': 0, 'created_at': '2021-03-29T00:37:08Z', 'updated_at': '2021-03-29T00:37:08Z', 'closed_at': None, 'author_association': 'MEMBER', 'active_lock_reason': None, 'pull_request': {'url': 'https://api.github.com/repos/pandas-dev/pandas/pulls/40672', 'html_url': 'https://github.com/pandas-dev/pandas/pull/40672', 'diff_url': 'https://github.com/pandas-dev/pandas/pull/40672.diff', 'patch_url': 'https://github.com/pandas-dev/pandas/pull/40672.patch'}, 'body': '- [ ] closes #xxxx\r\n- [ ] tests added / passed\r\n- [ ] Ensure all linting tests pass, see [here](https://pandas.pydata.org/pandas-docs/dev/development/contributing.html#code-standards) for how to run them\r\n- [ ] whatsnew entry\r\n', 'performed_via_github_app': None}
+```
+
+Whoa! That's a lot of data. Let's put it in a DataFrame!
+
+
+```
+>>> issues_df = pd.DataFrame(issues_data)
+>>> issues_df
+                                                  url  ... performed_via_github_app
+0   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+1   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+2   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+3   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+4   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+5   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+6   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+7   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+8   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+9   https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+10  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+11  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+12  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+13  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+14  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+15  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+16  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+17  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+18  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+19  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+20  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+21  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+22  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+23  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+24  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+25  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+26  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+27  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+28  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+29  https://api.github.com/repos/pandas-dev/pandas...  ...                     None
+
+[30 rows x 26 columns]
+>>> 
+```
+
+Let's revisit Cat Facts and feel a little bit better about life:
+
+```
+>>> url = 'https://cat-fact.herokuapp.com/facts'
+>>> response = requests.get(url)
+>>> response
+<Response [200]>
+>>> catfacts_json = response.json()
+>>> catfacts_json[0]
+{'status': {'verified': True, 'sentCount': 1}, 'type': 'cat', 'deleted': False, '_id': '58e008800aac31001185ed07', 'user': '58e007480aac31001185ecef', 'text': 'Wikipedia has a recording of a cat meowing, because why not?', '__v': 0, 'source': 'user', 'updatedAt': '2020-08-23T20:20:01.611Z', 'createdAt': '2018-03-06T21:20:03.505Z', 'used': False}
+>>> catfacts_df = pd.DataFrame(catfacts_json)
+>>> catfacts_df
+                               status type  deleted  ...                 updatedAt                 createdAt   used
+0  {'verified': True, 'sentCount': 1}  cat    False  ...  2020-08-23T20:20:01.611Z  2018-03-06T21:20:03.505Z  False
+1  {'verified': True, 'sentCount': 1}  cat    False  ...  2020-08-23T20:20:01.611Z  2018-02-07T21:20:02.903Z  False
+2  {'verified': True, 'sentCount': 1}  cat    False  ...  2020-08-23T20:20:01.611Z  2018-02-11T21:20:03.745Z  False
+3  {'verified': True, 'sentCount': 1}  cat    False  ...  2020-08-23T20:20:01.611Z  2018-03-04T21:20:02.979Z  False
+4  {'verified': True, 'sentCount': 1}  cat    False  ...  2020-08-23T20:20:01.611Z  2018-03-29T20:20:03.844Z  False
+
+[5 rows x 11 columns]
+>>> 
+```
+
+
+
+
+
 

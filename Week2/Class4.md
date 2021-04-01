@@ -396,14 +396,14 @@ We can use the keys to extract data from the response object:
 >>> 
 ```
 
-Now that you're warmed up with API's, let's look at one that is a little meatier. This API returns the most 30 recent open issues for pandas on GitHub (Shame! Someone needs to get on those!):
+Now that you're warmed up with API's, let's look at one that is a little meatier. This API returns the most 30 recent [open issues for pandas on GitHub](https://github.com/pandas-dev/pandas/issues) (Shame! Someone needs to get on those!):
 
 
 ```
 >>> url = 'https://api.github.com/repos/pandas-dev/pandas/issues'
 >>> response = requests.get(url)
 >>> response
-<Response [200]
+<Response [200]>
 >>> issues_data = response.json()
 ```
 

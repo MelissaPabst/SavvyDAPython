@@ -195,6 +195,17 @@ So clean!
 
 A good practice is to examine our data before converting it so we can prevent yucky stuff from ending up in our dataframe. There are ways to fix it once the dataframe was created, but there are a multitude of parameters to consider before even converting to a dataframe.
 
+Other common parameters to consider are as follows:
+
+**header**: Tells pandas if your file contains column names.
+
+**sep**: Used when the delimiter of your file is something other than a comma. 
+
+**usecols**: Tells pandas to read only a certain column or set of columns.
+
+Practice with these to see how beneficial they can be. We will definitely be using them. 
+
+
 ## Inspecting a DataFrame Object
 
 I snagged a larger CSV file from [SpatialKey](https://support.spatialkey.com/spatialkey-sample-csv-data/) that contains data from Sacremento real estate transactions. 
@@ -337,4 +348,66 @@ What did we learn from **.describe()**? Well, in this dataset, per the sale date
 
 We also learned the average zip code, which provides absolutely no value. 
 
+**HUGE CAVEAT**: The **describe()** method performs summary statistics for non-null values. This particular dataset has 985 rows. If 50 rows had no bathroom data, then the average would be calculated as the sum of the non-null rows divided by 935. Often we might need to change null values to 0 before doing calculations to ensure data for that row/observation is included. 
+
+**.describe()** comes with fancy parameters as well. We can choose which percentiles to return if we want a non-standard 5-number summary:
+
+```
+>>> real.describe(percentiles=[0.10, 0.85])
+                zip        beds       baths       sq__ft          price    latitude   longitude
+count    985.000000  985.000000  985.000000   985.000000     985.000000  985.000000  985.000000
+mean   95750.697462    2.911675    1.776650  1314.916751  234144.263959   38.607732 -121.355982
+std       85.176072    1.307932    0.895371   853.048243  138365.839085    0.145433    0.138278
+min    95603.000000    0.000000    0.000000     0.000000    1551.000000   38.241514 -121.551704
+10%    95626.000000    0.000000    0.000000     0.000000   90000.000000   38.423251 -121.491452
+50%    95762.000000    3.000000    2.000000  1304.000000  213750.000000   38.626582 -121.376220
+85%    95834.000000    4.000000    3.000000  2060.800000  361826.200000   38.737620 -121.265536
+max    95864.000000    8.000000    5.000000  5822.000000  884790.000000   39.020808 -120.597599
+>>> 
+```
+
+When we use describe on *all* columns, we get descriptions on non-numeric data (columns with datatype = object) that include count, unique, top, and freq:
+
+```
+>>> real.describe(include='all')
+                   street        city           zip state  ...                     sale_date          price    latitude   longitude
+count                 985         985    985.000000   985  ...                           985     985.000000  985.000000  985.000000
+unique                981          39           NaN     1  ...                             5            NaN         NaN         NaN
+top     7 CRYSTALWOOD CIR  SACRAMENTO           NaN    CA  ...  Mon May 19 00:00:00 EDT 2008            NaN         NaN         NaN
+freq                    2         439           NaN   985  ...                           268            NaN         NaN         NaN
+mean                  NaN         NaN  95750.697462   NaN  ...                           NaN  234144.263959   38.607732 -121.355982
+std                   NaN         NaN     85.176072   NaN  ...                           NaN  138365.839085    0.145433    0.138278
+min                   NaN         NaN  95603.000000   NaN  ...                           NaN    1551.000000   38.241514 -121.551704
+25%                   NaN         NaN  95660.000000   NaN  ...                           NaN  145000.000000   38.482717 -121.446127
+50%                   NaN         NaN  95762.000000   NaN  ...                           NaN  213750.000000   38.626582 -121.376220
+75%                   NaN         NaN  95828.000000   NaN  ...                           NaN  300000.000000   38.695589 -121.295778
+max                   NaN         NaN  95864.000000   NaN  ...                           NaN  884790.000000   39.020808 -120.597599
+
+[11 rows x 12 columns]
+```
+
+**count** ....is the total on non-null occurrences. We learned that above. 
+
+**unique** tells us how many unique values were in the column.
+
+**top** tells us the **mode**, which is the [most frequent value observed](https://www.mathsisfun.com/mode.html). 
+
+**freq** tells us the number of times the mode was observed. 
+
+
+Guess what? The **describe()** method also works on Series. This is helpful if we are only interested in a particular column. 
+
+```
+>>> real['beds'].describe()
+count    985.000000
+mean       2.911675
+std        1.307932
+min        0.000000
+25%        2.000000
+50%        3.000000
+75%        4.000000
+max        8.000000
+Name: beds, dtype: float64
+>>> 
+```
 

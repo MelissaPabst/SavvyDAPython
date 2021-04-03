@@ -295,5 +295,16 @@ min    95603.000000    0.000000    0.000000     0.000000    1551.000000   38.241
 max    95864.000000    8.000000    5.000000  5822.000000  884790.000000   39.020808 -120.597599
 >>> 
 ```
+Using **.describe()** returned a 5-number summary along with count, mean, and standard deviation for the seven columns with numeric data types (int64 or float64, in this case).   
 
+Let's examine those values and their meanings:
 
+**count**: This is the total number of data points in the column used to calculate other stats. 
+
+**mean**: This is the average. All data point is added up and divided by the total number of data points. See [here](https://www.mathsisfun.com/mean.html#:~:text=How%20to%20Find%20the%20Mean,sum%20divided%20by%20the%20count.) for more on how to compute mean/averages.  
+
+**std**: Standard deviation. It's a measure of how spread out numbers are. You can read about standard deviation [here](https://www.mathsisfun.com/data/standard-deviation.html). 
+
+**5-number summary**: This is a statistics grouping that includes the minimum value, the 25% quadrant, the median (50%, or middle value), the 75% quadrant, and the maximum value. More about the 5-number summary can be found [here](https://www.thoughtco.com/what-is-the-five-number-summary-3126237).
+
+(Note: You will have some of these computations as homework. It's important to know the meaning behind the numbers you deliver to a customer and be able to explain how you arrived at those values. This is a data analysis class--of course it involves math! It's nice that we have pandas to do the math for us, but you still need to understand the concepts.)

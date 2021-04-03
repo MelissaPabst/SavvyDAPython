@@ -308,3 +308,9 @@ Let's examine those values and their meanings:
 **5-number summary**: This is a statistics grouping that includes the minimum value, the 25% quadrant, the median (50%, or middle value), the 75% quadrant, and the maximum value. More about the 5-number summary can be found [here](https://www.thoughtco.com/what-is-the-five-number-summary-3126237).
 
 (Note: You will have some of these computations as homework. It's important to know the meaning behind the numbers you deliver to a customer and be able to explain how you arrived at those values. This is a data analysis class--of course it involves math! It's nice that we have pandas to do the math for us, but you still need to understand the concepts.)
+
+What did we learn from **.describe()**? Well, in this dataset, per the sale dates included (we cannot infer conclusions about data we don't have, right?), in Sacremento, the average house bought/sold has 2.9 beds, 1.8 baths, 1315 square feet, and the average price is around $234,000. 
+
+We also learned the average zip code, which provides absolutely no value. 
+
+

@@ -92,6 +92,30 @@ Did we just create a view or a copy? Here's a hint:
 5     4.0       4
 >>> 
 ```
+
+Really, what I should have done when creating the 'bunchofnumbers' dataframe was specified the column we wanted to use as an index with **index_col=0**. Live and learn!:
+
+```
+>>> results = pd.read_csv('practicefiles/bunchofnumbers.csv', index_col=0)
+>>> print(results)
+     data
+0       0
+1       1
+2       2
+3       3
+4       4
+..    ...
+995   995
+996   996
+997   997
+998   998
+999   999
+
+[1000 rows x 1 columns]
+>>> 
+```
+
+
 If we were to convert "scary_pets_2" into a dataframe:
 
 ```

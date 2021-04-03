@@ -10,22 +10,28 @@ Tabular data is data that is structured into rows/columns, like a table. Columns
 
 ## CSV Files
 
-Need to import a CSV? Wait... what is a CSV? CSV is an acronym for Comma Separated Values, and may sometimes be referred to as Comma Delimited Files (Delimited is another way of saying Separated). A CSV is a plain text file that contains a list of data and are often used for exchanging data between different types of applications. For example, I can convert Microsoft Excel files (or even Google Spreadsheets) to CSV files and then import them as CSV into other applications. Considering how popular Excel is, knowing how to import CSV files is pretty handy. 
+Need to import a CSV? Wait... what is a CSV? CSV is an acronym for Comma Separated Values, and may sometimes be referred to as Comma Delimited Files ("Delimited" is another way of saying "separated"). A CSV is a plain text file that contains a list of data and are often used for exchanging data between different types of applications. For example, I can convert Microsoft Excel files (or even Google Spreadsheets) to CSV files and then import them as CSV into other applications. Considering how popular Excel is, knowing how to import CSV files is pretty handy. 
 
 As expected, commas are used to delimit (separate) the data, but sometimes other characters, such as semicolons or spaces, can be used. 
 
 ![CSV](week2images/CSVimage.png)
 
-Let's practice with a smaller file, first. In the folder Practice Files, you should find a file called "submission.csv". If you've downloaded these files into a folder, you'll need to check where are located so you provide the proper path to tell pandas where to look for the CSV file. 
+Let's practice with a smaller file, first. In the folder Practice Files, you should find a file called "bunchofnumbers.csv". 
 
-We can import 'os' to check our operating system's current working directory to determine the path we need to supply to the file. In my case, I am working in SavvyDAPython, and the file is located within the PracticeFiles subfolder. You can store your files wherever you'd like, but if you get errors telling you the file doesn't exist, it's a good idea to check your path. Going forward, I will only point to the file itself and let you figure out the proper path. :)
+If you've downloaded these files into a folder, you'll need to check where are located so you provide the proper path to tell pandas where to look for the CSV file. 
+
+We can import 'os' to check our operating system's current working directory to determine the path we need to supply to the file. In my case, I am working in SavvyDAPython, and the file is located within the PracticeFiles subfolder. You can store your files wherever you'd like, but if you get errors telling you the file doesn't exist, it's a good idea to check your path. Going forward, I will only point to the file itself and let you figure out the proper path.
+
+First, open the file in a text editor and examine it so you know what to expect of your new DataFrame. 
+
+Let's make a DataFrame out of our CSV:
 
 
 ```
 >>> import os
 >>> os.getcwd()
 '/Users/me/SavvyPython/SavvyDAPython'
->>> df = pd.read_csv('PracticeFiles/submission.csv')
+>>> df = pd.read_csv('PracticeFiles/bunchofnumbers.csv')
 >>> df
      Unnamed: 0  data
 0             0     0

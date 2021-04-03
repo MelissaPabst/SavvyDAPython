@@ -403,5 +403,3 @@ Arthur's grade is suspicious because he usually doesn't do well. Let's say Arthu
 >>> 
 ```
 What a troublemaker! I mean, if you're going to cheat, don't make it obvious!
-
- 

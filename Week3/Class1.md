@@ -148,7 +148,7 @@ What are you going to do about it? NaN  NaN         NaN
 >>> 
 ```
 
-What can we do to prevent that gunk from clogging up our works? I mean, we don't want Nan,  nor rows that provide no value, right? 
+What can we do to prevent that gunk from clogging up our works? I mean, we don't want NaN,  nor rows that provide no value, right? 
 
 ```
 >>> results2 = pd.read_csv('practicefiles/yucky.csv', skiprows=[0, 6, 11, 14])
@@ -278,5 +278,22 @@ Remember: Null values are missing values, and in pandas are represented by **Non
 
 So now we know a bit more about our real estate dataframe, we can begin to try to make sense of the data. 
 
+## Describing Data / Summary Statistics
+
+So far, we have a good idea about the properties of our dataframe, but we don't know much about our actual data and what it can tell us. Our next step is to get summary statistics with the **.describe()** method:
+
+```
+>>> real.describe()
+                zip        beds       baths       sq__ft          price    latitude   longitude
+count    985.000000  985.000000  985.000000   985.000000     985.000000  985.000000  985.000000
+mean   95750.697462    2.911675    1.776650  1314.916751  234144.263959   38.607732 -121.355982
+std       85.176072    1.307932    0.895371   853.048243  138365.839085    0.145433    0.138278
+min    95603.000000    0.000000    0.000000     0.000000    1551.000000   38.241514 -121.551704
+25%    95660.000000    2.000000    1.000000   952.000000  145000.000000   38.482717 -121.446127
+50%    95762.000000    3.000000    2.000000  1304.000000  213750.000000   38.626582 -121.376220
+75%    95828.000000    4.000000    2.000000  1718.000000  300000.000000   38.695589 -121.295778
+max    95864.000000    8.000000    5.000000  5822.000000  884790.000000   39.020808 -120.597599
+>>> 
+```
 
 

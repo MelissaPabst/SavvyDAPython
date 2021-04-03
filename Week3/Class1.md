@@ -208,12 +208,12 @@ Practice with these to see how beneficial they can be. We will definitely be usi
 
 ## Inspecting a DataFrame Object
 
-I snagged a larger CSV file from [SpatialKey](https://support.spatialkey.com/spatialkey-sample-csv-data/) that contains data from Sacremento real estate transactions. 
+I snagged a larger CSV file from [SpatialKey](https://support.spatialkey.com/spatialkey-sample-csv-data/) that contains data from Sacramento area real estate transactions. 
 
 I want to put this in a dataframe so I can gather information about the data:
 
 ```
->>> real = pd.read_csv('practicefiles/sacremento.csv')
+>>> real = pd.read_csv('practicefiles/sacramento.csv')
 ```
 And then once I have it in a dataframe, I can get properties of the dataframe and the data within it:
 
@@ -344,7 +344,7 @@ Let's examine those values and their meanings:
 
 (Note: You will have some of these computations as homework. It's important to know the meaning behind the numbers you deliver to a customer and be able to explain how you arrived at those values. This is a data analysis class--of course it involves math! It's nice that we have pandas to do the math for us, but you still need to understand the concepts.)
 
-What did we learn from **.describe()**? Well, in this dataset, per the sale dates included (we cannot infer conclusions about data we don't have, right?), in Sacremento, the average house bought/sold has 2.9 beds, 1.8 baths, 1315 square feet, and the average price is around $234,000. 
+What did we learn from **.describe()**? Well, in this dataset, per the sale dates included (we cannot infer conclusions about data we don't have, right?), in Sacramento, the average house bought/sold has 2.9 beds, 1.8 baths, 1315 square feet, and the average price is around $234,000. 
 
 We also learned the average zip code, which provides absolutely no value. 
 
@@ -386,6 +386,18 @@ max                   NaN         NaN  95864.000000   NaN  ...                  
 [11 rows x 12 columns]
 ```
 
+It might be more convenient and more easily readable to specify the method for ONLY object columns, especially if it is a large dataframe:
+
+```
+>>> real.describe(include=np.object)
+                   street        city state         type                     sale_date
+count                 985         985   985          985                           985
+unique                981          39     1            4                             5
+top     7 CRYSTALWOOD CIR  SACRAMENTO    CA  Residential  Mon May 19 00:00:00 EDT 2008
+freq                    2         439   985          917                           268
+>>> 
+```
+
 **count** ....is the total on non-null occurrences. We learned that above. 
 
 **unique** tells us how many unique values were in the column.
@@ -408,6 +420,66 @@ min        0.000000
 75%        4.000000
 max        8.000000
 Name: beds, dtype: float64
+>>>
+```
+
+If we wanted to examine sales price:
+
+```
+>>> real['price'].describe()
+count       985.000000
+mean     234144.263959
+std      138365.839085
+min        1551.000000
+25%      145000.000000
+50%      213750.000000
+75%      300000.000000
+max      884790.000000
+Name: price, dtype: float64
 >>> 
 ```
+Or with dot notation:
+
+```
+>>> real.price.describe()
+count       985.000000
+mean     234144.263959
+std      138365.839085
+min        1551.000000
+25%      145000.000000
+50%      213750.000000
+75%      300000.000000
+max      884790.000000
+Name: price, dtype: float64
+```
+
+Or we can single out one statistic on one column. Let's look for the maximum price without using describe:
+
+```
+>>> real['price'].max()
+884790
+>>>
+```
+And if we wanted to find the index of where the max value occurs:
+
+```
+>>> real['price'].idxmax()
+864
+>>> 
+```
+
+More documentation on **describe()** and applicable methods can be found [here](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html).
+
+
+What's the address for the item at index of 864? I want to do a drive-by so I can see an expensive house in Sacramento! (I'm not a stalker. I swear!).
+
+```
+>>> real['street'][864]
+'9401 BARREL RACER CT'
+>>> 
+```
+
+Finally, this stuff is getting useful! [A virtual drive-by.... Check out that price history](https://www.trulia.com/p/ca/wilton/9401-barrel-racer-ct-wilton-ca-95693--2085679438). What other kinds of queries can we do?
+
+
 

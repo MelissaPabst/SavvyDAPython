@@ -340,7 +340,7 @@ Let's examine those values and their meanings:
 
 **std**: Standard deviation. It's a measure of how spread out numbers are. You can read about standard deviation [here](https://www.mathsisfun.com/data/standard-deviation.html). 
 
-**5-number summary**: This is a statistics grouping that includes the minimum value, the 25% quadrant, the median (50%, or middle value), the 75% quadrant, and the maximum value. More about the 5-number summary can be found [here](https://www.thoughtco.com/what-is-the-five-number-summary-3126237).
+**5-number summary**: This is a statistics grouping that includes the minimum value, the 25% quartile, the median (50%, or middle value), the 75% quartile, and the maximum value. More about the 5-number summary can be found [here](https://www.thoughtco.com/what-is-the-five-number-summary-3126237).
 
 (Note: You will have some of these computations as homework. It's important to know the meaning behind the numbers you deliver to a customer and be able to explain how you arrived at those values. This is a data analysis class--of course it involves math! It's nice that we have pandas to do the math for us, but you still need to understand the concepts.)
 
@@ -365,6 +365,22 @@ min    95603.000000    0.000000    0.000000     0.000000    1551.000000   38.241
 max    95864.000000    8.000000    5.000000  5822.000000  884790.000000   39.020808 -120.597599
 >>> 
 ```
+A cool trick to return only the value at a specific quantile:
+
+```
+>>> real.quantile(0.10)
+zip          95626.000000
+beds             0.000000
+baths            0.000000
+sq__ft           0.000000
+price        90000.000000
+latitude        38.423251
+longitude     -121.491452
+Name: 0.1, dtype: float64
+>>> 
+```
+
+It is the same data as in the describe() results, but without any of the unrelated statistics. 
 
 When we use describe on *all* columns, we get descriptions on non-numeric data (columns with datatype = object) that include count, unique, top, and freq:
 
@@ -468,8 +484,7 @@ And if we wanted to find the index of where the max value occurs:
 >>> 
 ```
 
-More documentation on **describe()** and applicable methods can be found [here](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html).
-
+More documentation on **describe()** and applicable methods can be found [here](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html). There is also a great [user guide](https://pandas.pydata.org/docs/user_guide/basics.html?highlight=summary%20statistics#summarizing-data-describe) with plenty of examples. 
 
 What's the address for the item at index of 864? I want to do a drive-by so I can see an expensive house in Sacramento! (I'm not a stalker. I swear!).
 
@@ -481,5 +496,89 @@ What's the address for the item at index of 864? I want to do a drive-by so I ca
 
 Finally, this stuff is getting useful! [A virtual drive-by.... Check out that price history](https://www.trulia.com/p/ca/wilton/9401-barrel-racer-ct-wilton-ca-95693--2085679438). What other kinds of queries can we do?
 
+**Sum** is pretty fun, but you'd best apply it to a Series:
+
+```
+>>> real.sum()
+street       3526 HIGH ST51 OMAHA CT2796 BRANCH ST2805 JANE...
+city         SACRAMENTOSACRAMENTOSACRAMENTOSACRAMENTOSACRAM...
+zip                                                   94314437
+state        CACACACACACACACACACACACACACACACACACACACACACACA...
+beds                                                      2868
+baths                                                     1750
+sq__ft                                                 1295193
+type         ResidentialResidentialResidentialResidentialRe...
+sale_date    Wed May 21 00:00:00 EDT 2008Wed May 21 00:00:0...
+price                                                230632100
+latitude                                          38028.616105
+longitude                                       -119535.642502
+dtype: object
+>>> 
+```
+That's a lot of toilets!
+
+```
+>>> real['baths'].sum()
+1750
+>>> 
+```
+Cumulative summary, or **cumsum()**, calculates a running total (we have 28 bathrooms in the first 20 houses on our list!):
+
+```
+>>> real['baths'].cumsum().head(20)
+0      1
+1      2
+2      3
+3      4
+4      5
+5      6
+6      8
+7      9
+8     11
+9     13
+10    15
+11    17
+12    18
+13    19
+14    21
+15    23
+16    24
+17    25
+18    26
+19    28
+Name: baths, dtype: int64
+>>> 
+```
+**unique()** gives us a list of the values of the columns. Houses in our list have up to 5 bathrooms:
+
+```
+>>> real['baths'].unique()
+array([1, 2, 3, 4, 0, 5])
+>>> 
+```
+We can get the frequency of how many times each unique value shows up in our dataframe with **value_counts()**:
+
+```
+>>> real['baths'].value_counts()
+2    544
+1    180
+3    132
+0    108
+4     19
+5      2
+Name: baths, dtype: int64
+>>> 
+```
+
+108 properties with 0 baths! Must have been vacant lots...
+
+And with **mode()** we see the most common value for the 'baths' column was 2:
+
+```
+>>> real['baths'].mode()
+0    2
+dtype: int64
+>>> 
+```
 
 

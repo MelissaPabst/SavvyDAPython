@@ -699,12 +699,10 @@ Spot the difference here also when we use slicing syntax for column values:
 And as we have seen a bit of before, **at()** and **iat()** are quick ways to retrieve distinct values:
 
 ```
+# with .at()
 >>> real.at[5, 'street']
 '5828 PEPPERMILL CT'
->>> real.iat[5, 2]
-95841
->>> real.iat[5, 1]
-'SACRAMENTO'
+# or with .iat()
 >>> real.iat[5, 0]
 '5828 PEPPERMILL CT'
 >>> 

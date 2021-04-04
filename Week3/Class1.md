@@ -522,7 +522,7 @@ That's a lot of toilets!
 1750
 >>> 
 ```
-Cumulative summary, or **cumsum()**, calculates a running total (we have 28 bathrooms in the first 20 houses on our list!):
+Cumulative summary, or **cumsum()**, calculates a running total (we have 28 bathrooms in the first 20 properties on our list!):
 
 ```
 >>> real['baths'].cumsum().head(20)
@@ -549,7 +549,7 @@ Cumulative summary, or **cumsum()**, calculates a running total (we have 28 bath
 Name: baths, dtype: int64
 >>> 
 ```
-**unique()** gives us a list of the values of the columns. Houses in our list have up to 5 bathrooms:
+**unique()** gives us a list of the values of the columns. Properties in our list have up to 5 bathrooms:
 
 ```
 >>> real['baths'].unique()
@@ -580,5 +580,145 @@ And with **mode()** we see the most common value for the 'baths' column was 2:
 dtype: int64
 >>> 
 ```
+
+We can specify the columns we want by passing in a list:
+
+```
+>>> real[['baths', 'street']]
+     baths               street
+0        1         3526 HIGH ST
+1        1          51 OMAHA CT
+2        1       2796 BRANCH ST
+3        1     2805 JANETTE WAY
+4        1      6001 MCMAHON DR
+..     ...                  ...
+980      3   9169 GARLINGTON CT
+981      2      6932 RUSKUT WAY
+982      2    7933 DAFFODIL WAY
+983      2     8304 RED FOX WAY
+984      2  3882 YELLOWSTONE LN
+
+[985 rows x 2 columns]
+>>> 
+```
+Python's string methods (in this case, a list comprehension) are helpful when we don't want to pick out all the columns by hand. In this case, beds and baths both start with 'b', so they are included, and all columns appear in the order requested:
+
+```
+>>> real[['price', 'street'] + [col for col in real.columns if col.startswith('b')]]
+      price               street  beds  baths
+0     59222         3526 HIGH ST     2      1
+1     68212          51 OMAHA CT     3      1
+2     68880       2796 BRANCH ST     2      1
+3     69307     2805 JANETTE WAY     2      1
+4     81900      6001 MCMAHON DR     2      1
+..      ...                  ...   ...    ...
+980  232425   9169 GARLINGTON CT     4      3
+981  234000      6932 RUSKUT WAY     3      2
+982  235000    7933 DAFFODIL WAY     3      2
+983  235301     8304 RED FOX WAY     4      2
+984  235738  3882 YELLOWSTONE LN     3      2
+
+[985 rows x 4 columns]
+>>> 
+```
+
+Basic Python can come back to haunt you when you least expect it!
+
+How do you think you pull certain rows to examine? With slicing! Remember the first number is inclusive and the second one is exclusive. So, **df[include:exclude]**. 
+
+```
+>>> real[15:20]
+                     street            city    zip state  beds  baths  sq__ft         type                     sale_date   price   latitude   longitude
+15           7340 HAMDEN PL      SACRAMENTO  95842    CA     2      2    1134        Condo  Wed May 21 00:00:00 EDT 2008  110700  38.700051 -121.351278
+16              6715 6TH ST       RIO LINDA  95673    CA     2      1     844  Residential  Wed May 21 00:00:00 EDT 2008  113263  38.689591 -121.452239
+17  6236 LONGFORD DR Unit 1  CITRUS HEIGHTS  95621    CA     2      1     795        Condo  Wed May 21 00:00:00 EDT 2008  116250  38.679776 -121.314089
+18          250 PERALTA AVE      SACRAMENTO  95833    CA     2      1     588  Residential  Wed May 21 00:00:00 EDT 2008  120000  38.612099 -121.469095
+19          113 LEEWILL AVE       RIO LINDA  95673    CA     3      2    1356  Residential  Wed May 21 00:00:00 EDT 2008  121630  38.689999 -121.463220
+>>> 
+```
+We can narrow down our results to return certain columns for certain rows:
+
+```
+>>> real[['street', 'price']][15:20]
+                     street   price
+15           7340 HAMDEN PL  110700
+16              6715 6TH ST  113263
+17  6236 LONGFORD DR Unit 1  116250
+18          250 PERALTA AVE  120000
+19          113 LEEWILL AVE  121630
+>>> 
+```
+Using **.loc()**:
+
+```
+>>> real.loc[15:20, 'baths']
+15    2
+16    1
+17    1
+18    1
+19    2
+20    2
+Name: baths, dtype: int64
+>>> real.loc[15:20, ['baths', 'street']]
+    baths                   street
+15      2           7340 HAMDEN PL
+16      1              6715 6TH ST
+17      1  6236 LONGFORD DR Unit 1
+18      1          250 PERALTA AVE
+19      2          113 LEEWILL AVE
+20      2       6118 STONEHAND AVE
+>>>
+```
+
+And using **.iloc()**, providing a list of integers for column values:
+
+```
+>>> real.iloc[15:20, [2, 3]]
+      zip state
+15  95842    CA
+16  95673    CA
+17  95621    CA
+18  95833    CA
+19  95673    CA
+>>> 
+```
+Remember that with .loc, slicing is inclusive of the last index, and with .iloc it is exclusive (just like with Python).
+
+Spot the difference here also when we use slicing syntax for column values:
+
+ ```
+ >>> real.iloc[15:20, 2:3]
+      zip
+15  95842
+16  95673
+17  95621
+18  95833
+19  95673
+>>> 
+ ```
+And as we have seen a bit of before, **at()** and **iat()** are quick ways to retrieve distinct values:
+
+```
+>>> real.at[5, 'street']
+'5828 PEPPERMILL CT'
+>>> real.iat[5, 2]
+95841
+>>> real.iat[5, 1]
+'SACRAMENTO'
+>>> real.iat[5, 0]
+'5828 PEPPERMILL CT'
+>>> 
+```
+
+The big question on my mind is which address(es) has 5 bathrooms.
+
+```
+>>> real[real.baths > 4]
+           street             city    zip state  beds  baths  sq__ft         type                     sale_date   price   latitude   longitude
+157  315 JUMEL CT  EL DORADO HILLS  95762    CA     6      5       0  Residential  Wed May 21 00:00:00 EDT 2008  830000  38.669931 -121.059580
+332  4128 HILL ST        FAIR OAKS  95628    CA     5      5    2846  Residential  Tue May 20 00:00:00 EDT 2008  680000  38.641670 -121.262099
+>>> 
+```
+
 
 

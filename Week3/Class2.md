@@ -120,4 +120,19 @@ dtype: bool
 >>> 
 ```
 
+We know from previous lessons (and from above) the **isnull()** method returns boolean values indicative of missing or NA values. The method **notnull()** does the opposite, as you may have guessed:
+
+```
+>>> cities.notnull()
+0     True
+1     True
+2    False
+3     True
+4    False
+dtype: bool
+>>> 
+```
+
+
+
  

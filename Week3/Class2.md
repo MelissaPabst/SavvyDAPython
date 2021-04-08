@@ -70,7 +70,9 @@ We can merge new data with existing data, add new columns (perhaps by using calc
  
 #### Missing Data - How do we handle it?
 
-Recall that summary statistics excludes missing data in calculations. Pandas represents missing data with "NaN" (Not a Number), which is referred to in the field as a "**sentinel**" value that is easily detected in queries. 
+We will be exploring various ways of handling missing data. There are plenty of methods for you to use depending on your data set. Each data set will be unique and have its own challenges, but we will provide you with several examples. 
+
+Recall that summary statistics excludes missing data in calculations. Pandas represents missing data with "NaN" (Not a Number), which is referred to in the field as a "**sentinel**" value that is easily detected in queries. But how do we go about detecting missing data in our data set?
 
 ```
 >>> cities = pd.Series(['NYC', 'STL', np.nan, 'CHI', 'SFO'])
@@ -90,7 +92,7 @@ dtype: object
 dtype: bool
 >>> 
 ```
-In pandas, we refer to missing data as "**NA**" (not available), which may imply the data does not exist or was not observed. Cleaning up data involves doing analysis on the missing data in order to identify collection problems or biases caused by missing data. 
+You can accomplish the same this with **.isna()**. In pandas, we refer to missing data as "**NA**" (not available), which may imply the data does not exist or was not observed. Cleaning up data involves doing analysis on the missing data in order to identify collection problems or biases caused by missing data. 
 
 Python uses the "**None**" value, and is also treated as NA in object arrays: 
 
@@ -132,6 +134,261 @@ We know from previous lessons (and from above) the **isnull()** method returns b
 dtype: bool
 >>> 
 ```
+How many entries in our Cities series are null?
+
+```
+>>> cities.isnull().sum()
+2
+>>> 
+```
+How about in our Sacramento real estate dataframe?
+
+```
+>>> real.isnull().sum()
+street       0
+city         0
+zip          0
+state        0
+beds         0
+baths        0
+sq__ft       0
+type         0
+sale_date    0
+price        0
+latitude     0
+longitude    0
+dtype: int64
+>>> 
+```
+Well, that one looks too easy to work with if we're aiming to learn about missing data. Let's start working with a different set of data. Sorry... It's about real estate again. 
+
+```
+>>> properties = pd.read_csv('PracticeFiles/properties.csv')
+>>> properties
+           PID  ST_NUM     ST_NAME OWN_OCCUPIED NUM_BEDROOMS NUM_BATH SQ_FT
+0  100001000.0   104.0      PUTNAM            Y            3        1  1000
+1  100002000.0   197.0   LEXINGTON            N            3      1.5    --
+2  100003000.0     NaN   LEXINGTON            N          NaN        1   850
+3  100004000.0   201.0    BERKELEY           12            1      NaN   700
+4          NaN   203.0    BERKELEY            Y            3        2  1600
+5  100006000.0   207.0    BERKELEY            Y          NaN        1   800
+6  100007000.0     NaN  WASHINGTON          NaN            2   HURLEY   950
+7  100008000.0   213.0     TREMONT            Y            1        1   NaN
+8  100009000.0   215.0     TREMONT            Y           na        2  1800
+```
+From those column names, can we infer the data each column is supposed to hold? "OWN\_OCCUPIED" means owner-occupied, and "SQ\_FT" is square footage. 
+
+Once we have an understanding of the column titles, start examining new data sets by looking at expected data types. Once we know what the expected type is, we can start to weed out the "unexpected"... You'll see what I mean shortly. 
+
+```
+>>> properties.dtypes
+PID             float64
+ST_NUM          float64
+ST_NAME          object
+OWN_OCCUPIED     object
+NUM_BEDROOMS     object
+NUM_BATH         object
+SQ_FT            object
+dtype: object
+```
+
+The first two columns, PID AND ST\_NUM, are obviously numeric (floats), and the others look to be strings or other numeric types. OWN\_OCCUPIED expects a Y or an N as a string. 
+
+By looking at our initial data on our bedroom column, how many null values are you expecting? 
+
+```
+>>> properties['NUM_BEDROOMS']
+0      3
+1      3
+2    NaN
+3      1
+4      3
+5    NaN
+6      2
+7      1
+8     na
+Name: NUM_BEDROOMS, dtype: object
+```
+
+I see three! Let's use **isnull()** on our bedroom column. 
+
+```
+>>> properties['NUM_BEDROOMS'].isnull()
+0    False
+1    False
+2     True
+3    False
+4    False
+5     True
+6    False
+7    False
+8    False
+Name: NUM_BEDROOMS, dtype: bool
+>>> 
+>>> properties['NUM_BEDROOMS'].isnull().sum()
+2
+>>> 
+```
+
+There are only two null values? What happened. Oh, pandas doesn't read "na" as a null value. UGH. What are other possible null values you see in our data?
+
+What about the "--" in SQ\_FT?
+
+```
+>>> properties['SQ_FT']
+0    1000
+1      --
+2     850
+3     700
+4    1600
+5     800
+6     950
+7     NaN
+8    1800
+Name: SQ_FT, dtype: object
+>>> properties['SQ_FT'].isnull()
+0    False
+1    False
+2    False
+3    False
+4    False
+5    False
+6    False
+7     True
+8    False
+Name: SQ_FT, dtype: bool
+>>> properties['SQ_FT'].isnull().sum()
+1
+>>> 
+```
+
+Yeah, it doesn't like it and it does not get read as 'NaN'. That's unfortunate. 
+
+How does this happen? How do these values get in there? Well, it's possible human error. Or there wasn't an established way to enter null values at the time of data collection. Or the data was imported from elsewhere where data reporting standards were not applicable. It could be from several scenarios, but it is our duty to find the inconsistencies and "fix" them. So... how do we turn our "na" and "--" to NaN so Pandas will know those values are null?
+
+We can define them and re-read our csv. For overkill, I'll add "n/a"...
+
+Question: Do we need to add "None"? No, because pandas treats it as NaN. 
+
+```
+>>> missing_datapoints = ['na', '--', 'n/a', 'NA']
+>>> properties = pd.read_csv('PracticeFiles/properties.csv', na_values=missing_datapoints)
+>>> properties
+           PID  ST_NUM     ST_NAME OWN_OCCUPIED  NUM_BEDROOMS NUM_BATH   SQ_FT
+0  100001000.0   104.0      PUTNAM            Y           3.0        1  1000.0
+1  100002000.0   197.0   LEXINGTON            N           3.0      1.5     NaN
+2  100003000.0     NaN   LEXINGTON            N           NaN        1   850.0
+3  100004000.0   201.0    BERKELEY           12           1.0      NaN   700.0
+4          NaN   203.0    BERKELEY            Y           3.0        2  1600.0
+5  100006000.0   207.0    BERKELEY            Y           NaN        1   800.0
+6  100007000.0     NaN  WASHINGTON          NaN           2.0   HURLEY   950.0
+7  100008000.0   213.0     TREMONT            Y           1.0        1     NaN
+8  100009000.0   215.0     TREMONT            Y           NaN        2  1800.0
+>>> 
+```
+Yay! We now have replaced those values with NaN. 
+
+With a larger dataset, you'll find more NaN types later in your analysis and you can always add them to the **na_values** as you go. 
+
+You can always define a customized "missing" sentinel. This changes NaN values to a value of your choosing:
+
+```>>> properties.fillna("missing")
+           PID   ST_NUM     ST_NAME OWN_OCCUPIED NUM_BEDROOMS NUM_BATH    SQ_FT
+0  100001000.0    104.0      PUTNAM            Y          3.0        1   1000.0
+1  100002000.0    197.0   LEXINGTON            N          3.0      1.5  missing
+2  100003000.0  missing   LEXINGTON            N      missing        1    850.0
+3  100004000.0    201.0    BERKELEY           12          1.0  missing    700.0
+4      missing    203.0    BERKELEY            Y          3.0        2   1600.0
+5  100006000.0    207.0    BERKELEY            Y      missing        1    800.0
+6  100007000.0  missing  WASHINGTON      missing          2.0   HURLEY    950.0
+7  100008000.0    213.0     TREMONT            Y          1.0        1  missing
+8  100009000.0    215.0     TREMONT            Y      missing        2   1800.0
+>>> 
+```
+We can drop all rows that have missing data:
+
+```
+>>> properties.dropna()
+           PID  ST_NUM ST_NAME OWN_OCCUPIED  NUM_BEDROOMS NUM_BATH   SQ_FT
+0  100001000.0   104.0  PUTNAM            Y           3.0        1  1000.0
+>>> 
+```
+Yikes! That would leave us with one row. If we did it column-wise, the only column without missing values is ST\_NAME:
+
+```
+>>> properties.dropna(axis=1)
+      ST_NAME
+0      PUTNAM
+1   LEXINGTON
+2   LEXINGTON
+3    BERKELEY
+4    BERKELEY
+5    BERKELEY
+6  WASHINGTON
+7     TREMONT
+8     TREMONT
+>>> 
+```
+### Unexpected Missing Values
+
+Examining the OWN\_OCCUPIED column presents a different kind of missing data challenge. Can anyone spot it?
+
+```
+>>> properties['OWN_OCCUPIED']
+0      Y
+1      N
+2      N
+3     12
+4      Y
+5      Y
+6    NaN
+7      Y
+8      Y
+Name: OWN_OCCUPIED, dtype: object
+>>> 
+>>> properties['OWN_OCCUPIED'].isnull()
+0    False
+1    False
+2    False
+3    False
+4    False
+5    False
+6     True
+7    False
+8    False
+Name: OWN_OCCUPIED, dtype: bool
+>>> 
+```
+
+At [3], we have a numeric value where we are expecting a string (Y/N) indicating a boolean value--probably a typo (No judgments!). Our goal is to fill this numeric data point with NaN since we have no way of knowing its true value. 
+
+
+Now, we know it's just one value for this dataframe, but what if it was a larger dataset? Can you come up with a program to loop through the values and replace data that does not meet our criteria with NaN? 
+
+It took me a minute, but I came up with this as a solution:
+
+```
+>>> cnt=0
+>>> for row in properties['OWN_OCCUPIED']:
+...     if row != 'Y' and row != 'N':
+...             properties.loc[cnt, 'OWN_OCCUPIED'] = np.nan
+...     cnt+=1
+... 
+>>> properties
+           PID  ST_NUM     ST_NAME OWN_OCCUPIED  NUM_BEDROOMS NUM_BATH   SQ_FT
+0  100001000.0   104.0      PUTNAM            Y           3.0        1  1000.0
+1  100002000.0   197.0   LEXINGTON            N           3.0      1.5     NaN
+2  100003000.0     NaN   LEXINGTON            N           NaN        1   850.0
+3  100004000.0   201.0    BERKELEY          NaN           1.0      NaN   700.0
+4          NaN   203.0    BERKELEY            Y           3.0        2  1600.0
+5  100006000.0   207.0    BERKELEY            Y           NaN        1   800.0
+6  100007000.0     NaN  WASHINGTON          NaN           2.0   HURLEY   950.0
+7  100008000.0   213.0     TREMONT            Y           1.0        1     NaN
+8  100009000.0   215.0     TREMONT            Y           NaN        2  1800.0
+>>> 
+```
+
+Discuss other ways to iterate over the rows to accomplish replacing the value. 
 
 
 

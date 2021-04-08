@@ -390,6 +390,76 @@ It took me a minute, but I came up with this as a solution:
 
 Discuss other ways to iterate over the rows to accomplish replacing the value. 
 
+What about a vectorized method? 
+
+
+Isolate the Series:
+
+```
+>>> oo = properties['OWN_OCCUPIED']
+>>> oo
+0      Y
+1      N
+2      N
+3     12
+4      Y
+5      Y
+6    NaN
+7      Y
+8      Y
+Name: OWN_OCCUPIED, dtype: object
+```
+Convert to a numeric type with [**to_numeric()**](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.to_numeric.html). We pass in errors="coerce" to indicate invalid parsing to be set as NaN:
+
+```
+>>> oon = pd.to_numeric(oo, errors="coerce")
+>>> oon
+0     NaN
+1     NaN
+2     NaN
+3    12.0
+4     NaN
+5     NaN
+6     NaN
+7     NaN
+8     NaN
+Name: OWN_OCCUPIED, dtype: float64
+```
+
+We then create a boolean mask to identify the numeric value we want to change to NaN:
+
+```
+>>> mask = oon.notna()
+>>> mask
+0    False
+1    False
+2    False
+3     True
+4    False
+5    False
+6    False
+7    False
+8    False
+Name: OWN_OCCUPIED, dtype: bool
+```
+
+Change the value with loc:
+
+```
+>>> oo.loc[mask] = np.nan
+>>> oo
+0      Y
+1      N
+2      N
+3    NaN
+4      Y
+5      Y
+6    NaN
+7      Y
+8      Y
+Name: OWN_OCCUPIED, dtype: object
+>>> 
+```
 
 
  

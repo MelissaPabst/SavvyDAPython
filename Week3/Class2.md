@@ -507,10 +507,9 @@ It took me a minute, but I came up with this as a solution:
 >>> 
 ```
 
-Discuss other ways to iterate over the rows to accomplish replacing the value. 
+Discuss other types of data mistakes you might find in the OWN\_OCCUPIED columns as well as other ways to iterate over the rows to accomplish replacing the values. 
 
 What about a vectorized method? 
-
 
 Isolate the Series:
 
@@ -580,5 +579,308 @@ Name: OWN_OCCUPIED, dtype: object
 >>> 
 ```
 
+Sometimes rows will have accidental duplicate rows. For instance:
 
- 
+```
+# you can get really creative with how you construct Series and DataFrames
+>>> datuhhh = pd.DataFrame({'blob': ['tree', 'flower'] * 2 + ['flower'], 'glob': [1, 2, 3, 4, 4]})
+>>> datuhhh
+     blob  glob
+0    tree     1
+1  flower     2
+2    tree     3
+3  flower     4
+4  flower     4
+>>> 
+```
+The rows at datuhhh.loc[3] and datuhhh.loc[4] are obviously duplicates, but we can verify with larger data sets like this with **duplicated()**, which provides a boolean value for each row.
+
+```
+>>> datuhhh.duplicated()
+0    False
+1    False
+2    False
+3    False
+4     True
+dtype: bool
+>>> datuhhh.duplicated().sum()
+1
+>>> 
+```
+Then, of course, if we have a duplicate row and a further investigation warrants dropping it, we can do that with **drop_duplicates()**!
+
+```
+>>> datuhhh.drop_duplicates()
+     blob  glob
+0    tree     1
+1  flower     2
+2    tree     3
+3  flower     4
+>>>
+```
+Adding another columns to demonstrate a couple of things..
+
+```
+>>> datuhhh['glob2'] = range(5)
+>>> datuhhh
+     blob  glob  glob2
+0    tree     1      0
+1  flower     2      1
+2    tree     3      2
+3  flower     4      3
+4  flower     4      4
+```
+
+You can specify any subset you'd like to remove duplicates. Here, if we select 'blob' we get two rows back, one each for tree and flower. And, by default, pandas chooses the first instance of each row. 
+
+```
+>>> datuhhh.drop_duplicates(['blob'])
+     blob  glob  glob2
+0    tree     1      0
+1  flower     2      1
+>>>
+```
+
+Passing 'last' tells pandas to keep the last instance row instead of the first one:
+
+```
+>>> datuhhh
+     blob  glob  glob2
+0    tree     1      0
+1  flower     2      1
+2    tree     3      2
+3  flower     4      3
+4  flower     4      4
+>>> datuhhh.drop_duplicates(['blob'], keep='last')
+     blob  glob  glob2
+2    tree     3      2
+4  flower     4      4
+>>> 
+```
+
+The same concept, but with **duplicated()** and our original datuhhh:
+
+```
+>>> datuhhh
+     blob  glob
+0    tree     1
+1  flower     2
+2    tree     3
+3  flower     4
+4  flower     4
+>>> datuhhh.duplicated()
+0    False
+1    False
+2    False
+3    False
+4     True
+dtype: bool
+>>> datuhhh.duplicated(keep='last')
+0    False
+1    False
+2    False
+3     True
+4    False
+dtype: bool
+>>> 
+```
+Let's take a pause to go over some fun string manipulation methods! We're going to need these skills on occasion to neaten our data content.
+
+I have a friend in the city with backyard chickens names as such:
+
+```
+>>> chickens = pd.Series(['Patty', 'Tikka', 'Nugget', 'Parmesan', pd.NA, 'Noodle', 'Dumpling II'], dtype='string')
+```
+(But not NA, of course!)
+
+
+Using **str** methods allows us to 
+>>> chickens.str
+<pandas.core.strings.accessor.StringMethods object at 0x113693f70>
+>>> chickens.str.upper()
+0          PATTY
+1          TIKKA
+2         NUGGET
+3       PARMESAN
+4           <NA>
+5         NOODLE
+6    DUMPLING II
+dtype: string
+>>> chickens.str.lower()
+0          patty
+1          tikka
+2         nugget
+3       parmesan
+4           <NA>
+5         noodle
+6    dumpling ii
+dtype: string
+>>> chickens.str.len()
+0       5
+1       5
+2       6
+3       8
+4    <NA>
+5       6
+6      11
+dtype: Int64
+>>> chickens.str.split(' ')
+0           [Patty]
+1           [Tikka]
+2          [Nugget]
+3        [Parmesan]
+4              <NA>
+5          [Noodle]
+6    [Dumpling, II]
+dtype: object
+>>> chickens.str.split('.')
+0          [Patty]
+1          [Tikka]
+2         [Nugget]
+3       [Parmesan]
+4             <NA>
+5         [Noodle]
+6    [Dumpling II]
+dtype: object
+>>> chickens.str.split(' ').str.get(0)
+0       Patty
+1       Tikka
+2      Nugget
+3    Parmesan
+4        <NA>
+5      Noodle
+6    Dumpling
+dtype: object
+>>> chickens.str.replace(pat=' ', repl='---')
+0            Patty
+1            Tikka
+2           Nugget
+3         Parmesan
+4             <NA>
+5           Noodle
+6    Dumpling---II
+dtype: string
+>>> chickens.str.replace(pat=' ', repl='---', regex=False)
+0            Patty
+1            Tikka
+2           Nugget
+3         Parmesan
+4             <NA>
+5           Noodle
+6    Dumpling---II
+dtype: string
+>>> chickens.str.cat(sep='__')
+'Patty__Tikka__Nugget__Parmesan__Noodle__Dumpling II'
+>>> chickens.str.cat(['p', 't', 'n', 'p', 'n', 'n', 'd'], sep='__')
+0          Patty__p
+1          Tikka__t
+2         Nugget__n
+3       Parmesan__p
+4              <NA>
+5         Noodle__n
+6    Dumpling II__d
+dtype: string
+>>> chickens.str[2]
+0       t
+1       k
+2       g
+3       r
+4    <NA>
+5       o
+6       m
+dtype: string
+>>> chickens.str[:2]
+0      Pa
+1      Ti
+2      Nu
+3      Pa
+4    <NA>
+5      No
+6      Du
+dtype: string
+>>> chickens.str[-1]
+0       y
+1       a
+2       t
+3       n
+4    <NA>
+5       e
+6       I
+dtype: string
+>>> chickens.str.startswith('n')
+0    False
+1    False
+2    False
+3    False
+4     <NA>
+5    False
+6    False
+dtype: boolean
+>>> chickens.str.startswith('N')
+0    False
+1    False
+2     True
+3    False
+4     <NA>
+5     True
+6    False
+dtype: boolean
+>>> chickens.str.endswith('y')
+0     True
+1    False
+2    False
+3    False
+4     <NA>
+5    False
+6    False
+dtype: boolean
+>>> chickens.str.contains('ik')
+0    False
+1     True
+2    False
+3    False
+4     <NA>
+5    False
+6    False
+dtype: boolean
+>>> chickens.str.contains('ik', regex=False)
+0    False
+1     True
+2    False
+3    False
+4     <NA>
+5    False
+6    False
+dtype: boolean
+>>> i love my chicken named ' + chickens + ' a lot'
+  File "<stdin>", line 1
+    i love my chicken named ' + chickens + ' a lot'
+      ^
+SyntaxError: invalid syntax
+>>> 'i love my chicken named ' + chickens + ' a lot'
+0          i love my chicken named Patty a lot
+1          i love my chicken named Tikka a lot
+2         i love my chicken named Nugget a lot
+3       i love my chicken named Parmesan a lot
+4                                         <NA>
+5         i love my chicken named Noodle a lot
+6    i love my chicken named Dumpling II a lot
+dtype: string
+>>> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

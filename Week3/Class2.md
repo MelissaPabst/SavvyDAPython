@@ -292,7 +292,8 @@ With a larger dataset, you'll find more NaN types later in your analysis and you
 
 You can always define a customized "missing" sentinel. This changes NaN values to a value of your choosing:
 
-```>>> properties.fillna("missing")
+```
+>>> properties.fillna("missing")
            PID   ST_NUM     ST_NAME OWN_OCCUPIED NUM_BEDROOMS NUM_BATH    SQ_FT
 0  100001000.0    104.0      PUTNAM            Y          3.0        1   1000.0
 1  100002000.0    197.0   LEXINGTON            N          3.0      1.5  missing
@@ -305,6 +306,23 @@ You can always define a customized "missing" sentinel. This changes NaN values t
 8  100009000.0    215.0     TREMONT            Y      missing        2   1800.0
 >>> 
 ```
+You can use a different value with fillna() with a dict:
+
+```
+>>> properties.fillna({'NUM_BEDROOMS': 0, 'SQ_FT': 0})
+           PID  ST_NUM     ST_NAME OWN_OCCUPIED  NUM_BEDROOMS NUM_BATH   SQ_FT
+0  100001000.0   104.0      PUTNAM            Y           3.0        1  1000.0
+1  100002000.0   197.0   LEXINGTON            N           3.0      1.5     0.0
+2  100003000.0     NaN   LEXINGTON            N           0.0        1   850.0
+3  100004000.0   201.0    BERKELEY           12           1.0      NaN   700.0
+4          NaN   203.0    BERKELEY            Y           3.0        2  1600.0
+5  100006000.0   207.0    BERKELEY            Y           0.0        1   800.0
+6  100007000.0     NaN  WASHINGTON          NaN           2.0   HURLEY   950.0
+7  100008000.0   213.0     TREMONT            Y           1.0        1     0.0
+8  100009000.0   215.0     TREMONT            Y           0.0        2  1800.0
+>>> 
+```
+
 We can drop all rows that have missing data:
 
 ```
@@ -329,9 +347,110 @@ Yikes! That would leave us with one row. If we did it column-wise, the only colu
 8     TREMONT
 >>> 
 ```
-### Unexpected Missing Values
+The method **dropna()** works a little bit differently with Series:
 
-Examining the OWN\_OCCUPIED column presents a different kind of missing data challenge. Can anyone spot it?
+```
+>>> datuh = pd.Series([1, 2, np.nan, 4, 5, np.nan])
+>>> datuh
+0    1.0
+1    2.0
+2    NaN
+3    4.0
+4    5.0
+5    NaN
+dtype: float64
+>>> datuh.dropna()
+0    1.0
+1    2.0
+3    4.0
+4    5.0
+dtype: float64
+>>> 
+```
+But back to our properties dataframe... dropna() by default drops any row containing a missing value. 
+
+properties.dropna(how="all") would only drop rows that are all NA. 
+
+properties.dropna(axis=1, how="all") would work on columns that have all NA values. 
+
+Sometimes when we are filling in values it might be a good idea to pass in the mean or median values of a Series:
+
+```
+>>> sqft = pd.Series(properties['SQ_FT'])
+>>> sqft
+0    1000.0
+1       NaN
+2     850.0
+3     700.0
+4    1600.0
+5     800.0
+6     950.0
+7       NaN
+8    1800.0
+Name: SQ_FT, dtype: float64
+>>> sqft_fill = sqft.fillna(sqft.mean())
+>>> sqft_fill
+0    1000.0
+1    1100.0
+2     850.0
+3     700.0
+4    1600.0
+5     800.0
+6     950.0
+7    1100.0
+8    1800.0
+Name: SQ_FT, dtype: float64
+>>> properties['SQ_FT'] = sqft_fill
+>>> properties
+           PID  ST_NUM     ST_NAME OWN_OCCUPIED  NUM_BEDROOMS NUM_BATH   SQ_FT
+0  100001000.0   104.0      PUTNAM            Y           3.0        1  1000.0
+1  100002000.0   197.0   LEXINGTON            N           3.0      1.5  1100.0
+2  100003000.0     NaN   LEXINGTON            N           NaN        1   850.0
+3  100004000.0   201.0    BERKELEY           12           1.0      NaN   700.0
+4          NaN   203.0    BERKELEY            Y           3.0        2  1600.0
+5  100006000.0   207.0    BERKELEY            Y           NaN        1   800.0
+6  100007000.0     NaN  WASHINGTON          NaN           2.0   HURLEY   950.0
+7  100008000.0   213.0     TREMONT            Y           1.0        1  1100.0
+8  100009000.0   215.0     TREMONT            Y           NaN        2  1800.0
+>>> 
+```
+
+What if the sentinel for missing values isn't something pandas recognizes as NaN? In this case, -9999?
+
+```
+>>> df = pd.Series([1, 5, -9999, 5, -9999, 2])
+>>> df
+0       1
+1       5
+2   -9999
+3       5
+4   -9999
+5       2
+dtype: int64
+>>> df.replace(-9999, np.nan)
+0    1.0
+1    5.0
+2    NaN
+3    5.0
+4    NaN
+5    2.0
+dtype: float64
+```
+
+Using **replace()** will create a new Series. Passing inplace=True changes the original Series:
+
+```
+>>> df.replace(-9999, np.nan, inplace=True)
+>>> df
+0    1.0
+1    5.0
+2    NaN
+3    5.0
+4    NaN
+5    2.0
+```
+
+Examining the OWN\_OCCUPIED column presents a different kind of missing data challenge. Can anyone spot it? What about in NUM\_BATH?
 
 ```
 >>> properties['OWN_OCCUPIED']

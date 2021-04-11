@@ -694,9 +694,18 @@ I have a friend in the city with backyard chickens names as such:
 (But not NA, of course!)
 
 
-Using **str** methods allows us to 
+Applying **str** to a Series returns a StringMethods object, and opens up access to other string processing methods. 
+
+```
 >>> chickens.str
 <pandas.core.strings.accessor.StringMethods object at 0x113693f70>
+```
+
+These methods are pretty simple; the challenge is in knowing they exist and knowing which one to use in each case. 
+
+To uppercase and to lowercase: 
+
+```
 >>> chickens.str.upper()
 0          PATTY
 1          TIKKA
@@ -715,6 +724,11 @@ dtype: string
 5         noodle
 6    dumpling ii
 dtype: string
+```
+
+Length (number of characters) of each string value: 
+
+```
 >>> chickens.str.len()
 0       5
 1       5
@@ -724,6 +738,11 @@ dtype: string
 5       6
 6      11
 dtype: Int64
+```
+
+We can specify a delimiter to split each string and put the substrings in a list. Pay attention to "Dumpling II":
+
+```
 >>> chickens.str.split(' ')
 0           [Patty]
 1           [Tikka]
@@ -733,15 +752,10 @@ dtype: Int64
 5          [Noodle]
 6    [Dumpling, II]
 dtype: object
->>> chickens.str.split('.')
-0          [Patty]
-1          [Tikka]
-2         [Nugget]
-3       [Parmesan]
-4             <NA>
-5         [Noodle]
-6    [Dumpling II]
-dtype: object
+```
+Using **get()** returns items from the subset. Again, pay attention to Dumpling II.
+
+```
 >>> chickens.str.split(' ').str.get(0)
 0       Patty
 1       Tikka
@@ -751,6 +765,11 @@ dtype: object
 5      Noodle
 6    Dumpling
 dtype: object
+```
+
+We can replace values in our strings. Here we replaced the space in Dumpling II with "---":
+
+```
 >>> chickens.str.replace(pat=' ', repl='---')
 0            Patty
 1            Tikka
@@ -760,6 +779,10 @@ dtype: object
 5           Noodle
 6    Dumpling---II
 dtype: string
+```
+The default for replace is to assume we are using a regex, or **regular expression**, which, if you aren't familiar with, you can read up on or do a tutorial [here](https://realpython.com/regex-python/). A regex is a syntax that allows for advanced string matching. In this case, we use **replace()** to replace spaces with a set of dashes:
+
+```
 >>> chickens.str.replace(pat=' ', repl='---', regex=False)
 0            Patty
 1            Tikka
@@ -769,6 +792,11 @@ dtype: string
 5           Noodle
 6    Dumpling---II
 dtype: string
+```
+
+The method **cat()** can use a specified separator to concatenate our strings together, or to concatenate additions to our strings:
+
+```
 >>> chickens.str.cat(sep='__')
 'Patty__Tikka__Nugget__Parmesan__Noodle__Dumpling II'
 >>> chickens.str.cat(['p', 't', 'n', 'p', 'n', 'n', 'd'], sep='__')
@@ -780,6 +808,10 @@ dtype: string
 5         Noodle__n
 6    Dumpling II__d
 dtype: string
+```
+With string indexing we can pick out individual characters:
+
+```
 >>> chickens.str[2]
 0       t
 1       k
@@ -807,6 +839,10 @@ dtype: string
 5       e
 6       I
 dtype: string
+```
+If we wanted to find chicken names starting with "n" (Note: Case sensitive! It's looking for an exact match.):
+
+```
 >>> chickens.str.startswith('n')
 0    False
 1    False
@@ -825,6 +861,10 @@ dtype: boolean
 5     True
 6    False
 dtype: boolean
+```
+Same for **endswith()**:
+
+```
 >>> chickens.str.endswith('y')
 0     True
 1    False
@@ -834,6 +874,10 @@ dtype: boolean
 5    False
 6    False
 dtype: boolean
+```
+There's a **contains()** option if you're looking for something specific:
+
+```
 >>> chickens.str.contains('ik')
 0    False
 1     True
@@ -852,11 +896,10 @@ dtype: boolean
 5    False
 6    False
 dtype: boolean
->>> i love my chicken named ' + chickens + ' a lot'
-  File "<stdin>", line 1
-    i love my chicken named ' + chickens + ' a lot'
-      ^
-SyntaxError: invalid syntax
+```
+And we'll end on a fun concatenation note:
+
+```
 >>> 'i love my chicken named ' + chickens + ' a lot'
 0          i love my chicken named Patty a lot
 1          i love my chicken named Tikka a lot
@@ -867,18 +910,9 @@ SyntaxError: invalid syntax
 6    i love my chicken named Dumpling II a lot
 dtype: string
 >>> 
+```
 
-
-
-
-
-
-
-
-
-
-
-
+The full guide to working with text in pandas is [here](https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html). As you get more advanced, regex would be a great skill to acquire. 
 
 
 

@@ -686,7 +686,7 @@ dtype: bool
 ```
 Let's take a pause to go over some fun string manipulation methods! We're going to need these skills on occasion to neaten our data content.
 
-I have a friend in the city with backyard chickens names as such:
+I have a friend in the city with backyard chickens named as such:
 
 ```
 >>> chickens = pd.Series(['Patty', 'Tikka', 'Nugget', 'Parmesan', pd.NA, 'Noodle', 'Dumpling II'], dtype='string')

@@ -154,7 +154,7 @@ In summary:
 
 **df.iloc[where_i, where_j]** Select both rows and columns by integer position
 
-**df.at[label_i, label_j]** Select a single scaler value by row and column label
+**df.at[label_i, label_j]** Select a single scalar value by row and column label
 
 **df.iat[i, j]** Select a single scalar value by row and column integer positions
 

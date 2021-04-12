@@ -390,12 +390,12 @@ Unfortunately, the groupby output doesn't print to the screen, but I can help yo
 
 ```
 group[0]:
-0  green  False  20
-3  green   True  20
-
-group[1]:
 1   blue   True  10
 2   blue  False  90
+
+group[1]:
+0  green  False  20
+3  green   True  20
 ```
 
 
@@ -435,17 +435,17 @@ In this case, we created three groups:
 
 ```
 group[0]:
-# has green ('a') and 20 ('c') in common, so grouped together
-0  green  False  20
-3  green   True  20
-
-group[1]:
 # a unique combination of 'a' and 'c'
 1   blue   True  10
 
-group[2]:
+group[1]:
 # a unique combination of 'a' and 'c'
 2   blue  False  90
+
+group[2]:
+# has green ('a') and 20 ('c') in common, so grouped together
+0  green  False  20
+3  green   True  20
 ```
 And here is how those three groups came about:
 

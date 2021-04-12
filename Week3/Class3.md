@@ -1,5 +1,7 @@
 # More Transformations
 
+![ChickenMap](week3images/chickenmap.jpg)
+
 **Mapping** comes in handy when performing element-wise operations and cleaning data. Let's look at chickens again, but as a dataframe:
 
 ```

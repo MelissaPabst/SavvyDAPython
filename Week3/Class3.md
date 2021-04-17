@@ -490,6 +490,19 @@ Name: c, dtype: int64
 ```
 (If you're confused, recall that df['x'] returns a Series and df[['x']] returns a DataFrame.)
 
+We can call our summary statistics function, **describe()**:
+
+```
+>>> result = frame.groupby('a')['c'].describe()
+>>> result
+       count  mean        std   min   25%   50%   75%   max
+a                                                          
+blue     2.0  50.0  56.568542  10.0  30.0  50.0  70.0  90.0
+green    2.0  20.0   0.000000  20.0  20.0  20.0  20.0  20.0
+>>> 
+```
+
+
 Another way to do this is with **aggregation**, or **.agg()**. We can call agg() and pass in a basic function, such as sum:
 
 ```

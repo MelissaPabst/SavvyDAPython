@@ -502,20 +502,186 @@ Reminder: Delta means "change", and in our case we're talking about change in ti
 Hint: try pd.to\_datetime('a date') - pd.to\_datetime('another date')
 
 
+### Ranges
 
 
+We can generate DatetimeIndexes with date ranges with **date_range()** as well, and like we said before, each date is a timestamp:
+
+```
+>>> drange = pd.date_range('2021-01-01', '2021-02-28')
+>>> drange
+DatetimeIndex(['2021-01-01', '2021-01-02', '2021-01-03', '2021-01-04',
+               '2021-01-05', '2021-01-06', '2021-01-07', '2021-01-08',
+               '2021-01-09', '2021-01-10', '2021-01-11', '2021-01-12',
+               '2021-01-13', '2021-01-14', '2021-01-15', '2021-01-16',
+               '2021-01-17', '2021-01-18', '2021-01-19', '2021-01-20',
+               '2021-01-21', '2021-01-22', '2021-01-23', '2021-01-24',
+               '2021-01-25', '2021-01-26', '2021-01-27', '2021-01-28',
+               '2021-01-29', '2021-01-30', '2021-01-31', '2021-02-01',
+               '2021-02-02', '2021-02-03', '2021-02-04', '2021-02-05',
+               '2021-02-06', '2021-02-07', '2021-02-08', '2021-02-09',
+               '2021-02-10', '2021-02-11', '2021-02-12', '2021-02-13',
+               '2021-02-14', '2021-02-15', '2021-02-16', '2021-02-17',
+               '2021-02-18', '2021-02-19', '2021-02-20', '2021-02-21',
+               '2021-02-22', '2021-02-23', '2021-02-24', '2021-02-25',
+               '2021-02-26', '2021-02-27', '2021-02-28'],
+              dtype='datetime64[ns]', freq='D')
+>>> 
+```
+
+You can supply date_range() with start and end dates, as well as periods to specify the range size:
+
+```
+>>> drange = pd.date_range(start='2021-01-01', periods=5)
+>>> drange
+DatetimeIndex(['2021-01-01', '2021-01-02', '2021-01-03', '2021-01-04',
+               '2021-01-05'],
+              dtype='datetime64[ns]', freq='D')
+>>> drange = pd.date_range(end='2021-01-01', periods=5)
+>>> drange
+DatetimeIndex(['2020-12-28', '2020-12-29', '2020-12-30', '2020-12-31',
+               '2021-01-01'],
+              dtype='datetime64[ns]', freq='D')
+>>> 
+```
+
+## Frequency 
+
+Frequencies are fixed increments: daily, monthly, or every 30 minutes... your choosing. 
+
+When we are creating date ranges, we can pass in a frequency parameter:
+
+```
+# 'M' is for MonthEnd, so it creates a range of the last days of the month
+>>> drange = pd.date_range('2021-01-01', '2021-02-28', freq='M')
+>>> drange
+DatetimeIndex(['2021-01-31', '2021-02-28'], dtype='datetime64[ns]', freq='M')
+# 'BMS' is for BusinessMonthBegin, so a range is created using the first days of the month
+>>> drange = pd.date_range('2021-01-01', '2021-02-28', freq='BMS')
+>>> drange
+DatetimeIndex(['2021-01-01', '2021-02-01'], dtype='datetime64[ns]', freq='BMS')
+# 'B' is business day... so it skips the weekends!
+>>> drange = pd.date_range('2021-01-01', '2021-02-28', freq='B')
+>>> drange
+DatetimeIndex(['2021-01-01', '2021-01-04', '2021-01-05', '2021-01-06',
+               '2021-01-07', '2021-01-08', '2021-01-11', '2021-01-12',
+               '2021-01-13', '2021-01-14', '2021-01-15', '2021-01-18',
+               '2021-01-19', '2021-01-20', '2021-01-21', '2021-01-22',
+               '2021-01-25', '2021-01-26', '2021-01-27', '2021-01-28',
+               '2021-01-29', '2021-02-01', '2021-02-02', '2021-02-03',
+               '2021-02-04', '2021-02-05', '2021-02-08', '2021-02-09',
+               '2021-02-10', '2021-02-11', '2021-02-12', '2021-02-15',
+               '2021-02-16', '2021-02-17', '2021-02-18', '2021-02-19',
+               '2021-02-22', '2021-02-23', '2021-02-24', '2021-02-25',
+               '2021-02-26'],
+              dtype='datetime64[ns]', freq='B')
+>>> 
+```
+You can also specify strings as frequency offsets:
+
+```
+>>> drange = pd.date_range('2021-01-01', '2021-01-02', freq='1h15min')
+>>> drange
+DatetimeIndex(['2021-01-01 00:00:00', '2021-01-01 01:15:00',
+               '2021-01-01 02:30:00', '2021-01-01 03:45:00',
+               '2021-01-01 05:00:00', '2021-01-01 06:15:00',
+               '2021-01-01 07:30:00', '2021-01-01 08:45:00',
+               '2021-01-01 10:00:00', '2021-01-01 11:15:00',
+               '2021-01-01 12:30:00', '2021-01-01 13:45:00',
+               '2021-01-01 15:00:00', '2021-01-01 16:15:00',
+               '2021-01-01 17:30:00', '2021-01-01 18:45:00',
+               '2021-01-01 20:00:00', '2021-01-01 21:15:00',
+               '2021-01-01 22:30:00', '2021-01-01 23:45:00'],
+              dtype='datetime64[ns]', freq='75T')
+>>> 
+```
+
+A [table of offsets](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html) used for frequencies is available in the pandas timestamp documentation... Scroll down... keep scrolling.... 
+
+## Periods
+
+Periods represent a singular timeframe. Days, weeks, months, quarters, years, decades, centuries, etc. 
+
+You can specify the span with 'freq'.  
+
+```
+# 'A-DEC' is annual frequency, through December.
+>>> myperiod = pd.Period("2021", freq="A-DEC")
+>>> myperiod
+Period('2021', 'A-DEC')
+>>> myperiod = pd.Period("2021", freq="D")
+>>> myperiod
+Period('2021-01-01', 'D')
+>>> myperiod = pd.Period("2021", freq="H")
+>>> myperiod
+Period('2021-01-01 00:00', 'H')
+>>> myperiod = pd.Period("2021", freq="5H")
+```
+There's also a **period_range()** method to create periods with a supplied start, stop, and frequency:
+
+```
+>>> lil_dates = pd.period_range('2021-01', '2021-5', freq="M")
+>>> lil_dates
+PeriodIndex(['2021-01', '2021-02', '2021-03', '2021-04', '2021-05'], dtype='period[M]', freq='M')
+>>>
+```
+Converting periods is pretty straightforward with **asfreq()**
+
+```
+>>> myperiod = pd.Period("2021", freq="A-DEC")
+>>> myperiod2 = myperiod.asfreq("M", how='start')
+>>> myperiod2
+Period('2021-01', 'M')
+>>> myperiod2 = myperiod.asfreq("M", how='end')
+>>> myperiod2
+Period('2021-12', 'M')
+>>> 
+>>> myperiod = pd.Period("2021", freq="A-OCT")
+>>> myperiod
+Period('2021', 'A-OCT')
+>>> myperiod2 = myperiod.asfreq("M", how='end')
+>>> myperiod2
+Period('2021-10', 'M')
+>>> 
+```
+Pandas has support for quarterly periods, too. 
 
 
+There are different quarterly naming conventions based on the business year-end. Q-DEC assumes a December end, Q-JUL signals quarterly frequency with the year ending in July, etc. 
 
+```
+>>> myquart = pd.Period("2021Q1", freq="Q-DEC")
+>>> myquart
+Period('2021Q1', 'Q-DEC')
+>>> myquart.asfreq('D', 'start')
+Period('2021-01-01', 'D')
+>>> myquart.asfreq('D', 'end')
+Period('2021-03-31', 'D')
+>>> 
+```
+We can have period ranges for quarters:
 
+```
+>>> range = pd.period_range('2021Q2', '2021Q4', freq='Q-FEB')
+>>> range
+PeriodIndex(['2021Q2', '2021Q3', '2021Q4'], dtype='period[Q-FEB]', freq='Q-FEB')
+>>> qseries = pd.Series(np.arange(len(range)), index=range)
+>>> qseries
+2021Q2    0
+2021Q3    1
+2021Q4    2
+Freq: Q-FEB, dtype: int64
+>>> 
+```
 
+## Resampling
 
+Occasionally, you will have to convert a time series from one frequency to another. The documentation for **resample()** is [here](https://pandas.pydata.org/docs/reference/api/pandas.Series.resample.html)
 
+**Downsampling** is aggregating data of high frequency to a lower frequency. For instance, you have data in minutes, and you want your data to have a frequency of every 10 minutes. Or hours. Less frequent. The result will have a reduced number of row and values. 
 
+**Upsampling** is the opposite of downsampling; It resamples a timeseries dataset to a smaller time frame. Hours to minutes, years to days, quarters to months, etc. 
 
-
-
-
-
+These operations are typically needed for machine learning purposes. Should you need them, there is plenty of documentation and many tutorials to help you out.  
 
 

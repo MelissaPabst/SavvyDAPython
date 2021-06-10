@@ -18,7 +18,7 @@ And if not, remember to import it:
 ```
 import matplotlib.pyplot as plt
 ```
-But I do want to mention this module was NOT created with Jupyter, so there might be differences in commands. 
+But I do want to mention this module was NOT created with Jupyter, but with the python shell, so there might be differences in commands. 
 
 ## Simple line plot
 
@@ -378,4 +378,175 @@ Not too difficult.
 
 And you can always plot subsets of data, etc. Whatever you'd like. Just make sure to refer to the documentation, always!
 
+A little more advanced. Let's say we want to look at the number of bathrooms per zip code (Why am I so obsessed with the bathroom situation in Sacremento?): 
+
+```
+# load our csv
+>>> props = pd.read_csv('PracticeFiles/sacramento.csv')
+# yep, looks good
+>>> props.head()
+             street        city    zip state  beds  ...         type                     sale_date  price   latitude   longitude
+0      3526 HIGH ST  SACRAMENTO  95838    CA     2  ...  Residential  Wed May 21 00:00:00 EDT 2008  59222  38.631913 -121.434879
+1       51 OMAHA CT  SACRAMENTO  95823    CA     3  ...  Residential  Wed May 21 00:00:00 EDT 2008  68212  38.478902 -121.431028
+2    2796 BRANCH ST  SACRAMENTO  95815    CA     2  ...  Residential  Wed May 21 00:00:00 EDT 2008  68880  38.618305 -121.443839
+3  2805 JANETTE WAY  SACRAMENTO  95815    CA     2  ...  Residential  Wed May 21 00:00:00 EDT 2008  69307  38.616835 -121.439146
+4   6001 MCMAHON DR  SACRAMENTO  95824    CA     2  ...  Residential  Wed May 21 00:00:00 EDT 2008  81900  38.519470 -121.435768
+
+[5 rows x 12 columns]
+# crosstab() is a thing! 
+>>> bathroom_counts = pd.crosstab(props['zip'], props['baths'])
+# we now have a tabulation of two factors. thanks, crosstab!
+>>> bathroom_counts
+baths  0   1   2  3  4  5
+zip                      
+95603  0   0   2  3  0  0
+95608  0   4  15  1  0  0
+95610  0   0   5  1  1  0
+95614  0   0   1  0  0  0
+95619  0   0   1  0  0  0
+...   ..  ..  .. .. .. ..
+95838  1  11  24  1  0  0
+95841  0   4   3  0  0  0
+95842  0   7  14  1  0  0
+95843  0   1  24  8  0  0
+95864  0   3   1  1  0  0
+
+[68 rows x 6 columns]
+
+# here we "normalize" the data to sum to 1. We're adjusting the values to a common scale. Now no values are below zero, and none are above 1, and they represent percentages of a number of bathrooms at a specific zip code 
+>>> bath_pcts = bathroom_counts.div(bathroom_counts.sum(1), axis=0)
+>>> bath_pcts
+baths         0         1         2         3         4    5
+zip                                                         
+95603  0.000000  0.000000  0.400000  0.600000  0.000000  0.0
+95608  0.000000  0.200000  0.750000  0.050000  0.000000  0.0
+95610  0.000000  0.000000  0.714286  0.142857  0.142857  0.0
+95614  0.000000  0.000000  1.000000  0.000000  0.000000  0.0
+95619  0.000000  0.000000  1.000000  0.000000  0.000000  0.0
+...         ...       ...       ...       ...       ...  ...
+95838  0.027027  0.297297  0.648649  0.027027  0.000000  0.0
+95841  0.000000  0.571429  0.428571  0.000000  0.000000  0.0
+95842  0.000000  0.318182  0.636364  0.045455  0.000000  0.0
+95843  0.000000  0.030303  0.727273  0.242424  0.000000  0.0
+95864  0.000000  0.600000  0.200000  0.200000  0.000000  0.0
+
+[68 rows x 6 columns]
+>>> bath_pcts.plot.bar()
+<AxesSubplot:xlabel='zip'>
+>>> plt.show()
+```
+That's not the best representation because it's so big, but it looks like 2 bathrooms is pretty popular in many of the zips. 
+
+![bathpcts](week4images/bathpcts.png)
+
+I zoomed in for you...
+
+![bathzoomies](week4images/bathzoom.png)
+
+And looking at the first ten rows... What does this tell you about the listings?
+
+```
+>>> bathroom_counts = pd.crosstab(props.head(50)['zip'], props.head(50)['baths'])
+>>> bath_pcts = bathroom_counts.div(bathroom_counts.sum(1), axis=0)
+>>> bath_pcts.plot.bar()
+<AxesSubplot:xlabel='zip'>
+>>> plt.show()
+```
+Within the first 50 rows/listings, we only see 1-2 bathrooms. 
+
+![fifty rows](week4images/fifty.png)
+
+Feel free to slice and dice and plot different data from your DataFrames. This is what we've been training for!
+
+
 # Seaborn
+
+Let's try a new way of doing plots. This time it's with a library called **Seaborn**, and the documentation can be found [here](https://seaborn.pydata.org/).
+
+Installation instructions are [here](https://seaborn.pydata.org/installing.html).
+
+Which is better? Personal choice. Matplotlib and Seaborn square off [here](https://www.kdnuggets.com/2019/04/data-visualization-python-matplotlib-seaborn.html) in a cage match. 
+
+I DID, however read that even if you choose not to use the Seaborn API, you might prefer to import Seaborn when using Matplotlib. Seaborn modifies Matplotlib's color schemes and plot styles, improving the aesthetics and readability. 
+
+It's beautiful. Not gonna lie. 
+
+Let's give it a go. Pretend we want to display the price per square foot per zip code. First we'll add a column to our props data for "price per square foot", which is just the price divided by square footage.  
+
+We've imported Seaborn as "sns". 
+
+The barplot() takes in a "data" argument, which will likely be your Pandas DataFrame from which you are pulling data.
+
+```
+>>> props.columns
+Index(['street', 'city', 'zip', 'state', 'beds', 'baths', 'sq__ft', 'type',
+       'sale_date', 'price', 'latitude', 'longitude'],
+      dtype='object')
+>>> props['price_per_sqft'] = props['price']/props['sq__ft']
+>>> props.columns
+Index(['street', 'city', 'zip', 'state', 'beds', 'baths', 'sq__ft', 'type',
+       'sale_date', 'price', 'latitude', 'longitude', 'price_per_sqft'],
+      dtype='object')
+>>> sns.barplot(x='price_per_sqft', y='zip', data=props, orient='h')
+<AxesSubplot:xlabel='price_per_sqft', ylabel='zip'>
+>>> plt.show()
+```
+
+Is this beautiful, or what?
+
+![price per sqft](week4images/pricesqft.png)
+
+If you zoom in, you can see error bars, which represent 95% confidence level, if you are interested:
+
+![price per square foot zoom](week4images/pricesqftzoom.png)
+
+We can apply an additional categorical value with 'hue':
+
+```
+>>> sns.barplot(x='price_per_sqft', y='zip', hue='baths', data=props, orient='h')
+```
+So now we have price per square foot relative to baths. Seaborn is ridiculously powerful. It automatically picked a new color palette, background, etc. 
+
+![ppsfbaths](week4images/ppsfbaths.png)
+
+Not the **BEST** data representation, but you get the idea of what you can do. 
+
+A histogram of the 'price' Series:
+
+```
+>>> props['price'].plot.hist(bins=10)
+```
+![price histogram](week4images/pricehist.png)
+
+Much of the Seaborn plots are well-documented. I'd say as a minimum, make yourself familiar with each of these types: 
+
+- [bar chart and horizontal bar chart](https://seaborn.pydata.org/generated/seaborn.barplot.html#seaborn.barplot)
+
+- [blox plot](https://seaborn.pydata.org/generated/seaborn.boxplot.html#seaborn.boxplot)
+
+- [line plot](https://seaborn.pydata.org/generated/seaborn.lineplot.html#seaborn.lineplot)
+
+- [scatter plot](https://seaborn.pydata.org/generated/seaborn.scatterplot.html#seaborn.scatterplot)
+
+- [histogram](https://seaborn.pydata.org/generated/seaborn.histplot.html#seaborn.histplot)
+
+- [linear regression plot](https://seaborn.pydata.org/generated/seaborn.regplot.html#seaborn.regplot)
+
+- creating charts with dual axis
+
+Give yourself some practice. Find data sets and play around. Share what you learn.
+When you need inspiration, or better graphical representation, you can look through the [examples gallery](https://seaborn.pydata.org/examples/index.html) to find what you need. 
+
+### Other plotting libraries and words of wisdom
+
+[Geopandas](https://geopandas.org/) is another library that extends pandas data structures, but has methods for when you need to plot geographical data. 
+
+[Bokeh](https://docs.bokeh.org/en/latest/docs/reference/plotting.html) and [Plotly](https://plotly.com/) are good enough quality for web browers. If you're looking for print, stick with Matplotlib, pandas, and Seaborn. 
+
+Seeing how pandas plotting and Seaborn are built on Matplotlab, it would be good to master those first before moving on. It all depends on your needs. 
+
+Basic plotting is good for learning more about your data, but presenting it as a fancy graph requires a bit more effort to make it look polished and to get your point across. 
+
+Effective data visualization is a special field, forever growing and challenging, and beneficial to telling a story!
+
+I also want you to keep in mind that everything about these plots is customizable: fonts, font size, colors, color palettes, tick marks, grids, rotation of labels, etc. If you don't like how something looks, feel free to explore changing it. 

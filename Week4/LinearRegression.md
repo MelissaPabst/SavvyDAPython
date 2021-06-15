@@ -238,6 +238,13 @@ weight = 54.550*length - 1035.3476
 
 And of course, we have plots!
 
+```
+>>> import statsmodels.api as sm
+>>> fig = sm.graphics.plot_regress_exog(breamfit, "x")
+>>> fig.tight_layout(pad=1.0)
+>>> plt.show()
+```
+
 ![scatterous](week4images/scatterous.png)
 
 Things to note:
@@ -250,6 +257,7 @@ If we had a larger dataset, how would be check for null values? Data types? Uniq
 
 Those are just several methods you might see in data analysis. I encourage you to find examples online and walk yourselves through them to understand the data analysis process. 
 
+[A good tutorial](https://statsmaths.github.io/stat289-f18/solutions/tutorial15-statsmodels.html)
 
 ## scikit-learn
 
